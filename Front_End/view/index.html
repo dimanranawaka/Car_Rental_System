@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Home</title>
 
-    <link rel="stylesheet" href="../assets/css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/styles.css">
 
     <meta name="viewport" content="width=device-width initial-scale=1">
@@ -12,7 +12,7 @@
 </head>
 <body class="min-vh-100 min-vw-100 d-flex justify-content-center align-items-center" style="background: #4d5154">
 
-<main class="w-75 h-75 rounded round-5 shadow-lg" style="background: url(../assets/images/illustration-people-login.png);
+<main class="w-75 h-75 rounded round-5 shadow-lg" style="background: url(../assets/images/front.png);
  background-position: top; background-size: cover;" id="home">
 
     <header class="position-absolute w-75 d-flex justify-content-end me-5">
@@ -44,11 +44,20 @@
         </nav>
     </header>
 
+    <!-- Login and Register navigate buttons -->
 
-
-
-
-
+    <section>
+        <a href="login_form.html" class="btn btn-primary position-absolute rounded rounded-5" style="bottom: 30%; left: 20%;
+        width: 8%">Login</a>
+        <a href="customer_register.html" class="btn btn-outline-primary position-absolute rounded rounded-5" style="bottom: 30%; left: 29%; width: 8%">
+            Sign Up
+        </a>
+    </section>
 </main>
+
+<!-- JavaScript For Bootstrap -->
+<script src="../assets/js/bootstrap.bundle.min.js"></script>
+
+
 </body>
 </html>
