@@ -85,10 +85,35 @@
 
                     <hr>
 
-                    <div class="pb-4 pointer-event" id="customer" data-bs-toggle="model" data-bs-target="#updateCustomerModel">
+                    <div class="pb-4 pointer-event" id="customer" data-bs-toggle="modal" data-bs-target="#updateCustomerModal">
                         <img src="../assets/images/man.png" alt="user" width="30" height="30" class="rounded-circle">
                         <p class="d-none d-sm-inline mx-1" id="user">User</p>
                     </div>
+
+                </div>
+            </div>
+            <div class="modal fade" id="updateCustomerModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                 aria-labelledby="staticBackdropLabel1" aria-hidden="true">
+
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+
+                    <div class="modal-content rounded rounded-5">
+
+                        <h5 class="modal-title" id="staticBackdropLabel4">Edit Profile</h5>
+                        <button type="button" class="btn-close text-white bg-white" data-bs-dismiss="modal" aria-label="Close">
+                        </button>
+
+                    </div>
+
+                    <form class="row justify-content-between p-5 rounded-5 overflow-auto" id="customerForm">
+
+                        <div class="mb-3 col-md-5">
+                            <label for="cusName" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="cusName" name="name">
+                        </div>
+
+                    </form>
+
                 </div>
             </div>
         </div>
