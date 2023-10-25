@@ -205,3 +205,8 @@ $("#cusRe-password").on('keydown', function (event) {
 function focusText(textField) {
     textField.focus();
 }
+
+// This will load the preview of images which we uploaded to page
+
+loadSelectedImage("#cusNicImage");
+loadSelectedImage("#cusLicenseImage");
