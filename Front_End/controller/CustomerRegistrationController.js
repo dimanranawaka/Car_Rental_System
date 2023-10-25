@@ -126,3 +126,29 @@ $("#cusName, #cusNic, #cusLicense, #cusContact, #cusAddress , #cusEmail, #cusUse
 $("#cusName, #cusNic, #cusLicense, #cusContact, #cusAddress , #cusEmail, #cusUsername, #cusPassword, #cusRe-password").on('blur', function (event) {
     checkValidity(customerValidations);
 });
+
+$("#cusName").on('keydown', function (event) {
+
+    if (event.key == "Enter" && check(cusNameRegEx, $("#cusName"))){
+
+        $("#cusNic").focus();
+
+    } else {
+
+        focusText($("#cusName"));
+
+    }
+});
+
+$("#cusNic").on('keydown', function (event) {
+
+    if (event.key == "Enter" && check(cusNicRegEx, $("#cusNic"))){
+
+        focusText($("#cusNic"))
+
+    }
+});
+
+function focusText(textField) {
+    textField.focus();
+}
