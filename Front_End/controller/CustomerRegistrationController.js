@@ -56,3 +56,12 @@ $("#btnSaveCustomer").on("click",function () {
 
 });
 
+// RegEx for customer_register page
+
+const cusNameRegEx = /^[A-z ]{5,20}$/;
+const cusEmailRegEx = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-]+)(\.[a-zA-Z]{2,5}){1,2}$/;
+const cusNicRegEx = /^[0-9]{9,10}[A-z]?$/;
+const cusAddressRegEx = /^[0-9/A-z. ,]{5,}$/;
+const cusContactRegEx = /^[0-9]{10}$/;
+const cusSalaryRegEx = /^[0-9]{1,}[.]?[0-9]{1,2}$/;
+
