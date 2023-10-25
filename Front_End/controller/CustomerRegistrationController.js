@@ -4,7 +4,7 @@ $("#btnSaveCustomer").on("click",function () {
 
     let data = new FormData($("#customerForm")[0]);
 
-    let json : = {
+    let json  = {
         nic: $("#cusNic").val(),
         name :$("#cusName").val(),
         license :$("#cusLicense").val(),
@@ -117,4 +117,12 @@ customerValidations.push({
     reg:cusPasswordRegEx,
     field:$('#cusRe-password'),
     error: 'Customer Re-Password Pattern is Invalid ! : 077123456'
+});
+
+$("#cusName, #cusNic, #cusLicense, #cusContact, #cusAddress , #cusEmail, #cusUsername, #cusPassword, #cusRe-password").on('keyup', function (event) {
+    checkValidity(customerValidations);
+});
+
+$("#cusName, #cusNic, #cusLicense, #cusContact, #cusAddress , #cusEmail, #cusUsername, #cusPassword, #cusRe-password").on('blur', function (event) {
+    checkValidity(customerValidations);
 });
