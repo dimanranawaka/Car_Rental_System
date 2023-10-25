@@ -130,24 +130,77 @@ $("#cusName, #cusNic, #cusLicense, #cusContact, #cusAddress , #cusEmail, #cusUse
 $("#cusName").on('keydown', function (event) {
 
     if (event.key == "Enter" && check(cusNameRegEx, $("#cusName"))){
-
         $("#cusNic").focus();
-
     } else {
-
         focusText($("#cusName"));
-
     }
 });
 
 $("#cusNic").on('keydown', function (event) {
-
     if (event.key == "Enter" && check(cusNicRegEx, $("#cusNic"))){
-
-        focusText($("#cusNic"))
-
+        $("#cusLicense").focus();
+    }else{
+        focusText($("#cusNic"));
     }
 });
+
+$("#cusLicense").on('keydown', function (event) {
+    if (event.key == "Enter" && check(cusNicRegEx, $("#cusLicense"))){
+        $("#cusAddress").focus();
+    }else{
+        focusText($("#cusLicense"));
+    }
+});
+
+$("#cusAddress").on('keydown', function (event) {
+    if (event.key == "Enter" && check(cusNicRegEx, $("#cusAddress"))){
+        $("#cusContact").focus();
+    }else{
+        focusText($("#cusAddress"));
+    }
+});
+
+$("#cusContact").on('keydown', function (event) {
+    if (event.key == "Enter" && check(cusNicRegEx, $("#cusContact"))){
+        $("#cusEmail").focus();
+    }else{
+        focusText($("#cusContact"));
+    }
+});
+
+$("#cusEmail").on('keydown', function (event) {
+    if (event.key == "Enter" && check(cusNicRegEx, $("#cusEmail"))){
+        $("#cusUsername").focus();
+    }else{
+        focusText($("#cusEmail"));
+    }
+});
+
+$("#cusUsername").on('keydown', function (event) {
+    if (event.key == "Enter" && check(cusNicRegEx, $("#cusPassword"))){
+        $("#cusPassword").focus();
+    }else{
+        focusText($("#cusUsername"));
+    }
+});
+
+$("#cusPassword").on('keydown', function (event) {
+    if (event.key == "Enter" && check(cusNicRegEx, $("#cusPassword"))){
+        $("#cusRe-password").focus();
+    }else{
+        focusText($("#cusPassword"));
+    }
+});
+
+$("#cusRe-password").on('keydown', function (event) {
+    if (event.key == "Enter" && check(cusNicRegEx, $("#cusRe-password"))){
+        $("#cusNicImage").focus();
+    }else{
+        focusText($("#cusRe-password"));
+    }
+});
+
+
 
 function focusText(textField) {
     textField.focus();
