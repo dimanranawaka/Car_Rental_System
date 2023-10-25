@@ -12,15 +12,15 @@ $("#btnLogin").on("click",function () {
             switch (res.data.role) {
 
                 case "Admin":
-                    window.open();
+                    window.open("admin_dashboard.html",'_self');
                     break;
                     
                 case "Customer":
-                    window.open();
+                    window.open("customer_page.html",'_self');
                     break;
                 
                 case "Driver":
-                    window.open();
+                    window.open("driver_dashboard.html",'_self');
                     break;
                     
             }
