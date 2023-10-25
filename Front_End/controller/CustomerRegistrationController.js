@@ -29,6 +29,30 @@ $("#btnSaveCustomer").on("click",function () {
         }
     });
 
+    if ($('#cusNicImage').get(0).files.length === 0 || $('#cusLicenseImage').get(0).files.length === 0){
 
+        return;
 
-})
+    }
+
+    $.ajax({
+        url: baseUrl + "customer ? image",
+        method: "post",
+        async: false,
+        data: data,
+        contentType: false,
+        processData: false,
+        success: function (res) {
+
+            window.open("login_form.html",'_self');
+
+        },
+
+        error:function (res) {
+            alert(res.message);
+        }
+
+    });
+
+});
+
