@@ -27,6 +27,8 @@ $("#btnSaveCustomer").on("click",function () {
         success: function (res) {
             saveAlert();
         }
-    })
+    });
+
+
 
 })
