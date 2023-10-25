@@ -25,7 +25,7 @@ $("#btnSaveCustomer").on("click",function () {
         contentType: "application/json",
         dataType: "json",
         success: function (res) {
-
+            saveAlert();
         }
     })
 
