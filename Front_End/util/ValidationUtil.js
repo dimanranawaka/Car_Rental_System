@@ -1,3 +1,5 @@
+/** This can be used to validate user inputs by invoke below function */
+
 function checkValidity(validationArray) {
     let errorCount = 0;
     for (let validationArrayElement of validationArray) {
@@ -8,6 +10,11 @@ function checkValidity(validationArray) {
 
         }
     }
+}
+
+function check(regex, textField) {
+    let inputValue = textField.val();
+    return regex.test(inputValue) ?true : false;
 }
 
 
