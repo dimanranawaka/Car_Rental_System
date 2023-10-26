@@ -55,6 +55,7 @@ function generateNewRentId() {
 }
 
 homePageFunction();
+carPageFunction();
 
 function homePageFunction() {
     $("#home").fadeIn();
