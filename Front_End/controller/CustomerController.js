@@ -25,5 +25,14 @@ $.ajax({
 })
 
 function getCustomer() {
-
+    $.ajax({
+        url: baseUrl + `rent?username=${currentUser.username}`,
+        method:"get",
+        async: false,
+        dataType: "json",
+        success: function (res) {
+            customer = res.data;
+            console.log(customer);
+        }
+    });
 }
