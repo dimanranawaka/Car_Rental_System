@@ -24,7 +24,7 @@ $.ajax({
             let rent;
 
             $.ajax({
-                url: baseUrl + 'rent?rentId=?' + datum.rentId;
+                url: baseUrl + 'rent?rentId=?' + datum.rentId,
                 async: false,
                 method:"get",
                 dataType: "json",

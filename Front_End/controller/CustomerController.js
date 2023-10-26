@@ -24,6 +24,8 @@ $.ajax({
     }
 })
 
+getCustomer();
+
 function getCustomer() {
     $.ajax({
         url: baseUrl + `rent?username=${currentUser.username}`,
@@ -33,6 +35,21 @@ function getCustomer() {
         success: function (res) {
             customer = res.data;
             console.log(customer);
+        }
+    });
+}
+
+generateNewRentId();
+
+function generateNewRentId() {
+    $.ajax({
+        url: baseUrl + "rent",
+        method:"get",
+        async:false,
+        dataType:"json",
+        contentType: "application/json",
+        success: function (res) {
+            rentId = res.data;
         }
     });
 }
