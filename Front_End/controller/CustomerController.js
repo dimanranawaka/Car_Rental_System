@@ -63,3 +63,7 @@ function homePageFunction() {
     $("#manageCart").attr("style","display : none !important");
     $("#manageRent").attr("style","display : none !important");
 }
+
+$("#btnHome").on("click", function () {
+    homePageFunction();
+})
