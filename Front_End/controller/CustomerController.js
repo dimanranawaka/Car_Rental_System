@@ -151,4 +151,24 @@ function carPageFunction() {
 
 
     }
+
+    $("#search").on("keyup" ,function () {
+
+        let text = $("#search").val();
+        let searchBy = $("#searchBy").val();
+        let fuel = $("#fuelTypes").val();
+
+        $.ajax({
+            url: baseUrl + `car/filterByRegNum?text=${text}&search=${searchBy}&fuel=${fuel}`,
+            method:"get",
+            dataType:"json",
+            contentType: "application/json",
+            success: function (res) {
+                loadAllCars(res.data);
+            }
+        });
+    });
+
+
+
 }
