@@ -16,7 +16,7 @@ function loadAllCars(cars) {
     for (let car of cars) {
         $("#cars").append(`<div class="col col-lg-3">
             <div class="card">
-                <img src="../assets/${car.photos.front}" height="230px" class="card-img-top" alt="car">
+                <img src="../assets/images/${car.photos.front}" height="230px" class="card-img-top" alt="car">
 
                 <div class="card-body">
                     <h5 class="card-title">${car.brand}</h5>
@@ -62,3 +62,37 @@ function loadAllCars(cars) {
         </div>`);
     }
 }
+
+$("#search").on("keyup", function () {
+
+    let text = $("#search").val();
+    let searchBy = $("#searchBy").val();
+    let fuel = $("#fuelTypes").val();
+
+    $.ajax({
+        url: baseurl + `car/filterByRegNum?text=${text}&search=${searchBy}&fuel=${fuel}`,
+        method: "get",
+        dataType: "json",
+        contentType: "application/json",
+        success: function (res) {
+            loadAllCars(res.data);
+        }
+    });
+
+});
+
+$("#searchBy, #fuelTypes").change(function () {
+    let text = $("#search").val();
+    let searchBy = $("#searchBy").val();
+    let fuel = $("#fuelTypes").val();
+
+    $.ajax({
+        url: baseurl + `car/filterByRegNum?text=${text}&search=${searchBy}&fuel=${fuel}`,
+        method: "get",
+        dataType: "json",
+        contentType: "application/json",
+        success: function (res) {
+            loadAllCars(res.data);
+        }
+    });
+});
