@@ -66,4 +66,22 @@ function homePageFunction() {
 
 $("#btnHome").on("click", function () {
     homePageFunction();
-})
+});
+
+function carPageFunction() {
+    $("#btnCar").on("click", function () {
+
+        $("#home").attr("style","display : none !important");
+        $("#manageCar").attr("style","display : block !important");
+        $("#manageCart").attr("style","display : none !important");
+        $("#manageRent").attr("style","display : none !important");
+
+        $.ajax({
+            url: baseUrl + "car",
+            method: "get",
+            success: function (res) {
+
+            }
+        })
+    })
+}
