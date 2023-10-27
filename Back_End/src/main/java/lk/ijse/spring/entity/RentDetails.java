@@ -1,5 +1,5 @@
 package lk.ijse.spring.entity;
 
-public class Rent {
+public class RentDetails {
 
 }
