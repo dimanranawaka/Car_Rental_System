@@ -187,4 +187,19 @@ function carPageFunction() {
 
     });
 
+    function getDetail() {
+
+        $(".rent, .cart").on("click" , function () {
+
+            regNum =$(this).parent().parent().children(":eq(6)").children(":eq(0)").text();
+            dailyMileage = $(this).parent().parent().children(":eq(4)").children(":eq(1)").text();
+            monthlyMileage = $(this).parent().parent().children(":eq(4)").children(":eq(2)").text();
+            dailyPrice = $(this).parent().parent().children(":eq(4)").children(":eq(2)").text();
+            monthlyMileage = $(this).parent().parent().children(":eq(4)").children(":eq(2)").text();
+            lostDamage = $(this).parent().parent().children(":eq(5)").children(":eq(1)").text();
+
+        });
+
+    }
+
 }
