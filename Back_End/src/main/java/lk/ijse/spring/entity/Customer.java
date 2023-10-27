@@ -5,8 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 @NoArgsConstructor
@@ -21,5 +23,8 @@ public class Customer {
     private String address;
     private String contact;
     private String email;
-
+    @OneToOne(cascade = CascadeType.ALL)
+    private User user;
+    private String nicImage;
+    private String licenseImage;
 }
