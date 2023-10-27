@@ -6,10 +6,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.Database;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 @Configuration
@@ -46,4 +51,18 @@ public class JPAConfig {
         return ds;
     }
 
+    @Bean
+    public JpaVendorAdapter jpaVendorAdapter(){
+        HibernateJpaVendorAdapter va= new HibernateJpaVendorAdapter();
+        va.setDatabase(Database.MYSQL); // What is the DB
+        va.setGenerateDdl(true); // Data definition language enable
+        va.setDatabasePlatform(environment.getRequiredProperty("properties.dial")); // platform version
+        va.setShowSql(true); // if you wanted to see generated sql
+        return va;
+    }
+
+    @Bean
+    public PlatformTransactionManager platformTransactionManager(EntityManagerFactory factory){
+        return new JpaTransactionManager();
+    }
 }
