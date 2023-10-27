@@ -239,5 +239,18 @@ function carPageFunction() {
 }
 
 function performCartFunctions() {
-    
+
+    $("#btnCart").on("click",function () {
+
+        $("#home").attr("style","display : none !important");
+        $("#manageCar").attr("style","display : none !important");
+        $("#manageCart").attr("style","display : block !important");
+        $("#manageRent").attr("style","display : none !important");
+        $("#payments").attr("style","display : none !important");
+
+        if ( cart.length != 0){
+            $("#rent-context").empty();
+        }
+
+    });
 }
