@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -20,7 +21,7 @@ public class JPAConfig {
     Environment environment;
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean(){
+    public LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean(DataSource ds , JpaVendorAdapter vad){
 
         // This is the Spring Data JPA main object which handles all the features
 
@@ -36,12 +37,13 @@ public class JPAConfig {
     }
 
     @Bean
-    public DataSource dataSource(){
-
-        DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
-
-
-
+    public DataSource dataSource() {
+        DriverManagerDataSource ds = new DriverManagerDataSource();
+        ds.setUsername(environment.getRequiredProperty("properties.username"));
+        ds.setPassword(environment.getRequiredProperty("properties.password"));
+        ds.setDriverClassName(environment.getRequiredProperty("properties.driver"));
+        ds.setUrl(environment.getRequiredProperty("properties.url"));
+        return ds;
     }
 
 }
