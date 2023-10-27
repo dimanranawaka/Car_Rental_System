@@ -504,3 +504,163 @@ function performPaymentFunctions() {
 
 }
 
+$("#btnRequestCar").on("click", function () {
+
+    let json = {
+        rentId: rentId,
+        nic: customer,
+        pickUpDate: $("#pickUpDate").val(),
+        pickUpTime: $("#pickUpTime").val(),
+        returnDate: $("#returnDate").val(),
+        returnTime: $("#returnTime").val(),
+        driverRequest: $('#driverRequest').is(':checked') ? "YES" : "NO",
+        status: "Pending",
+        cost: $("#cost").val(),
+        description: $("#description").val(),
+        rentDetails: [{
+            rentId: rentId,
+            nic: null,
+            regNum: regNum,
+            driverCost: $("#driverCost").val(),
+            carCost: $("#carCost").val()
+        }]
+
+    }
+
+
+    if ($(this).text() == "Request") {
+
+        $.ajax({
+            url: baseurl + "rent",
+            method: "post",
+            data: JSON.stringify(json),
+            dataType: "json",
+            contentType: "application/json",
+            success: function (res) {
+
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Successfully Requested..!',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+
+            }
+        });
+
+    } else {
+        rent = json;
+        cart.push({
+            rentId: rentId,
+            nic: null,
+            regNum: regNum,
+            driverCost: $("#driverCost").val(),
+            carCost: $("#carCost").val()
+        });
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Successfully Added..!',
+            showConfirmButton: false,
+            timer: 1500
+        });
+    }
+
+    $("#lostCost").text(lostDamage.toString().replaceAll(" LKR", ""));
+
+});
+
+$("#make-payment").on("click", function () {
+    let json = {
+        balance: 0,
+        cash: lostDamage.toString().replaceAll(" LKR", ""),
+        description: "Lost Damage Cost Paid",
+        total: lostDamage.toString().replaceAll(" LKR", ""),
+        type: "Lost_Damage_Payment",
+        rentId: {
+            rentId: rentId
+        }
+    }
+
+    $.ajax({
+        url: baseurl + `payment`,
+        async: false,
+        method: "post",
+        data: JSON.stringify(json),
+        dataType: "json",
+        contentType: "application/json",
+        success: function (res) {
+            saveAlert();
+        },
+        error: function () {
+            errorAlert("Something Went Wrong..!")
+        }
+    });
+})
+
+$("#cusNic").val(customer.nic);
+$("#cusName").val(customer.name);
+$("#cusLicense").val(customer.license);
+$("#cusAddress").val(customer.address);
+$("#cusContact").val(customer.contact);
+$("#cusEmail").val(customer.email);
+$("#cusUsername").val(customer.user.username);
+$("#cusPassword").val(customer.user.password);
+$("#cusNicImgContext").attr(`style`, `background : url(..${customer.nicImage}); background-position: center; background-size: cover`);
+$("#cusLicenseImgContext").attr(`style`, `background : url(..${customer.licenseImage}); background-position: center; background-size: cover`);
+
+$("#btnUpdateCustomer").on("click", function () {
+
+    let json = {
+        nic: $("#cusNic").val(),
+        name: $("#cusName").val(),
+        license: $("#cusLicense").val(),
+        address: $("#cusAddress").val(),
+        contact: $("#cusContact").val(),
+        email: $("#cusEmail").val(),
+        user: {
+            username: $("#cusUsername").val(),
+            password: $("#cusPassword").val(),
+        }
+
+    }
+
+    $.ajax({
+        url: baseurl + "customer",
+        method: "put",
+        async: false,
+        data: JSON.stringify(json),
+        contentType: "application/json",
+        dataType: "json",
+        success: function (res) {
+            updateAlert();
+        }
+    });
+});
+
+$.ajax({
+    url: baseurl + "rent?nic=" + customer.nic,
+    async: false,
+    method: "get",
+    dataType: "json",
+    success: function (res) {
+
+        for (let rent of res.data) {
+
+            if (rent.status != "Closed") {
+                $("#cusNic").prop("disabled", true);
+                $("#cusName").prop("disabled", true);
+                $("#cusLicense").prop("disabled", true);
+                $("#cusAddress").prop("disabled", true);
+                $("#cusEmail").prop("disabled", true);
+                $("#cusUsername").prop("disabled", true);
+                $("#cusPassword").prop("disabled", true);
+                break;
+            }
+
+        }
+
+    }
+});
+
