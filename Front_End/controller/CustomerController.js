@@ -8,6 +8,7 @@ let regNum;
 let dailyMileage;
 let monthlyMileage;
 let dailyPrice;
+let monthlyPrice;
 let lostDamage;
 
 
@@ -72,10 +73,10 @@ $("#btnHome").on("click", function () {
 function carPageFunction() {
     $("#btnCar").on("click", function () {
 
-        $("#home").attr("style","display : none !important");
-        $("#manageCar").attr("style","display : block !important");
-        $("#manageCart").attr("style","display : none !important");
-        $("#manageRent").attr("style","display : none !important");
+        $("#home").attr("style", "display : none !important");
+        $("#manageCar").attr("style", "display : block !important");
+        $("#manageCart").attr("style", "display : none !important");
+        $("#manageRent").attr("style", "display : none !important");
 
         $.ajax({
             url: baseUrl + "car",
@@ -85,13 +86,12 @@ function carPageFunction() {
             }
         });
 
-    });
 
-    function loadAllCars(cars) {
+        function loadAllCars(cars) {
 
-        $("#cars").empty();
-        for (let car of cars) {
-            $("#cars").append(`<div class="col col-lg-3">
+            $("#cars").empty();
+            for (let car of cars) {
+                $("#cars").append(`<div class="col col-lg-3">
             <div class="card">
                 <img src="../assets/images/${car.photos.front}" class="card-img-top" height="230px" alt="car">
 
@@ -146,60 +146,98 @@ function carPageFunction() {
         </div>`);
 
 
+            }
+
+            getDetail();
+            bindButtonEvents();
+
         }
 
+        $("#search").on("keyup", function () {
 
+            let text = $("#search").val();
+            let searchBy = $("#searchBy").val();
+            let fuel = $("#fuelTypes").val();
 
-    }
-
-    $("#search").on("keyup" ,function () {
-
-        let text = $("#search").val();
-        let searchBy = $("#searchBy").val();
-        let fuel = $("#fuelTypes").val();
-
-        $.ajax({
-            url: baseUrl + `car/filterByRegNum?text=${text}&search=${searchBy}&fuel=${fuel}`,
-            method:"get",
-            dataType:"json",
-            contentType: "application/json",
-            success: function (res) {
-                loadAllCars(res.data);
-            }
+            $.ajax({
+                url: baseUrl + `car/filterByRegNum?text=${text}&search=${searchBy}&fuel=${fuel}`,
+                method: "get",
+                dataType: "json",
+                contentType: "application/json",
+                success: function (res) {
+                    loadAllCars(res.data);
+                }
+            });
         });
+
+        $("#searchBy , #fuelTypes").change(function () {
+
+            let text = $("#search").val();
+            let searchBy = $("#searchBy").val();
+            let fuel = $("#fuelTypes").val();
+
+            $.ajax({
+                url: baseUrl + `car/filterByRegNum?text=${text}&search=${searchBy}&fuel=${fuel}`,
+                method: "get",
+                dataType: "json",
+                contentType: "application/json",
+                success: function (res) {
+                    loadAllCars(res.data);
+                }
+            });
+
+        });
+
+        function getDetail() {
+
+            $(".rent, .cart").on("click", function () {
+
+                regNum = $(this).parent().parent().children(":eq(6)").children(":eq(0)").text();
+                dailyMileage = $(this).parent().parent().children(":eq(4)").children(":eq(1)").text();
+                monthlyMileage = $(this).parent().parent().children(":eq(4)").children(":eq(2)").text();
+                dailyPrice = $(this).parent().parent().children(":eq(4)").children(":eq(2)").text();
+                monthlyMileage = $(this).parent().parent().children(":eq(4)").children(":eq(2)").text();
+                lostDamage = $(this).parent().parent().children(":eq(5)").children(":eq(1)").text();
+
+            });
+
+        }
+
+        function bindButtonEvents() {
+
+            $(".rent").on("click", function () {
+                $("#btnRequestCar").text("Request");
+                $("#lostDamageCost").val(lostDamage);
+            });
+
+            $(".cart").on("click", function () {
+                $("#btnRequestCar").text("Add to Cart");
+                $("#lostDamageCost").val(lostDamage);
+                setCosts();
+            });
+        }
+        
+        $("#pickUpDate").on("click",function () {
+            setCosts();
+        });
+        
+        $("#returnDate").on("click",function () {
+            setCosts();
+        });
+        
+        function setCosts() {
+
+            let days = (new Date(Date.parse($("#returnDate").val()) - Date.parse($("#pickUpDate").val()))) / 1000 / 60 / 60 / 24;
+            let carCost = days < 30 ? dailyPrice.split(" ")[0] * days : monthlyPrice.split(" ")[0] * (days / 30);
+            $("#carCost").val(carCost);
+            $("#driverCost").val(1000 * days);
+            $("#cost").val(parseFloat($("#carCost").val()) + parseFloat($("#driverCost").val()))
+
+        }
+        
     });
+}
 
-    $("#searchBy , #fuelTypes").change(function () {
-
-        let text = $("#search").val();
-        let searchBy = $("#searchBy").val();
-        let fuel = $("#fuelTypes").val();
-
-        $.ajax({
-            url: baseUrl + `car/filterByRegNum?text=${text}&search=${searchBy}&fuel=${fuel}`,
-            method:"get",
-            dataType:"json",
-            contentType: "application/json",
-            success: function (res) {
-                loadAllCars(res.data);
-            }
-        });
-
-    });
-
-    function getDetail() {
-
-        $(".rent, .cart").on("click" , function () {
-
-            regNum =$(this).parent().parent().children(":eq(6)").children(":eq(0)").text();
-            dailyMileage = $(this).parent().parent().children(":eq(4)").children(":eq(1)").text();
-            monthlyMileage = $(this).parent().parent().children(":eq(4)").children(":eq(2)").text();
-            dailyPrice = $(this).parent().parent().children(":eq(4)").children(":eq(2)").text();
-            monthlyMileage = $(this).parent().parent().children(":eq(4)").children(":eq(2)").text();
-            lostDamage = $(this).parent().parent().children(":eq(5)").children(":eq(1)").text();
-
-        });
-
-    }
-
+function performCartFunctions() {
+    
 }
