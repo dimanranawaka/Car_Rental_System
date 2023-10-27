@@ -370,41 +370,91 @@ function performCartFunctions() {
 
 function performRentFunctions() {
 
-    $("#btnManagePayment").on("click", function () {
+    $("#btnRent").on("click", function () {
 
         $("#home").attr("style", "display : none !important");
         $("#manageCar").attr("style", "display : none !important");
         $("#manageCart").attr("style", "display : none !important");
-        $("#manageRent").attr("style", "display : none !important");
-        $("#payments").attr("style", "display : block !important");
+        $("#manageRent").attr("style", "display : block !important");
+        $("#payments").attr("style", "display : none !important");
 
         $.ajax({
-            url: baseurl + `payment?nic=` + customer.nic,
+            url: baseurl + `rent?nic=` + customer.nic,
+            async:false,
             method: "get",
             dataType: "json",
             success: function (res) {
 
-                $("#tblPayment").empty();
+                $("#manage-rent-context").empty();
 
-                for (let payment of res.data) {
-                    $("#tblPayment").append(`
-                    <tr>
-                        <td>${payment.paymentId}</td>
-                        <td>${payment.rentId.rentId}</td>
-                        <td>${payment.type}</td>
-                        <td>${payment.description}</td>
-                        <td>${payment.total}</td>
-                        <td>${payment.cash}</td>
-                        <td>${payment.balance}</td>
-                        <td>${payment.date.toString().replaceAll(",", "-")}</td>
-                        <td>${payment.time.toString().replaceAll(",", ":")}</td>
-                    </tr>
+                for (let rent of res.data) {
+                    $("#manage-rent-context").append(`
+                <div class="card text-center pt-5 p-2 shadow-sm col col-6">
+                    <h5 class="card-text">Rent ID : ${rent.rentId}</h5>
+                    <p class="card-text">Status : ${rent.status}</p>
+                    <p class="card-text">Total Cost : ${rent.cost}</p>
+                    <p class="card-text">Description : ${rent.description}</p>
+                    <p class="card-text">Pick Up Time: ${rent.pickUpDate.toString().replaceAll(",", "-")}</p>
+                    <p class="card-text">Pick Up Time: ${rent.pickUpTime.toString().replaceAll(",", ":")}</p>
+                    <p class="card-text">Return Date : ${rent.returnDate.toString().replaceAll(",", "/")}</p>
+                    <p class="card-text">Return Time : ${rent.returnTime.toString().replaceAll(",", ":")}</p>
+                    <p class="card-text">Description : ${rent.description.split(".")[0]}</p>
+                                  
+                    <table class="table" id="rent${rent.rentId}">
+                        <thead>
+                              <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">Register Number</th>
+                                    <th scope="col">Car Cost</th>
+                                    <th scope="col">Driver</th>
+                                    <th scope="col">Driver Cost</th>
+                              </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                        </tbody>
+                    </table>
+                </div>
                 `);
+
+                    for (let rendDetail of rent.rentDetails) {
+
+                        let photo;
+
+                        $.ajax({
+                            url: baseurl + "car?regNum=" + rendDetail.regNum,
+                            async: false,
+                            method: "get",
+                            dataType: "json",
+                            success: function (res) {
+                                photo = res.data.photos.front;
+                            }
+                        });
+
+                        $(`#rent${rent.rentId} > tbody`).append(`
+                            <tr>
+                                <td><img src="../assets/${photo}" width="150px" height="80px" alt=""></td>
+                                <td>${rendDetail.regNum}</td>
+                                <td>${rendDetail.carCost}</td>
+                                <td>${rent.driverRequest}</td>
+                                <td>${rendDetail.driverCost == null ? 0.00 : rendDetail.driverCost}</td>
+                            </tr>
+                        `);
+
+                    }
+
                 }
+
             }
         });
-
     });
+
+}
+
+function performPaymentFunctions() {
+
+
 
 }
 
