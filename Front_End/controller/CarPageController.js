@@ -70,7 +70,7 @@ $("#search").on("keyup", function () {
     let fuel = $("#fuelTypes").val();
 
     $.ajax({
-        url: baseurl + `car/filterByRegNum?text=${text}&search=${searchBy}&fuel=${fuel}`,
+        url: baseUrl + `car/filterByRegNum?text=${text}&search=${searchBy}&fuel=${fuel}`,
         method: "get",
         dataType: "json",
         contentType: "application/json",
@@ -87,7 +87,7 @@ $("#searchBy, #fuelTypes").change(function () {
     let fuel = $("#fuelTypes").val();
 
     $.ajax({
-        url: baseurl + `car/filterByRegNum?text=${text}&search=${searchBy}&fuel=${fuel}`,
+        url: baseUrl + `car/filterByRegNum?text=${text}&search=${searchBy}&fuel=${fuel}`,
         method: "get",
         dataType: "json",
         contentType: "application/json",

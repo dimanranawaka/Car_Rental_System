@@ -7,7 +7,7 @@ $("#btnCars").on("click", function () {
 function loadAllCar(){
 
     $.ajax({
-        url: baseurl + "car",
+        url: baseUrl + "car",
         method: "get",
 
         success: function (res) {

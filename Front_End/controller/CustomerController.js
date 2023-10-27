@@ -1,3 +1,5 @@
+// Declare global variables
+
 let currentUser;
 let customer;
 let rentId;
@@ -11,6 +13,7 @@ let dailyPrice;
 let monthlyPrice;
 let lostDamage;
 
+// Perform a synchronous AJAX request to fetch user information and customer details
 
 $.ajax({
     url:baseUrl+"login",
@@ -19,13 +22,17 @@ $.ajax({
     dataType:"json",
     contentType:"application/json",
     success: function (res) {
-        currentUser = res.data;
+        currentUser = res.data; // Assign the user data to currentUser
         $("#user").text(res.data.username);
-        getCustomer();
+        getCustomer(); // Call the getCustomer function to fetch customer details
     }
 })
 
+// Call the getCustomer function to fetch customer details
+
 getCustomer();
+
+// Function to fetch customer details
 
 function getCustomer() {
     $.ajax({
@@ -34,14 +41,16 @@ function getCustomer() {
         async: false,
         dataType: "json",
         success: function (res) {
-            customer = res.data;
+            customer = res.data; // Assign the customer data to the customer variable
             console.log(customer);
         }
     });
 }
 
+// Function to generate a new rent ID
 generateNewRentId();
 
+// Function to generate a new rent ID
 function generateNewRentId() {
     $.ajax({
         url: baseUrl + "rent",
@@ -50,7 +59,7 @@ function generateNewRentId() {
         dataType:"json",
         contentType: "application/json",
         success: function (res) {
-            rentId = res.data;
+            rentId = res.data; // Assign the new rent ID to the rentId variable
         }
     });
 }
@@ -77,7 +86,12 @@ performPaymentFunctions();
 
 console.log("performPaymentFunctions() : executed!");
 
+// Function to set up the home page
+
 function homePageFunction() {
+
+    // Show the home page and hide other sections
+
     $("#home").fadeIn();
     $("#home").attr("style","display : block !important");
     $("#manageCar").attr("style","display : none !important");
@@ -85,11 +99,14 @@ function homePageFunction() {
     $("#manageRent").attr("style","display : none !important");
 }
 
+// Event handler for clicking the "Home" button
 $("#btnHome").on("click", function () {
     homePageFunction();
 });
 
+// Function to set up the car page
 function carPageFunction() {
+    // Show the car page and hide other sections
     $("#btnCar").on("click", function () {
 
         $("#home").attr("style", "display : none !important");
@@ -97,19 +114,23 @@ function carPageFunction() {
         $("#manageCart").attr("style", "display : none !important");
         $("#manageRent").attr("style", "display : none !important");
 
+        // Fetch car data using AJAX
         $.ajax({
             url: baseUrl + "car",
             method: "get",
             success: function (res) {
-                loadAllCars(res.data);
+                loadAllCars(res.data); // Call the loadAllCars function to display car data
             }
         });
 
-
+        // Function to load all car data on the page
         function loadAllCars(cars) {
 
             $("#cars").empty();
             for (let car of cars) {
+
+                // Append car information to the page
+
                 $("#cars").append(`<div class="col col-lg-3">
             <div class="card">
                 <img src="../assets/images/${car.photos.front}" class="card-img-top" height="230px" alt="car">
@@ -171,9 +192,9 @@ function carPageFunction() {
             bindButtonEvents();
 
         }
-
+        // Event handler for the search input
         $("#search").on("keyup", function () {
-
+            // Fetch filtered car data using AJAX based on search criteria
             let text = $("#search").val();
             let searchBy = $("#searchBy").val();
             let fuel = $("#fuelTypes").val();
@@ -184,13 +205,14 @@ function carPageFunction() {
                 dataType: "json",
                 contentType: "application/json",
                 success: function (res) {
-                    loadAllCars(res.data);
+                    loadAllCars(res.data); // Call the loadAllCars function to display filtered car data
                 }
             });
         });
 
+        // Event handler for changing search criteria
         $("#searchBy , #fuelTypes").change(function () {
-
+            // Fetch filtered car data using AJAX based on updated search criteria
             let text = $("#search").val();
             let searchBy = $("#searchBy").val();
             let fuel = $("#fuelTypes").val();
@@ -201,12 +223,12 @@ function carPageFunction() {
                 dataType: "json",
                 contentType: "application/json",
                 success: function (res) {
-                    loadAllCars(res.data);
+                    loadAllCars(res.data); // Call the loadAllCars function to display filtered car data
                 }
             });
 
         });
-
+        // Function to get car details when a "Rent" or "Add to Cart" button is clicked
         function getDetail() {
 
             $(".rent, .cart").on("click", function () {
@@ -221,7 +243,7 @@ function carPageFunction() {
             });
 
         }
-
+        // Function to bind button events
         function bindButtonEvents() {
 
             $(".rent").on("click", function () {
@@ -235,7 +257,7 @@ function carPageFunction() {
                 setCosts();
             });
         }
-        
+        // Event handler for changing pick-up or return date
         $("#pickUpDate").on("click",function () {
             setCosts();
         });
@@ -243,7 +265,7 @@ function carPageFunction() {
         $("#returnDate").on("click",function () {
             setCosts();
         });
-        
+        // Function to calculate and set costs based on selected dates
         function setCosts() {
 
             let days = (new Date(Date.parse($("#returnDate").val()) - Date.parse($("#pickUpDate").val()))) / 1000 / 60 / 60 / 24;
@@ -256,11 +278,11 @@ function carPageFunction() {
         
     });
 }
-
+// Function to perform cart-related functions
 function performCartFunctions() {
-
+    // Event handler for the "Cart" button
     $("#btnCart").on("click",function () {
-
+        // Show the cart page and hide other sections
         $("#home").attr("style","display : none !important");
         $("#manageCar").attr("style","display : none !important");
         $("#manageCart").attr("style","display : block !important");
@@ -270,7 +292,7 @@ function performCartFunctions() {
         if ( cart.length != 0){
             $("#rent-context").empty();
         }
-
+        // Display cart content
         $("#rent-context").append(`
             
             <div class="card text-center p-2 w-75 shadow">
@@ -307,7 +329,7 @@ function performCartFunctions() {
                 </div> 
         
         `);
-
+        // Loop through items in the cart and display their details
         for (let rentDetail of rent.rentDetails) {
             let photo;
 
@@ -321,7 +343,7 @@ function performCartFunctions() {
                     console.log(res);
                 }
             });
-
+            // Display cart item details
             $(`#${rent.rentId}`).append(`
                 <tr>
                 
@@ -335,13 +357,14 @@ function performCartFunctions() {
                 
             `);
         }
-
+        // Event handler for the "Purchase" button in the cart
         $(".btnMultiPurchase").on("click" , function () {
 
-            rent.rentDetails = cart;
+            rent.rentDetails = cart; // // Update rent details with cart contents
 
             console.log(rent);
 
+            // Send a request to create the rental transaction
             $.ajax({
 
                 url: baseUrl + "rent",
@@ -372,18 +395,19 @@ function performCartFunctions() {
 
 }
 
+// Function to perform rent-related functions
 function performRentFunctions() {
-
+    // Event handler for the "Rent" button
     $("#btnRent").on("click", function () {
-
+        // Show the rent page and hide other sections
         $("#home").attr("style", "display : none !important");
         $("#manageCar").attr("style", "display : none !important");
         $("#manageCart").attr("style", "display : none !important");
         $("#manageRent").attr("style", "display : block !important");
         $("#payments").attr("style", "display : none !important");
-
+        // Fetch rent data using AJAX
         $.ajax({
-            url: baseurl + `rent?nic=` + customer.nic,
+            url: baseUrl + `rent?nic=` + customer.nic,
             async:false,
             method: "get",
             dataType: "json",
@@ -392,6 +416,7 @@ function performRentFunctions() {
                 $("#manage-rent-context").empty();
 
                 for (let rent of res.data) {
+                    // Display rent details
                     $("#manage-rent-context").append(`
                 <div class="card text-center pt-5 p-2 shadow-sm col col-6">
                     <h5 class="card-text">Rent ID : ${rent.rentId}</h5>
@@ -427,7 +452,7 @@ function performRentFunctions() {
                         let photo;
 
                         $.ajax({
-                            url: baseurl + "car?regNum=" + rendDetail.regNum,
+                            url: baseUrl + "car?regNum=" + rendDetail.regNum,
                             async: false,
                             method: "get",
                             dataType: "json",
@@ -435,7 +460,7 @@ function performRentFunctions() {
                                 photo = res.data.photos.front;
                             }
                         });
-
+                        // Display rent item details
                         $(`#rent${rent.rentId} > tbody`).append(`
                             <tr>
                                 <td><img src="../assets/${photo}" width="150px" height="80px" alt=""></td>
@@ -455,7 +480,7 @@ function performRentFunctions() {
     });
 
 }
-
+// Function to perform payment-related functions
 function performPaymentFunctions() {
 
     $("#btnManagePayment").on("click", function () {
@@ -503,8 +528,9 @@ function performPaymentFunctions() {
 
 
 }
-
+// Event handler for requesting a car or adding to the cart
 $("#btnRequestCar").on("click", function () {
+    // Create a JSON object with rent details and car information
 
     let json = {
         rentId: rentId,
@@ -527,11 +553,11 @@ $("#btnRequestCar").on("click", function () {
 
     }
 
-
+// Create a JSON object with rent details and car information
     if ($(this).text() == "Request") {
-
+        // Send a request to create the rental transaction
         $.ajax({
-            url: baseurl + "rent",
+            url: baseUrl + "rent",
             method: "post",
             data: JSON.stringify(json),
             dataType: "json",
@@ -548,7 +574,7 @@ $("#btnRequestCar").on("click", function () {
 
             }
         });
-
+    // Update the cart with the car information
     } else {
         rent = json;
         cart.push({
@@ -566,12 +592,14 @@ $("#btnRequestCar").on("click", function () {
             timer: 1500
         });
     }
-
+    // Update the lost cost
     $("#lostCost").text(lostDamage.toString().replaceAll(" LKR", ""));
 
 });
 
+// Event handler for making a payment for lost damage
 $("#make-payment").on("click", function () {
+    // Create a JSON object to represent the payment
     let json = {
         balance: 0,
         cash: lostDamage.toString().replaceAll(" LKR", ""),
@@ -582,9 +610,9 @@ $("#make-payment").on("click", function () {
             rentId: rentId
         }
     }
-
+// Make an AJAX request to submit the payment
     $.ajax({
-        url: baseurl + `payment`,
+        url: baseUrl + `payment`,
         async: false,
         method: "post",
         data: JSON.stringify(json),
@@ -599,6 +627,7 @@ $("#make-payment").on("click", function () {
     });
 })
 
+// Event handlers to populate customer information
 $("#cusNic").val(customer.nic);
 $("#cusName").val(customer.name);
 $("#cusLicense").val(customer.license);
@@ -610,8 +639,9 @@ $("#cusPassword").val(customer.user.password);
 $("#cusNicImgContext").attr(`style`, `background : url(..${customer.nicImage}); background-position: center; background-size: cover`);
 $("#cusLicenseImgContext").attr(`style`, `background : url(..${customer.licenseImage}); background-position: center; background-size: cover`);
 
+// Event handler for updating customer information
 $("#btnUpdateCustomer").on("click", function () {
-
+    // Create a JSON object to represent the customer information update
     let json = {
         nic: $("#cusNic").val(),
         name: $("#cusName").val(),
@@ -627,7 +657,7 @@ $("#btnUpdateCustomer").on("click", function () {
     }
 
     $.ajax({
-        url: baseurl + "customer",
+        url: baseUrl + "customer",
         method: "put",
         async: false,
         data: JSON.stringify(json),
@@ -640,7 +670,7 @@ $("#btnUpdateCustomer").on("click", function () {
 });
 
 $.ajax({
-    url: baseurl + "rent?nic=" + customer.nic,
+    url: baseUrl + "rent?nic=" + customer.nic,
     async: false,
     method: "get",
     dataType: "json",
