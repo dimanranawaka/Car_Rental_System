@@ -69,6 +69,10 @@ performCartFunctions();
 
 console.log("performCartFunctions() : executed!");
 
+performRentFunctions();
+
+console.log("performRentFunctions() : executed!");
+
 function homePageFunction() {
     $("#home").fadeIn();
     $("#home").attr("style","display : block !important");
@@ -360,6 +364,46 @@ function performCartFunctions() {
         });
 
         
+    });
+
+}
+
+function performRentFunctions() {
+
+    $("#btnManagePayment").on("click", function () {
+
+        $("#home").attr("style", "display : none !important");
+        $("#manageCar").attr("style", "display : none !important");
+        $("#manageCart").attr("style", "display : none !important");
+        $("#manageRent").attr("style", "display : none !important");
+        $("#payments").attr("style", "display : block !important");
+
+        $.ajax({
+            url: baseurl + `payment?nic=` + customer.nic,
+            method: "get",
+            dataType: "json",
+            success: function (res) {
+
+                $("#tblPayment").empty();
+
+                for (let payment of res.data) {
+                    $("#tblPayment").append(`
+                    <tr>
+                        <td>${payment.paymentId}</td>
+                        <td>${payment.rentId.rentId}</td>
+                        <td>${payment.type}</td>
+                        <td>${payment.description}</td>
+                        <td>${payment.total}</td>
+                        <td>${payment.cash}</td>
+                        <td>${payment.balance}</td>
+                        <td>${payment.date.toString().replaceAll(",", "-")}</td>
+                        <td>${payment.time.toString().replaceAll(",", ":")}</td>
+                    </tr>
+                `);
+                }
+            }
+        });
+
     });
 
 }
