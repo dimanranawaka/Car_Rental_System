@@ -55,8 +55,19 @@ function generateNewRentId() {
     });
 }
 
+// Invoking Page functions
+
 homePageFunction();
+
+console.log("homePageFunction() : executed!");
+
 carPageFunction();
+
+console.log("carPageFunction() : executed!");
+
+performCartFunctions();
+
+console.log("performCartFunctions() : executed!");
 
 function homePageFunction() {
     $("#home").fadeIn();
@@ -252,5 +263,104 @@ function performCartFunctions() {
             $("#rent-context").empty();
         }
 
+        $("#rent-context").append(`
+            
+            <div class="card text-center p-2 w-75 shadow">
+                    <p class="card-text">Status : ${rent.status}</p>
+                    <p class="card-text">Total Cost : ${rent.cost}</p>
+                    <p class="card-text">Description : ${rent.description}</p>
+                    <p class="card-text">Pick Up Time: ${rent.pickUpDate.toString().replaceAll(",", "-")}</p>
+                    <p class="card-text">Pick Up Time: ${rent.pickUpTime.toString().replaceAll(",", ":")}</p>
+                    <p class="card-text">Return Date : ${rent.returnDate.toString().replaceAll(",", "/")}</p>
+                    <p class="card-text">Return Time : ${rent.returnTime.toString().replaceAll(",", ":")}</p>
+                    <p class="card-text">Description : ${rent.description.split(".")[0]}</p>
+                                  
+                    <table class="table" id=${rent.rentId}>
+                        <thead>
+                              <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">Register Number</th>
+                                    <th scope="col">Car Cost</th>
+                                    <th scope="col">Driver</th>
+                                    <th scope="col">Driver Cost</th>
+                              </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                        </tbody>
+                    </table>
+                
+                <section class="mb-2">
+                    <button class="btn btn-success btnMultiPurchase"><i class="bi bi-upc-scan"></i> Purchase</button>
+                    <button class="btn btn-danger"><i class="bi bi-calendar-x-fill"></i> Cancel</button>
+                </section>  
+                 
+                </div> 
+        
+        `);
+
+        for (let rentDetail of rent.rentDetails) {
+            let photo;
+
+            $.ajax({
+                url: baseUrl + "car?regNum=" + rentDetail.regNum,
+                async: false,
+                method : "get",
+                dataType: "json",
+                success: function (res) {
+                    photo = res.data.photos.front;
+                    console.log(res);
+                }
+            });
+
+            $(`#${rent.rentId}`).append(`
+                <tr>
+                
+                    <td><img src="../assets/images/${photo}" width="150px" height="80px" alt=""></td>
+                    <td>${rentDetail.regNum}</td>
+                    <td>${rentDetail.carCost}</td>
+                    <td>${rent.driverRequset}</td>
+                    <td>${rentDetail.driverCost == null ? 0.00 : rentDetail.driverCost}</td>
+                    
+                </tr>
+                
+            `);
+        }
+
+        $(".btnMultiPurchase").on("click" , function () {
+
+            rent.rentDetails = cart;
+
+            console.log(rent);
+
+            $.ajax({
+
+                url: baseUrl + "rent",
+                method: "post",
+                data: JSON.stringify(rent),
+                dataType:"json",
+                contentType:"application/json",
+                success: function (res) {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'SuccessFully Requested!',
+                        showConfirmButton:false,
+                        timer:1600
+                    });
+
+
+                }
+
+            });
+
+
+
+        });
+
+        
     });
+
 }
+
