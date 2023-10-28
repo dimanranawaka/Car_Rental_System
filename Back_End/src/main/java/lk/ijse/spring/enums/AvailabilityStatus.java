@@ -1,4 +1,7 @@
 package lk.ijse.spring.enums;
 
-public class AvailabilityStatus {
+public enum AvailabilityStatus {
+
+    YES , NO , MAINTAIN
+
 }
