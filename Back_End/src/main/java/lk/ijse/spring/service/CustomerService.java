@@ -8,4 +8,6 @@ public interface CustomerService {
     void addCustomer(CustomerDTO dto);
 
      List<CustomerDTO> getAllCustomers();
+
+     void deleteCustomer(String nic);
 }

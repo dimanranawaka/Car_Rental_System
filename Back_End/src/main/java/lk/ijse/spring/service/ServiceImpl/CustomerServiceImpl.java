@@ -41,4 +41,12 @@ public class CustomerServiceImpl implements CustomerService {
         return modelMapper.map(allCustomers,new TypeToken<List<CustomerDTO>>(){}.getType());
     }
 
+    @Override
+    public void deleteCustomer(String nic) {
+       if (!customerRepo.existsById(nic)){
+           throw new RuntimeException(nic+" is not Exists to deleted!");
+       }
+       customerRepo.deleteById(nic);
+    }
+
 }
