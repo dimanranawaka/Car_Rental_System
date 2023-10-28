@@ -1,10 +1,9 @@
 package lk.ijse.spring.controller;
 
 import lk.ijse.spring.service.UserService;
+import lk.ijse.spring.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/login")
@@ -12,4 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     @Autowired
     UserService service;
+
+    @PostMapping
+    public ResponseUtil getUser(@RequestParam String username, @RequestParam String password){
+        return new ResponseUtil("Ok","Successfully Logged-In!",service.getUser(username,password));
+    }
 }
