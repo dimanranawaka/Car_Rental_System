@@ -33,6 +33,7 @@ public class CustomerController {
     }
     @PutMapping
     public ResponseUtil updateCustomer(@RequestBody CustomerDTO customerDTO){
-        return new ResponseUtil("","","");
+        customerService.updateCustomer(customerDTO);
+        return new ResponseUtil("Ok","Updated Successfully","");
     }
 }
