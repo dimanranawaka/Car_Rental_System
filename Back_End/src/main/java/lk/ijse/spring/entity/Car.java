@@ -34,6 +34,7 @@ public class Car {
     private FreeMileage freeMileage;
     private BigDecimal extraKMPrice;
     private BigDecimal lostDamageCost;
+    private String meterValue;
     @Embedded
     private CarImage carImage;
 }
