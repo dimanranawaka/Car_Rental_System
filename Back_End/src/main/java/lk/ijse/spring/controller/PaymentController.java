@@ -1,5 +1,6 @@
-package lk.ijse.spring.dto;
+package lk.ijse.spring.controller;
 
+import lk.ijse.spring.dto.PaymentDTO;
 import lk.ijse.spring.service.PaymentService;
 import lk.ijse.spring.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
