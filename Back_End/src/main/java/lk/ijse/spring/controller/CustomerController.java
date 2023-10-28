@@ -26,4 +26,8 @@ public class CustomerController {
         List<CustomerDTO> allCustomers = customerService.getAllCustomers();
         return new ResponseUtil("Ok","Successfully Loaded!",allCustomers);
     }
+    @DeleteMapping
+    public ResponseUtil deleteCustomer(@RequestParam String nic){
+        return new ResponseUtil("","","");
+    }
 }
