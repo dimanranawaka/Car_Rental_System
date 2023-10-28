@@ -31,4 +31,8 @@ public class CustomerController {
         customerService.deleteCustomer(nic);
         return new ResponseUtil("Ok","Successfully Deleted!","");
     }
+    @PutMapping
+    public ResponseUtil updateCustomer(@RequestBody CustomerDTO customerDTO){
+        return new ResponseUtil("","","");
+    }
 }
