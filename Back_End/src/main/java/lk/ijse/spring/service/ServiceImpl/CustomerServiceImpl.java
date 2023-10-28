@@ -64,4 +64,9 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepo.save(customer);
     }
 
+    @Override
+    public Long countCustomerAmount() {
+        return customerRepo.countCustomersByNic();
+    }
+
 }
