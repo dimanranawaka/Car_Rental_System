@@ -34,10 +34,10 @@ public class CustomerController {
     @PutMapping
     public ResponseUtil updateCustomer(@RequestBody CustomerDTO customerDTO){
         customerService.updateCustomer(customerDTO);
-        return new ResponseUtil("Ok","Updated Successfully","");
+        return new ResponseUtil("Ok","Updated Successfully!","");
     }
     @GetMapping(path = "/count")
     public ResponseUtil countCustomerAmount(){
-        return new ResponseUtil("","","");
+        return new ResponseUtil("Ok","Amount Calculated!",customerService.countCustomerAmount());
     }
 }
