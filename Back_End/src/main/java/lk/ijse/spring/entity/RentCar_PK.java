@@ -8,7 +8,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class CarRent_PK implements Serializable {
+public class RentCar_PK implements Serializable {
     private String rentId;
     private String regNum;
 }

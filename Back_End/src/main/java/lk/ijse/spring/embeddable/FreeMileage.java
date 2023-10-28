@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.Embeddable;
+import java.math.BigDecimal;
 
 @Embeddable
 @NoArgsConstructor
@@ -13,8 +14,6 @@ import javax.persistence.Embeddable;
 @Data
 @ToString
 public class FreeMileage {
-    private String front;
-    private String back;
-    private String side;
-    private String interior;
+    private BigDecimal dailyRate;
+    private BigDecimal monthlyRate;
 }

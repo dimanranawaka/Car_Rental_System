@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Data
 @ToString
-@IdClass(CarRent_PK.class)
+@IdClass(RentCar_PK.class)
 public class RentDetails {
     @Id
     private String rentId;
