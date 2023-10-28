@@ -12,5 +12,5 @@ import lombok.ToString;
 public class ResponseUtil {
     String state;
     String message;
-    String data;
+    Object data;
 }

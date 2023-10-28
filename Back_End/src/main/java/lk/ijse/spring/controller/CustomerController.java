@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/customer")
 @Transactional
@@ -21,6 +23,7 @@ public class CustomerController {
     }
     @GetMapping
     public ResponseUtil getAllCustomers(){
-
+        List<CustomerDTO> allCustomers = customerService.getAllCustomers();
+        return new ResponseUtil("Ok","Successfully Loaded!",allCustomers);
     }
 }
