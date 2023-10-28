@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -30,4 +31,6 @@ public class Rent {
     private BigDecimal cost;
     private String description;
 
+    @OneToMany(mappedBy = "rent",cascade = CascadeType.ALL)
+    private List<RentDetails> rentDetails;
 }
