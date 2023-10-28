@@ -28,6 +28,7 @@ public class CustomerController {
     }
     @DeleteMapping
     public ResponseUtil deleteCustomer(@RequestParam String nic){
-        return new ResponseUtil("","","");
+        customerService.deleteCustomer(nic);
+        return new ResponseUtil("Ok","Successfully Deleted!","");
     }
 }
