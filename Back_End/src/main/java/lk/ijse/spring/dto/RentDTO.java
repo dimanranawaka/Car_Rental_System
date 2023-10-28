@@ -1,4 +1,30 @@
 package lk.ijse.spring.dto;
 
+import lk.ijse.spring.entity.Customer;
+import lk.ijse.spring.entity.RentDetails;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@ToString
 public class RentDTO {
+    private String rentId;
+    private Customer nic;
+    private LocalDate pickUpDate;
+    private LocalTime pickUpTime;
+    private LocalDate returnDate;
+    private LocalTime returnTime;
+    private String driverRequest;
+    private String status;
+    private BigDecimal cost;
+    private String description;
+    private List<RentDetails> rentDetails;
 }
