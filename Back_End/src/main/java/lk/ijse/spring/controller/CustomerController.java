@@ -19,4 +19,8 @@ public class CustomerController {
         customerService.addCustomer(customerDTO);
         return new ResponseUtil("Ok","Successfully Added!","");
     }
+    @GetMapping
+    public ResponseUtil getAllCustomers(){
+
+    }
 }
