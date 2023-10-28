@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 @Transactional // AOP //
@@ -47,6 +47,21 @@ public class CustomerServiceImpl implements CustomerService {
            throw new RuntimeException(nic+" is not Exists to deleted!");
        }
        customerRepo.deleteById(nic);
+    }
+
+    @Override
+    public void updateCustomer(CustomerDTO customerDTO){
+        if (!customerRepo.existsById(customerDTO.getNic())){
+            throw new RuntimeException(customerDTO.getNic()+" : is not Exists!");}
+
+        Customer customer = modelMapper.map(customerDTO, Customer.class);
+        Customer updatedCustomer = customerRepo.findById(customerDTO.getNic()).get();
+
+        customer.setNicImage(updatedCustomer.getNicImage());
+        customer.setLicenseImage(updatedCustomer.getLicenseImage());
+        customer.getUser().setRole("Customer");
+
+        customerRepo.save(customer);
     }
 
 }
