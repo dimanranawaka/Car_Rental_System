@@ -36,4 +36,8 @@ public class CustomerController {
         customerService.updateCustomer(customerDTO);
         return new ResponseUtil("Ok","Updated Successfully","");
     }
+    @GetMapping(path = "/count")
+    public ResponseUtil countCustomerAmount(){
+        return new ResponseUtil("","","");
+    }
 }
