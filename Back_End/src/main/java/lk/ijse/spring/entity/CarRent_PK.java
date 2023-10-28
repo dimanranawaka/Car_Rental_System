@@ -1,4 +1,14 @@
 package lk.ijse.spring.entity;
 
-public class CarRent_PK {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class CarRent_PK implements Serializable {
+    private String rentId;
+    private String regNum;
 }
