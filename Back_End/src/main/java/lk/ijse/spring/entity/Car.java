@@ -1,5 +1,7 @@
 package lk.ijse.spring.entity;
 
+import lk.ijse.spring.embeddable.CarImage;
+import lk.ijse.spring.embeddable.FreeMileage;
 import lk.ijse.spring.embeddable.Price;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,6 +11,7 @@ import lombok.ToString;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.math.BigDecimal;
 
 @Entity
 @NoArgsConstructor
@@ -21,10 +24,16 @@ public class Car {
     private String type;
     private String color;
     private String brand;
-    private String availability;
+    private String Availability;
     private String transmissionType;
     private String fuelType;
     private int passengers;
     @Embedded
     private Price price;
+    @Embedded
+    private FreeMileage freeMileage;
+    private BigDecimal extraKMPrice;
+    private BigDecimal lostDamageCost;
+    @Embedded
+    private CarImage carImage;
 }
