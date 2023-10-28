@@ -24,5 +24,8 @@ public class RentDetails {
     @ManyToOne
     @JoinColumn(name = "rentId", referencedColumnName = "rentId", insertable = false, updatable = false)
     private Rent rent;
+    @ManyToOne
+    @JoinColumn(name = "nic",referencedColumnName = "nic",insertable = false,updatable = false)
+    private Driver driver;
 
 }
