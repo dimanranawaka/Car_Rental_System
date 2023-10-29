@@ -16,4 +16,6 @@ public interface CarService {
     Long countAvailableCar();
 
     Long countReserveCarAmount();
+
+    void updateCar(CarDTO carDTO);
 }
