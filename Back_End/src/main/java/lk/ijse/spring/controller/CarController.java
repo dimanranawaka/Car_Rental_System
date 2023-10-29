@@ -21,7 +21,8 @@ public class CarController {
     CarService service;
 
     @PostMapping
-    public ResponseUtil addCar(@ModelAttribute CarImageDTO carImageDTO, @ModelAttribute Price price, @ModelAttribute FreeMileage freeMileage, @ModelAttribute CarDTO carDTO){
+    public ResponseUtil addCar(@ModelAttribute CarImageDTO carImageDTO, @ModelAttribute Price price,
+    @ModelAttribute FreeMileage freeMileage, @ModelAttribute CarDTO carDTO){
 
         carDTO.setCarImageDTO(carImageDTO);
         carDTO.setPrice(price);
@@ -56,7 +57,15 @@ public class CarController {
         return new ResponseUtil("Ok","Successfully Counted!","");
     }
     @PostMapping("/update")
-    public ResponseUtil updateCar(@ModelAttribute CarImageDTO carImageDTO,@ModelAttribute Price price,@ModelAttribute FreeMileage freeMileage,@ModelAttribute CarDTO carDTO){
-        return new ResponseUtil("","","");
+    public ResponseUtil updateCar(@ModelAttribute CarImageDTO carImageDTO,
+      @ModelAttribute Price price,@ModelAttribute FreeMileage freeMileage,@ModelAttribute CarDTO carDTO){
+
+        carDTO.setCarImageDTO(carImageDTO);
+        carDTO.setPrice(price);
+        carDTO.setFreeMileage(freeMileage);
+
+        service.updateCar(carDTO);
+
+        return new ResponseUtil("Ok","Successfully Updated","");
     }
 }
