@@ -76,4 +76,9 @@ public class CarServiceImpl implements CarService {
         CarAllDTO carAllDTO = modelMapper.map(carRepo.findById(regNum), CarAllDTO.class);
         return carAllDTO;
     }
+
+    @Override
+    public Long countAvailableCar() {
+        return null;
+    }
 }
