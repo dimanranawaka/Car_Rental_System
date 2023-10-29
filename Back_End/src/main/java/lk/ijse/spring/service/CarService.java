@@ -12,4 +12,6 @@ public interface CarService {
     List<Car> getAllCars() throws RuntimeException;
 
     public CarAllDTO getCar(String regNum);
+
+    Long countAvailableCar();
 }
