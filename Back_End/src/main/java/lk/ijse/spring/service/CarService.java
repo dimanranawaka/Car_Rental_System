@@ -26,5 +26,5 @@ public interface CarService {
 
     List countCarAmountByBrand();
 
-    void addCarImages(CarImageDTO carImageDTO);
+    void editCarImages(CarImageDTO carImageDTO,CarDTO carDTO);
 }

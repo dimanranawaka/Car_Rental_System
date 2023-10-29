@@ -35,8 +35,9 @@ public class CarController {
     }
 
     @PostMapping(path = "/image")
-    public ResponseUtil addImages(@ModelAttribute CarImageDTO dto){
-        return new ResponseUtil("","","");
+    public ResponseUtil editCarImages(@ModelAttribute CarImageDTO dto,@ModelAttribute CarDTO carDTO){
+        service.editCarImages(dto,carDTO);
+        return new ResponseUtil("Ok","Successfully Modified!","");
     }
 
     @GetMapping

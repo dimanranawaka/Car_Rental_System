@@ -2,6 +2,7 @@ package lk.ijse.spring.service.impl;
 
 import lk.ijse.spring.dto.CarAllDTO;
 import lk.ijse.spring.dto.CarDTO;
+import lk.ijse.spring.dto.CarImageDTO;
 import lk.ijse.spring.entity.Car;
 import lk.ijse.spring.repo.CarRepo;
 import lk.ijse.spring.repo.RentDetailsRepo;
@@ -128,5 +129,29 @@ public class CarServiceImpl implements CarService {
     @Override
     public List countCarAmountByBrand() {
         return  carRepo.countCarBrands();
+    }
+
+    @Override
+    public void editCarImages(CarImageDTO carImageDTO,CarDTO dto) {
+        Car car = modelMapper.map(dto, Car.class);
+
+        try {
+
+            car.getCarImage().setFront(new ImagePathWriterUtil().imagePathWriter(dto.getCarImageDTO().getFront(), Paths.get(ImagePathWriterUtil.projectPath+"/images/car/front_"+dto.getRegNum()+".jpeg")));
+            car.getCarImage().setBack(new ImagePathWriterUtil().imagePathWriter(dto.getCarImageDTO().getBack(), Paths.get(ImagePathWriterUtil.projectPath+"/images/car/back_"+dto.getRegNum()+".jpeg")));
+            car.getCarImage().setSide(new ImagePathWriterUtil().imagePathWriter(dto.getCarImageDTO().getSide(), Paths.get(ImagePathWriterUtil.projectPath+"/images/car/side_"+dto.getRegNum()+".jpeg")));
+            car.getCarImage().setInterior(new ImagePathWriterUtil().imagePathWriter(dto.getCarImageDTO().getInterior(), Paths.get(ImagePathWriterUtil.projectPath+"/images/car/interior_"+dto.getRegNum()+".jpeg")));
+
+            carRepo.save(car);
+
+        } catch (IOException e) {
+
+            throw new RuntimeException(e);
+
+        } catch (URISyntaxException e) {
+
+            throw new RuntimeException(e);
+
+        }
     }
 }
