@@ -18,4 +18,6 @@ public interface CarService {
     Long countReserveCarAmount();
 
     void updateCar(CarDTO carDTO);
+
+    void deleteCar(String regNum);
 }
