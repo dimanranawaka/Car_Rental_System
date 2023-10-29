@@ -93,5 +93,9 @@ public class CarController {
     public ResponseUtil countCarAmountByBrand(){
         return new ResponseUtil("","",service.countCarAmountByBrand());
     }
+    @GetMapping(path = "/filterByRegNum")
+    public  ResponseUtil filterByNum(@RequestParam String text, @RequestParam String search ,@RequestParam String fuel){
+        return new ResponseUtil("","","");
+    }
 
 }
