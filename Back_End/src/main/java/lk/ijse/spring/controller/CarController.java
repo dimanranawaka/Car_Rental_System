@@ -55,7 +55,7 @@ public class CarController {
 
     @GetMapping(path = "/count/reserved")
     public ResponseUtil countReservedCarAmount(){
-        return new ResponseUtil("Ok","Successfully Counted!","");
+        return new ResponseUtil("Ok","Successfully Counted!",service.countReserveCarAmount());
     }
     @PostMapping("/update")
     public ResponseUtil updateCar(@ModelAttribute CarImageDTO carImageDTO,
