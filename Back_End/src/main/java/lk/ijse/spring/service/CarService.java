@@ -22,4 +22,6 @@ public interface CarService {
     void deleteCar(String regNum);
 
     Long countMaintainingCarAmount();
+
+    Long countCarAmountByBrand();
 }
