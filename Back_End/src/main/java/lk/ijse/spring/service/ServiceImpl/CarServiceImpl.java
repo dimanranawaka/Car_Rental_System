@@ -1,5 +1,6 @@
 package lk.ijse.spring.service.ServiceImpl;
 
+import lk.ijse.spring.dto.CarAllDTO;
 import lk.ijse.spring.dto.CarDTO;
 import lk.ijse.spring.entity.Car;
 import lk.ijse.spring.repo.CarRepo;
@@ -7,6 +8,7 @@ import lk.ijse.spring.repo.RentDetailsRepo;
 import lk.ijse.spring.service.CarService;
 import lk.ijse.spring.util.ImagePathWriterUtil;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -54,5 +58,13 @@ public class CarServiceImpl implements CarService {
         }
 
 
+    }
+
+    @Override
+    public List<Car> getAllCars() throws RuntimeException {
+        List<Car> map = modelMapper.map(carRepo.findAll(), new TypeToken<ArrayList<CarAllDTO>>() {
+        }.getType());
+
+        return map;
     }
 }
