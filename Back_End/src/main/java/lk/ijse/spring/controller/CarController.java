@@ -85,6 +85,6 @@ public class CarController {
     }
     @GetMapping(path = "/brand")
     public ResponseUtil countCarAmountByBrand(){
-        return new ResponseUtil("","","");
+        return new ResponseUtil("","",service.countCarAmountByBrand());
     }
 }

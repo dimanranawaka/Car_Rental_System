@@ -23,5 +23,5 @@ public interface CarService {
 
     Long countMaintainingCarAmount();
 
-    Long countCarAmountByBrand();
+    List countCarAmountByBrand();
 }

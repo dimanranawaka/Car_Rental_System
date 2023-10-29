@@ -124,4 +124,9 @@ public class CarServiceImpl implements CarService {
         }
        return carRepo.countReservedCars();
     }
+
+    @Override
+    public List countCarAmountByBrand() {
+        return  carRepo.countCarBrands();
+    }
 }
