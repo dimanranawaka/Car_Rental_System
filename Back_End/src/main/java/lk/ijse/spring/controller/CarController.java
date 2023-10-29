@@ -74,4 +74,8 @@ public class CarController {
         service.deleteCar(regNum);
         return new ResponseUtil("Ok","Successfully Deleted!","");
     }
+    @GetMapping("/count/maintain")
+    public ResponseUtil countMaintainingCarAmount(){
+        return new ResponseUtil("","","");
+    }
 }
