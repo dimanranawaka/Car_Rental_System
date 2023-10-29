@@ -14,4 +14,6 @@ public interface CarService {
     public CarAllDTO getCar(String regNum);
 
     Long countAvailableCar();
+
+    Long countReserveCarAmount();
 }
