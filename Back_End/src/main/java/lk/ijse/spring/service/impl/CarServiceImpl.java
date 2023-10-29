@@ -154,4 +154,30 @@ public class CarServiceImpl implements CarService {
 
         }
     }
+
+    @Override
+    public List<CarAllDTO> filterCarsByRegNum(String text, String search, String fuel) {
+        fuel = fuel.equals("ALL") ? "" : fuel;
+
+        switch (search){
+            case "REG_NUM":
+
+                List<CarAllDTO> map1 = modelMapper.map(carRepo.findByRegNumLikeAndFuelTypeLike("%" + text + "%", "%" + fuel + "%"), new TypeToken<ArrayList<CarAllDTO>>() {
+                }.getType());
+                return map1;
+
+            case "BRAND":
+                List<CarAllDTO> map2 = modelMapper.map(carRepo.findByBrandLikeAndFuelTypeLike("%" + text + "%", "%" + fuel + "%"), new TypeToken<ArrayList<CarAllDTO>>() {
+                }.getType());
+                return map2;
+
+            case "COLOR":
+                List<CarAllDTO> map3 = modelMapper.map(carRepo.findByColorLikeAndFuelTypeLike("%" + text + "%", "%" + fuel + "%"), new TypeToken<ArrayList<CarAllDTO>>() {
+                }.getType());
+                return map3;
+
+            default:
+                return null;
+        }
+    }
 }
