@@ -98,4 +98,8 @@ public class CarController {
         return new ResponseUtil("","",service.filterCarsByRegNum(text,search,fuel));
     }
 
+    @PutMapping(params = {"regNum"})
+    public ResponseUtil moveCarToMaintain(@RequestParam String regNum){
+        return new ResponseUtil("","","");
+    }
 }
