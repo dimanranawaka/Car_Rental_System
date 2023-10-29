@@ -1,5 +1,6 @@
 package lk.ijse.spring.controller;
 
+import lk.ijse.spring.dto.CarAllDTO;
 import lk.ijse.spring.dto.CarDTO;
 import lk.ijse.spring.dto.CarImageDTO;
 import lk.ijse.spring.embeddable.FreeMileage;
@@ -38,9 +39,10 @@ public class CarController {
     }
 
     @GetMapping(params={"regNum"})
-    public ResponseUtil getCar(){
+    public ResponseUtil getCar(@RequestParam String regNum){
 
-        return new ResponseUtil("","","");
+        CarAllDTO car = service.getCar(regNum);
+        return new ResponseUtil("","",car);
 
     }
 }
