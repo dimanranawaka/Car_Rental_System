@@ -88,6 +88,11 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public Long countReserveCarAmount() {
-        return null;
+        if (carRepo.countReservedCars()==0){
+            throw new RuntimeException("No Cars Reserved at the moment !");
+
+        }
+        Long l = carRepo.countReservedCars();
+        return l;
     }
 }
