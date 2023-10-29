@@ -109,4 +109,9 @@ public class CarServiceImpl implements CarService {
         mapped.setCarImage(carThatMustUpdate.getCarImage());
         carRepo.save(mapped);
     }
+
+    @Override
+    public void deleteCar(String regNum) {
+
+    }
 }
