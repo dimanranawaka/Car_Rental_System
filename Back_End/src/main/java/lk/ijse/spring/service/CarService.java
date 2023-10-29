@@ -27,4 +27,6 @@ public interface CarService {
     List countCarAmountByBrand();
 
     void editCarImages(CarImageDTO carImageDTO,CarDTO carDTO);
+
+    List<CarAllDTO> filterCarsByRegNum(String text,String search,String fuel);
 }
