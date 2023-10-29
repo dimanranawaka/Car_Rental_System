@@ -56,7 +56,7 @@ public class CarController {
         return new ResponseUtil("Ok","Successfully Counted!","");
     }
     @PostMapping("/update")
-    public ResponseUtil updateCar(){
+    public ResponseUtil updateCar(@ModelAttribute CarImageDTO carImageDTO,@ModelAttribute Price price,@ModelAttribute FreeMileage freeMileage,@ModelAttribute CarDTO carDTO){
         return new ResponseUtil("","","");
     }
 }
