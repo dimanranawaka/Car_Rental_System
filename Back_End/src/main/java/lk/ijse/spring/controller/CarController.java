@@ -55,4 +55,8 @@ public class CarController {
     public ResponseUtil countReservedCarAmount(){
         return new ResponseUtil("Ok","Successfully Counted!","");
     }
+    @PutMapping
+    public ResponseUtil updateCar(){
+        return new ResponseUtil("","","");
+    }
 }
