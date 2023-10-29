@@ -95,7 +95,7 @@ public class CarController {
     }
     @GetMapping(path = "/filterByRegNum")
     public  ResponseUtil filterByNum(@RequestParam String text, @RequestParam String search ,@RequestParam String fuel){
-        return new ResponseUtil("","","");
+        return new ResponseUtil("","",service.filterCarsByRegNum(text,search,fuel));
     }
 
 }
