@@ -34,6 +34,11 @@ public class CarController {
         return new ResponseUtil("Ok","Car added Successfully!","");
     }
 
+    @PostMapping(path = "/image")
+    public ResponseUtil addImages(@ModelAttribute CarImageDTO dto){
+        return new ResponseUtil("","","");
+    }
+
     @GetMapping
     public ResponseUtil getAllCars(){
         List<Car> allCars = service.getAllCars();
@@ -87,4 +92,5 @@ public class CarController {
     public ResponseUtil countCarAmountByBrand(){
         return new ResponseUtil("","",service.countCarAmountByBrand());
     }
+
 }
