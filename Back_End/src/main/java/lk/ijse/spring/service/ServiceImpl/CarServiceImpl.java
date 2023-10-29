@@ -69,7 +69,11 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public CarAllDTO getCar(String regNum) {
-        return null;
+    public CarAllDTO getCar(String regNum){
+        if (!carRepo.existsById(regNum)){
+            throw new RuntimeException(regNum+" : is Not Exists, Please Enter Valid RegNum !");
+        }
+        CarAllDTO carAllDTO = modelMapper.map(carRepo.findById(regNum), CarAllDTO.class);
+        return carAllDTO;
     }
 }
