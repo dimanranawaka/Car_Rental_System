@@ -11,8 +11,11 @@ public class ImagePathWriterUtil {
     public static String projectPath = "/Dev/Java/My_Projects/Car_Rental_System/Front_End/assets";
 
     public String imagePathWriter(MultipartFile multipartFile, Path pathLocation) throws IOException, URISyntaxException {
+
         Files.write(pathLocation,multipartFile.getBytes());
+
         multipartFile.transferTo(pathLocation);
-        return pathLocation.toString().replace(projectPath,"");
+
+        return pathLocation.toString().replace("/Dev/Java/My_Projects/Car_Rental_System/Front_End/assets","");
     }
 }
