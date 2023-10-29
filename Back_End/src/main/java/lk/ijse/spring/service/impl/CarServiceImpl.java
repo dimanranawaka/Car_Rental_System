@@ -1,4 +1,4 @@
-package lk.ijse.spring.service.ServiceImpl;
+package lk.ijse.spring.service.impl;
 
 import lk.ijse.spring.dto.CarAllDTO;
 import lk.ijse.spring.dto.CarDTO;
@@ -22,10 +22,13 @@ import java.util.List;
 @Service
 @Transactional
 public class CarServiceImpl implements CarService {
-    @Autowired
-    CarRepo carRepo;
+
     @Autowired
     ModelMapper modelMapper;
+
+    @Autowired
+    CarRepo carRepo;
+
     @Autowired
     RentDetailsRepo detailsRepo;
 

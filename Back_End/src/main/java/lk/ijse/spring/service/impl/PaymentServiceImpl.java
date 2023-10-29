@@ -1,4 +1,4 @@
-package lk.ijse.spring.service.ServiceImpl;
+package lk.ijse.spring.service.impl;
 
 import lk.ijse.spring.dto.PaymentDTO;
 import lk.ijse.spring.repo.PaymentRepo;

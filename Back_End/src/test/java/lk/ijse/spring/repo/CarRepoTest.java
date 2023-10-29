@@ -37,4 +37,36 @@ class CarRepoTest {
     @Test
     void countMaintainingCars() {
     }
+
+    @Test
+    void testFindCarByRegNum() {
+    }
+
+    @Test
+    void testCountAvailableCars() {
+    }
+
+    @Test
+    void testCountReservedCars() {
+    }
+
+    @Test
+    void testFindByRegNumLikeAndFuelTypeLike() {
+    }
+
+    @Test
+    void testFindByBrandLikeAndFuelTypeLike() {
+    }
+
+    @Test
+    void testFindByColorLikeAndFuelTypeLike() {
+    }
+
+    @Test
+    void testCountCarBrands() {
+    }
+
+    @Test
+    void testCountMaintainingCars() {
+    }
 }

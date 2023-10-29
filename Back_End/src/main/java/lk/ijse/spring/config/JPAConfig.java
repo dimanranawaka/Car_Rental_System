@@ -1,5 +1,6 @@
 package lk.ijse.spring.config;
 
+import lk.ijse.spring.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +21,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = {"lk.ijse.spring.repo"})
+@EnableJpaRepositories(basePackageClasses = {CustomerRepo.class, CarRepo.class, UserRepo.class})
 @PropertySource("classpath:properties.properties")
 public class JPAConfig {
 
@@ -64,7 +65,7 @@ public class JPAConfig {
     }
 
     @Bean
-    public PlatformTransactionManager platformTransactionManager(EntityManagerFactory factory){
-        return new JpaTransactionManager(factory);
+    public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory){
+        return new JpaTransactionManager(entityManagerFactory);
     }
 }

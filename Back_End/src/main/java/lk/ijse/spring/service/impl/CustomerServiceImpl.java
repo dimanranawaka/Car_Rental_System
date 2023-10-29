@@ -1,4 +1,4 @@
-package lk.ijse.spring.service.ServiceImpl;
+package lk.ijse.spring.service.impl;
 
 import lk.ijse.spring.dto.CustomerDTO;
 import lk.ijse.spring.entity.Customer;

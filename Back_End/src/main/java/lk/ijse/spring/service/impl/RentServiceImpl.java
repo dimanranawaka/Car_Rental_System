@@ -1,4 +1,4 @@
-package lk.ijse.spring.service.ServiceImpl;
+package lk.ijse.spring.service.impl;
 
 import lk.ijse.spring.repo.RentRepo;
 import org.springframework.beans.factory.annotation.Autowired;

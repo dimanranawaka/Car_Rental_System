@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface CarRepo extends JpaRepository<Car,String> {
-
     Car findCarByRegNum(String regNum) throws RuntimeException;
 
     @Query(value = "SELECT COUNT(regNum) FROM Car WHERE Availability='YES'", nativeQuery = true)
@@ -27,5 +26,4 @@ public interface CarRepo extends JpaRepository<Car,String> {
 
     @Query(value = "SELECT COUNT(regNum) FROM Car WHERE Availability='MAINTAIN'", nativeQuery = true)
     Long countMaintainingCars() throws RuntimeException;
-
 }
