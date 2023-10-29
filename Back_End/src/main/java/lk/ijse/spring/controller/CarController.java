@@ -36,4 +36,11 @@ public class CarController {
         List<Car> allCars = service.getAllCars();
         return new ResponseUtil("","",allCars);
     }
+
+    @GetMapping(params={"regNum"})
+    public ResponseUtil getCar(){
+
+        return new ResponseUtil("","","");
+
+    }
 }
