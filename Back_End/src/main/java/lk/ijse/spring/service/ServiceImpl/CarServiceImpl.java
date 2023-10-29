@@ -99,5 +99,14 @@ public class CarServiceImpl implements CarService {
     @Override
     public void updateCar(CarDTO carDTO) {
 
+        if(!carRepo.existsById(carDTO.getRegNum())){
+            throw new RuntimeException(carDTO.getRegNum()+" : is Not Exists!");
+        }
+
+        Car carThatMustUpdate = carRepo.findById(carDTO.getRegNum()).get();
+        Car mapped = modelMapper.map(carDTO, Car.class);
+
+        mapped.setCarImage(carThatMustUpdate.getCarImage());
+        carRepo.save(mapped);
     }
 }
