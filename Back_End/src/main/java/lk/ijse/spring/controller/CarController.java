@@ -70,6 +70,7 @@ public class CarController {
     }
     @DeleteMapping
     public ResponseUtil deleteCar(@RequestParam String regNum){
-        return new ResponseUtil("","","");
+        service.deleteCar(regNum);
+        return new ResponseUtil("Ok","Successfully Deleted!","");
     }
 }
