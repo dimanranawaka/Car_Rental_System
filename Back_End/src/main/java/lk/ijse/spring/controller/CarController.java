@@ -76,6 +76,7 @@ public class CarController {
     }
     @GetMapping("/count/maintain")
     public ResponseUtil countMaintainingCarAmount(){
-        return new ResponseUtil("","","");
+
+        return new ResponseUtil("Ok","Successfully Counted!",service.countMaintainingCarAmount());
     }
 }
