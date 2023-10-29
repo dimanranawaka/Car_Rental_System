@@ -100,6 +100,7 @@ public class CarController {
 
     @PutMapping(params = {"regNum"})
     public ResponseUtil moveCarToMaintain(@RequestParam String regNum){
+        service.moveCarToMaintain(regNum);
         return new ResponseUtil("OK","STATUS UPDATED!","");
     }
 }
