@@ -180,4 +180,16 @@ public class CarServiceImpl implements CarService {
                 return null;
         }
     }
+
+    @Override
+    public void moveCarToMaintain(String regNum) {
+        if (!carRepo.existsById(regNum)){
+            throw new RuntimeException(regNum+" : is Not Exists!");
+        }
+        Car carByRegNum = carRepo.findCarByRegNum(regNum);
+        carByRegNum.setAvailability(carByRegNum.getAvailability().equals("YES")?"NO":"YES");
+        carRepo.save(carByRegNum);
+    }
+
+
 }
