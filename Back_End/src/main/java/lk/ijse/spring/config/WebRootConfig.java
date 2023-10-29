@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @Import(JPAConfig.class)
-@ComponentScan(basePackageClasses = {CustomerService.class, CarService.class, UserService.class})
+@ComponentScan(basePackages = "lk.ijse.spring.service")
 public class WebRootConfig {
     public WebRootConfig() {
         System.out.println("WebRootConfig : Instantiated");

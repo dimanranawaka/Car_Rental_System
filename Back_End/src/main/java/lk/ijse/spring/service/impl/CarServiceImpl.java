@@ -11,8 +11,8 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
@@ -65,10 +65,9 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public List<Car> getAllCars() throws RuntimeException {
-        List<Car> map = modelMapper.map(carRepo.findAll(), new TypeToken<ArrayList<CarAllDTO>>() {
-        }.getType());
 
-        return map;
+        return modelMapper.map(carRepo.findAll(), new TypeToken<ArrayList<CarAllDTO>>() {
+        }.getType());
     }
 
     @Override
@@ -76,8 +75,7 @@ public class CarServiceImpl implements CarService {
         if (!carRepo.existsById(regNum)){
             throw new RuntimeException(regNum+" : is Not Exists, Please Enter Valid RegNum !");
         }
-        CarAllDTO carAllDTO = modelMapper.map(carRepo.findById(regNum), CarAllDTO.class);
-        return carAllDTO;
+        return modelMapper.map(carRepo.findById(regNum), CarAllDTO.class);
     }
 
     @Override
@@ -85,8 +83,7 @@ public class CarServiceImpl implements CarService {
         if (carRepo.countAvailableCars()==0){
             throw new RuntimeException(" No Available Cars for now !");
         }
-        Long l = carRepo.countAvailableCars();
-        return l;
+        return carRepo.countAvailableCars();
     }
 
     @Override
@@ -95,8 +92,7 @@ public class CarServiceImpl implements CarService {
             throw new RuntimeException("No Cars Reserved at the moment !");
 
         }
-        Long l = carRepo.countReservedCars();
-        return l;
+        return carRepo.countReservedCars();
     }
 
     @Override

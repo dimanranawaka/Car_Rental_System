@@ -20,27 +20,23 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 @Configuration
+@EnableJpaRepositories(basePackages = "lk.ijse.spring.repo")
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackageClasses = {CustomerRepo.class, CarRepo.class, UserRepo.class})
 @PropertySource("classpath:properties.properties")
 public class JPAConfig {
 
     @Autowired
     Environment environment;
 
+
+
     @Bean
-    public LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean(DataSource ds , JpaVendorAdapter vad){
-
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource ds , JpaVendorAdapter vad){
         // This is the Spring Data JPA main object which handles all the features
-
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
-
         factory.setDataSource(ds);
-
         factory.setJpaVendorAdapter(vad);
-
         factory.setPackagesToScan(environment.getRequiredProperty("properties.entity"));
-
         return factory;
     }
 
@@ -56,12 +52,12 @@ public class JPAConfig {
 
     @Bean
     public JpaVendorAdapter jpaVendorAdapter(){
-        HibernateJpaVendorAdapter va= new HibernateJpaVendorAdapter();
-        va.setDatabase(Database.MYSQL); // What is the DB
-        va.setGenerateDdl(true); // Data definition language enable
-        va.setDatabasePlatform(environment.getRequiredProperty("properties.dial")); // platform version
-        va.setShowSql(true); // if you wanted to see generated sql
-        return va;
+        HibernateJpaVendorAdapter vad= new HibernateJpaVendorAdapter();
+        vad.setDatabase(Database.MYSQL); // What is the DB
+        vad.setGenerateDdl(true); // Data definition language enable
+        vad.setDatabasePlatform(environment.getRequiredProperty("properties.dial")); // platform version
+        vad.setShowSql(true); // if you wanted to see generated sql
+        return vad;
     }
 
     @Bean
