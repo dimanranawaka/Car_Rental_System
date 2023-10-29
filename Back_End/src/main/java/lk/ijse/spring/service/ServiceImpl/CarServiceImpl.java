@@ -112,6 +112,9 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public void deleteCar(String regNum) {
-
+        if (!carRepo.existsById(regNum)){
+            throw new RuntimeException(regNum+" : is Not Exists!");
+        }
+        carRepo.deleteById(regNum);
     }
 }
