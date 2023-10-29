@@ -35,24 +35,24 @@ public class CarController {
     @GetMapping
     public ResponseUtil getAllCars(){
         List<Car> allCars = service.getAllCars();
-        return new ResponseUtil("","",allCars);
+        return new ResponseUtil("Ok","Successfully Loaded!",allCars);
     }
 
     @GetMapping(params={"regNum"})
     public ResponseUtil getCar(@RequestParam String regNum){
 
         CarAllDTO car = service.getCar(regNum);
-        return new ResponseUtil("","",car);
+        return new ResponseUtil("Ok","Successfully Loaded!",car);
 
     }
     @GetMapping(path = "/count")
     public ResponseUtil countAvailableCar(){
         Long l = service.countAvailableCar();
-        return new ResponseUtil("","",l);
+        return new ResponseUtil("Ok","Successfully Counted!",l);
     }
 
     @GetMapping(path = "/count/reserved")
     public ResponseUtil countReservedCarAmount(){
-        return new ResponseUtil("","","");
+        return new ResponseUtil("Ok","Successfully Counted!","");
     }
 }
