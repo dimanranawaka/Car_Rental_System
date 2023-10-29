@@ -2,7 +2,6 @@ package lk.ijse.spring.service;
 
 import lk.ijse.spring.dto.CarAllDTO;
 import lk.ijse.spring.dto.CarDTO;
-import lk.ijse.spring.dto.CarImageDTO;
 import lk.ijse.spring.entity.Car;
 
 import java.util.List;

@@ -45,4 +45,8 @@ public class CarController {
         return new ResponseUtil("","",car);
 
     }
+    @GetMapping(path = "/count")
+    public ResponseUtil countAvailableCar(){
+        return new ResponseUtil("","","");
+    }
 }
