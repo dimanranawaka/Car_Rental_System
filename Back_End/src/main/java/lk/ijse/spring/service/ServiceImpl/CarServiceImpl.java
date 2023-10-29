@@ -67,4 +67,9 @@ public class CarServiceImpl implements CarService {
 
         return map;
     }
+
+    @Override
+    public CarAllDTO getCar(String regNum) {
+        return null;
+    }
 }
