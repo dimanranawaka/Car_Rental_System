@@ -1,13 +1,20 @@
 package lk.ijse.spring.service.ServiceImpl;
 
 import lk.ijse.spring.dto.CarDTO;
+import lk.ijse.spring.entity.Car;
 import lk.ijse.spring.repo.CarRepo;
 import lk.ijse.spring.repo.RentDetailsRepo;
 import lk.ijse.spring.service.CarService;
+import lk.ijse.spring.util.ImagePathWriterUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Service
 @Transactional
@@ -20,7 +27,12 @@ public class CarServiceImpl implements CarService {
     RentDetailsRepo detailsRepo;
 
     @Override
-    public void addCar(CarDTO dto) {
+    public void addCar(CarDTO dto) throws RuntimeException{
+        if (carRepo.existsById(dto.getRegNum())){
+            throw new RuntimeException(dto.getRegNum()+" : is Already Exists!");
+        }
+
+        Car mapped = modelMapper.map(dto, Car.class);
 
     }
 }

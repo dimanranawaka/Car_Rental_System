@@ -23,6 +23,6 @@ public class WebAppConfig implements WebMvcConfigurer {
     }
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry){
-        registry.addResourceHandler("/**/**/**/").addResourceLocations("http://localhost:8080");
+        registry.addResourceHandler("/**/**/").addResourceLocations("http://localhost:8080");
     }
 }
