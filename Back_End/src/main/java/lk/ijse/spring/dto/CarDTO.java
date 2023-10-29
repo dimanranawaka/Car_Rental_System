@@ -28,5 +28,5 @@ public class CarDTO {
     private BigDecimal extraKMPrice;
     private BigDecimal lostDamageCost;
     private String meterValue;
-    private CarImage carImage;
+    private CarImageDTO carImageDTO;
 }

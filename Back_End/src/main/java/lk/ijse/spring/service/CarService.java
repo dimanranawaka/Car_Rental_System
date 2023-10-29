@@ -4,5 +4,5 @@ import lk.ijse.spring.dto.CarDTO;
 import lk.ijse.spring.dto.CarImageDTO;
 
 public interface CarService {
-    void addCar(CarDTO dto,CarImageDTO carImageDTO) throws RuntimeException;
+    void addCar(CarDTO dto) throws RuntimeException;
 }

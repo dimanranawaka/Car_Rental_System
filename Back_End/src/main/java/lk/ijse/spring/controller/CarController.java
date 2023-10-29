@@ -2,7 +2,6 @@ package lk.ijse.spring.controller;
 
 import lk.ijse.spring.dto.CarDTO;
 import lk.ijse.spring.dto.CarImageDTO;
-import lk.ijse.spring.embeddable.CarImage;
 import lk.ijse.spring.embeddable.FreeMileage;
 import lk.ijse.spring.embeddable.Price;
 import lk.ijse.spring.service.CarService;
@@ -22,6 +21,13 @@ public class CarController {
 
     @PostMapping
     public ResponseUtil addCar(@ModelAttribute CarImageDTO carImageDTO, @ModelAttribute Price price, @ModelAttribute FreeMileage freeMileage, @ModelAttribute CarDTO carDTO){
-        return new ResponseUtil("","","");
+
+        carDTO.setCarImageDTO(carImageDTO);
+        carDTO.setPrice(price);
+        carDTO.setFreeMileage(freeMileage);
+
+        service.addCar(carDTO);
+
+        return new ResponseUtil("Ok","Car added Successfully!","");
     }
 }

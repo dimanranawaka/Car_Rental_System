@@ -1,7 +1,6 @@
 package lk.ijse.spring.service.ServiceImpl;
 
 import lk.ijse.spring.dto.CarDTO;
-import lk.ijse.spring.dto.CarImageDTO;
 import lk.ijse.spring.entity.Car;
 import lk.ijse.spring.repo.CarRepo;
 import lk.ijse.spring.repo.RentDetailsRepo;
@@ -27,7 +26,7 @@ public class CarServiceImpl implements CarService {
     RentDetailsRepo detailsRepo;
 
     @Override
-    public void addCar(CarDTO dto,CarImageDTO carImageDTO) throws RuntimeException{
+    public void addCar(CarDTO dto) throws RuntimeException{
 
         if (carRepo.existsById(dto.getRegNum())){
             throw new RuntimeException(dto.getRegNum()+" : is Already Exists!");
@@ -37,10 +36,10 @@ public class CarServiceImpl implements CarService {
 
         try {
 
-            car.getCarImage().setFront(new ImagePathWriterUtil().imagePathWriter(carImageDTO.getFront(), Paths.get(ImagePathWriterUtil.projectPath+"/images/car/front_"+dto.getRegNum()+".jpeg")));
-            car.getCarImage().setBack(new ImagePathWriterUtil().imagePathWriter(carImageDTO.getBack(), Paths.get(ImagePathWriterUtil.projectPath+"/images/car/back_"+dto.getRegNum()+".jpeg")));
-            car.getCarImage().setSide(new ImagePathWriterUtil().imagePathWriter(carImageDTO.getSide(), Paths.get(ImagePathWriterUtil.projectPath+"/images/car/side_"+dto.getRegNum()+".jpeg")));
-            car.getCarImage().setInterior(new ImagePathWriterUtil().imagePathWriter(carImageDTO.getInterior(), Paths.get(ImagePathWriterUtil.projectPath+"/images/car/interior_"+dto.getRegNum()+".jpeg")));
+            car.getCarImage().setFront(new ImagePathWriterUtil().imagePathWriter(dto.getCarImageDTO().getFront(), Paths.get(ImagePathWriterUtil.projectPath+"/images/car/front_"+dto.getRegNum()+".jpeg")));
+            car.getCarImage().setBack(new ImagePathWriterUtil().imagePathWriter(dto.getCarImageDTO().getBack(), Paths.get(ImagePathWriterUtil.projectPath+"/images/car/back_"+dto.getRegNum()+".jpeg")));
+            car.getCarImage().setSide(new ImagePathWriterUtil().imagePathWriter(dto.getCarImageDTO().getSide(), Paths.get(ImagePathWriterUtil.projectPath+"/images/car/side_"+dto.getRegNum()+".jpeg")));
+            car.getCarImage().setInterior(new ImagePathWriterUtil().imagePathWriter(dto.getCarImageDTO().getInterior(), Paths.get(ImagePathWriterUtil.projectPath+"/images/car/interior_"+dto.getRegNum()+".jpeg")));
 
             carRepo.save(car);
 
