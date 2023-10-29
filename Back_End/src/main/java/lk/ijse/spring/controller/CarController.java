@@ -47,16 +47,7 @@ public class CarController {
         return new ResponseUtil("Ok","Successfully Loaded!",car);
 
     }
-    @GetMapping(path = "/count")
-    public ResponseUtil countAvailableCar(){
-        Long l = service.countAvailableCar();
-        return new ResponseUtil("Ok","Successfully Counted!",l);
-    }
 
-    @GetMapping(path = "/count/reserved")
-    public ResponseUtil countReservedCarAmount(){
-        return new ResponseUtil("Ok","Successfully Counted!",service.countReserveCarAmount());
-    }
     @PostMapping("/update")
     public ResponseUtil updateCar(@ModelAttribute CarImageDTO carImageDTO,
       @ModelAttribute Price price,@ModelAttribute FreeMileage freeMileage,@ModelAttribute CarDTO carDTO){
@@ -74,9 +65,26 @@ public class CarController {
         service.deleteCar(regNum);
         return new ResponseUtil("Ok","Successfully Deleted!","");
     }
+
+    // Counting and Filtering
+    @GetMapping(path = "/count")
+    public ResponseUtil countAvailableCar(){
+        Long l = service.countAvailableCar();
+        return new ResponseUtil("Ok","Successfully Counted!",l);
+    }
+
+    @GetMapping(path = "/count/reserved")
+    public ResponseUtil countReservedCarAmount(){
+        return new ResponseUtil("Ok","Successfully Counted!",service.countReserveCarAmount());
+    }
+
     @GetMapping("/count/maintain")
     public ResponseUtil countMaintainingCarAmount(){
 
         return new ResponseUtil("Ok","Successfully Counted!",service.countMaintainingCarAmount());
+    }
+    @GetMapping(path = "/brand")
+    public ResponseUtil countCarAmountByBrand(){
+        return new ResponseUtil("","","");
     }
 }
