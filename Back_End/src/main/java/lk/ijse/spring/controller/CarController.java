@@ -4,10 +4,13 @@ import lk.ijse.spring.dto.CarDTO;
 import lk.ijse.spring.dto.CarImageDTO;
 import lk.ijse.spring.embeddable.FreeMileage;
 import lk.ijse.spring.embeddable.Price;
+import lk.ijse.spring.entity.Car;
 import lk.ijse.spring.service.CarService;
 import lk.ijse.spring.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/")
@@ -30,6 +33,7 @@ public class CarController {
 
     @GetMapping
     public ResponseUtil getAllCars(){
-        return new ResponseUtil("","","");
+        List<Car> allCars = service.getAllCars();
+        return new ResponseUtil("","",allCars);
     }
 }
