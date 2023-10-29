@@ -116,4 +116,12 @@ public class CarServiceImpl implements CarService {
         }
         carRepo.deleteById(regNum);
     }
+
+    @Override
+    public Long countMaintainingCarAmount() {
+        if (carRepo.countMaintainingCars()==0){
+            throw new RuntimeException("No cars in maintain at the moment!");
+        }
+       return carRepo.countReservedCars();
+    }
 }
