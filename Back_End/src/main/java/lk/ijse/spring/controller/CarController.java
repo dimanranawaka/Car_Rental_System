@@ -68,4 +68,8 @@ public class CarController {
 
         return new ResponseUtil("Ok","Successfully Updated","");
     }
+    @DeleteMapping
+    public ResponseUtil deleteCar(@RequestParam String regNum){
+        return new ResponseUtil("","","");
+    }
 }
