@@ -47,6 +47,7 @@ public class CarController {
     }
     @GetMapping(path = "/count")
     public ResponseUtil countAvailableCar(){
-        return new ResponseUtil("","","");
+        Long l = service.countAvailableCar();
+        return new ResponseUtil("","",l);
     }
 }
