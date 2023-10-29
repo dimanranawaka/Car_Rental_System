@@ -29,4 +29,6 @@ public interface CarService {
     void editCarImages(CarImageDTO carImageDTO,CarDTO carDTO);
 
     List<CarAllDTO> filterCarsByRegNum(String text,String search,String fuel);
+
+    void moveCarToMaintain(String regNum);
 }
