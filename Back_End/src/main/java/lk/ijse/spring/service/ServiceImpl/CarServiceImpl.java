@@ -85,4 +85,9 @@ public class CarServiceImpl implements CarService {
         Long l = carRepo.countAvailableCars();
         return l;
     }
+
+    @Override
+    public Long countReserveCarAmount() {
+        return null;
+    }
 }
