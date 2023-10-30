@@ -14,5 +14,5 @@ public class DriverController {
     @Autowired
     DriverService service;
     @Autowired
-    RentService service;
+    RentService rentService;
 }
