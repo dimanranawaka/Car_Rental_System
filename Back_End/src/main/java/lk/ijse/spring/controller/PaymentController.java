@@ -20,6 +20,11 @@ public class PaymentController {
     }
     @GetMapping
     public ResponseUtil getAllPayments(){
-        return new ResponseUtil("","",service.getAllPayments());
+        return new ResponseUtil("Ok","Successfully Loaded!",service.getAllPayments());
+    }
+
+    @GetMapping(params = {"nic"})
+    public ResponseUtil getPaymentByNic(@RequestParam String nic){
+        return new ResponseUtil("Ok","Successfully Loaded!","");
     }
 }
