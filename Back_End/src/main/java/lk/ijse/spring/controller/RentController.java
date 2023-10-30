@@ -27,8 +27,12 @@ public class RentController {
     public ResponseUtil getAllRentRecords(){
         return new ResponseUtil("Ok","Successfully Loaded!",rentService.getAllRentRecords());
     }
-    @GetMapping(params = "username")
+    @GetMapping(params = {"username"})
     public ResponseUtil getCustomer(@RequestParam String username){
         return new ResponseUtil("Ok","Successfully Loaded!",rentService.getCustomer(username));
+    }
+    @GetMapping(params = {"rentID"})
+    public ResponseUtil getRentByRentId(@RequestParam String rentId){
+        return new ResponseUtil("","","");
     }
 }

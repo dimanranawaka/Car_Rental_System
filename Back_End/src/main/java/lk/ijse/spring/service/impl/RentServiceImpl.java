@@ -1,7 +1,6 @@
 package lk.ijse.spring.service.impl;
 
 import lk.ijse.spring.dto.CustomerDTO;
-import lk.ijse.spring.dto.CustomerImageDTO;
 import lk.ijse.spring.dto.RentDTO;
 import lk.ijse.spring.entity.Car;
 import lk.ijse.spring.entity.Driver;
@@ -88,4 +87,7 @@ public class RentServiceImpl implements RentService {
     public CustomerDTO getCustomer(String username) throws RuntimeException {
        return modelMapper.map(customerRepo.getCustomerByUserName(username),CustomerDTO.class);
     }
+
+
+
 }
