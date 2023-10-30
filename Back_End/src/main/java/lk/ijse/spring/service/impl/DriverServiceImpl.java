@@ -51,4 +51,9 @@ public class DriverServiceImpl implements DriverService {
         map.setAvailabilityStatus("YES");
         driverRepo.save(map);
     }
+
+    @Override
+    public void updateDriver(DriverDTO dto) throws RuntimeException {
+
+    }
 }

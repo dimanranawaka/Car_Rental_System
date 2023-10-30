@@ -21,4 +21,10 @@ public class DriverController {
         return new ResponseUtil("Ok","Driver Added Successful!","");
     }
 
+    @PostMapping(path = "/update")
+    public ResponseUtil updateDriver(@RequestParam String username,@RequestParam String password,@ModelAttribute DriverDTO dto){
+
+        return new ResponseUtil("","","");
+    }
+
 }
