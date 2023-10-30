@@ -25,6 +25,6 @@ public class PaymentController {
 
     @GetMapping(params = {"nic"})
     public ResponseUtil getPaymentByNic(@RequestParam String nic){
-        return new ResponseUtil("Ok","Successfully Loaded!","");
+        return new ResponseUtil("Ok","Successfully Loaded!",service.getPaymentsByNic(nic));
     }
 }

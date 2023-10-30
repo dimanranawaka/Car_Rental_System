@@ -9,5 +9,5 @@ public interface PaymentService {
 
     List<PaymentDTO> getAllPayments() throws RuntimeException;
 
-    List<PaymentDTO> getPaymentsByNic() throws RuntimeException;
+    List<PaymentDTO> getPaymentsByNic(String nic) throws RuntimeException;
 }
