@@ -32,5 +32,8 @@ public class DriverController {
         service.deleteDriver(nic);
         return new ResponseUtil("Ok","Successfully Deleted!","");
     }
-
+    @GetMapping(path = "/all")
+    public ResponseUtil getAllDrivers(){
+        return new ResponseUtil("","","");
+    }
 }
