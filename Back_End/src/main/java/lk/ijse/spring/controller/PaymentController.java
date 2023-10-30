@@ -47,6 +47,6 @@ public class PaymentController {
 
     @GetMapping(path = "/day")
     public ResponseUtil getCurrentDayIncome(){
-        return new ResponseUtil("Ok","Successfully Loaded!","");
+        return new ResponseUtil("Ok","Successfully Loaded!",service.getCurrentDayIncome());
     }
 }
