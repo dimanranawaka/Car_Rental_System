@@ -33,6 +33,10 @@ public class RentController {
     }
     @GetMapping(params = {"rentID"})
     public ResponseUtil getRentByRentId(@RequestParam String rentId){
-        return new ResponseUtil("","",rentService.requestRentByRentId(rentId));
+        return new ResponseUtil("Ok","Successfully Loaded!",rentService.requestRentByRentId(rentId));
+    }
+    @GetMapping(params = {"nic"})
+    public ResponseUtil requestRentByNic(@RequestParam String nic){
+        return new ResponseUtil("Ok","Successfully Loaded!","");
     }
 }
