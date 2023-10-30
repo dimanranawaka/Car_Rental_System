@@ -115,6 +115,9 @@ public class CarServiceImpl implements CarService {
         if (!carRepo.existsById(regNum)){
             throw new RuntimeException(regNum+" : is Not Exists!");
         }
+//        carRepo.deleteById(regNum);
+
+        detailsRepo.deleteRentDetailsByRegNum(regNum);
         carRepo.deleteById(regNum);
     }
 
