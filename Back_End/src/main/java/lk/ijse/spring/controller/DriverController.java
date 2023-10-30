@@ -36,4 +36,9 @@ public class DriverController {
     public ResponseUtil getAllDrivers(){
         return new ResponseUtil("Ok","Successfully Loaded!",service.getAllDrivers());
     }
+
+    @GetMapping(path = "/available")
+    public ResponseUtil getAvailableDriversAmount(){
+        return new ResponseUtil("","","");
+    }
 }
