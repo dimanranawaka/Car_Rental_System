@@ -15,6 +15,7 @@ public class RentController {
 
     @PostMapping
     public ResponseUtil rentRequest(@RequestBody RentDTO rentDTO){
+        rentService.rentRequest(rentDTO);
         return new ResponseUtil("Ok","Request Successfully","");
     }
 }
