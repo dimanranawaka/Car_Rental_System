@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 @CrossOrigin
 public class AppWideExceptionHandler {
-    @ExceptionHandler({Exception.class})
+    @ExceptionHandler({RuntimeException.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseUtil exceptionHandler(RuntimeException e){
         return new ResponseUtil("Error",e.getMessage(),"");
