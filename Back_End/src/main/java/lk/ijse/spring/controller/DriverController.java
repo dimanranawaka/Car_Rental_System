@@ -3,6 +3,7 @@ package lk.ijse.spring.controller;
 import lk.ijse.spring.dto.DriverDTO;
 import lk.ijse.spring.dto.UserDTO;
 import lk.ijse.spring.service.DriverService;
+import lk.ijse.spring.service.RentService;
 import lk.ijse.spring.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 public class DriverController {
     @Autowired
     DriverService service;
+    @Autowired
+    RentService rentService;
 
     @PostMapping
     public ResponseUtil addDriver(@RequestParam String username, @RequestParam String password, @ModelAttribute DriverDTO dto){
@@ -50,7 +53,7 @@ public class DriverController {
         return new ResponseUtil("Ok","Successfully Loaded!",service.getCurrentDriver());
     }
     @GetMapping(params = {"nic"})
-    public ResponseUtil getDriverSchedule(){
-        return new ResponseUtil("","","");
+    public ResponseUtil getDriverSchedule(@RequestParam String nic){
+        return new ResponseUtil("Ok","Successfully Loaded!",rentService.getDriverSchedule(nic));
     }
 }
