@@ -2,6 +2,7 @@ package lk.ijse.spring.service.impl;
 
 import lk.ijse.spring.dto.CustomerDTO;
 import lk.ijse.spring.dto.RentDTO;
+import lk.ijse.spring.dto.RentDetailsDTO;
 import lk.ijse.spring.entity.Car;
 import lk.ijse.spring.entity.Driver;
 import lk.ijse.spring.entity.Rent;
@@ -150,6 +151,10 @@ public class RentServiceImpl implements RentService {
         rentRepo.save(rent);
     }
 
+    @Override
+    public List<RentDetailsDTO> getDriverSchedule(String nic) throws RuntimeException {
+        return modelMapper.map(rentDetailsRepo.getRentDetailsByNic(nic),new TypeToken<ArrayList<RentDetailsDTO>>(){}.getType());
+    }
 
 
 }
