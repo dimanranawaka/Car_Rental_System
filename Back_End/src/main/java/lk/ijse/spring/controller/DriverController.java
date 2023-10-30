@@ -23,8 +23,9 @@ public class DriverController {
 
     @PostMapping(path = "/update")
     public ResponseUtil updateDriver(@RequestParam String username,@RequestParam String password,@ModelAttribute DriverDTO dto){
-
-        return new ResponseUtil("","","");
+        dto.setUser(new UserDTO(username,password,"Driver"));
+        service.updateDriver(dto);
+        return new ResponseUtil("Ok","Successfully Updated!","");
     }
 
 }
