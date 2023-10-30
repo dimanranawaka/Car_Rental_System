@@ -18,4 +18,9 @@ public class RentController {
         rentService.rentRequest(rentDTO);
         return new ResponseUtil("Ok","Request Successfully","");
     }
+
+    @GetMapping
+    public ResponseUtil generateNewRentId(){
+        return new ResponseUtil("","","");
+    }
 }
