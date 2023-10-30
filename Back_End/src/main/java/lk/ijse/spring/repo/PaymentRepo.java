@@ -8,6 +8,9 @@ import java.util.List;
 
 public interface PaymentRepo extends JpaRepository<Payment,String> {
     List<Payment> findAllByRentId_Nic_Nic(String nic) throws RuntimeException;
-    @Query(value = "SELECT `date`,SUM(total) FROM Payment GROUP BY (`date`)", nativeQuery = true)
+    @Query(value = "SELECT `date`,SUM(total) FROM Payment GROUP BY `date`", nativeQuery = true)
     List getDailyIncome() throws RuntimeException;
+
+    @Query(value = "SELECT MONTH(`date`),SUM(total) FROM Payment GROUP BY (`date`)",nativeQuery = true)
+    List getMonthlyIncome() throws RuntimeException;
 }

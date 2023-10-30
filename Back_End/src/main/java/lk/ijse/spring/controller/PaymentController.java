@@ -37,6 +37,6 @@ public class PaymentController {
 
     @GetMapping(path = "/monthly")
     public ResponseUtil getMonthlyIncome(){
-        return new ResponseUtil("","","");
+        return new ResponseUtil("","",service.getMonthlyIncome());
     }
 }
