@@ -21,6 +21,10 @@ public class RentController {
 
     @GetMapping
     public ResponseUtil generateNewRentId(){
-        return new ResponseUtil("","",rentService.generateNewRentId());
+        return new ResponseUtil("Ok","Generated Successfully",rentService.generateNewRentId());
+    }
+    @GetMapping(path = "/all")
+    public ResponseUtil getAllRentRecords(){
+        return new ResponseUtil("Ok","Successfully Loaded!","");
     }
 }
