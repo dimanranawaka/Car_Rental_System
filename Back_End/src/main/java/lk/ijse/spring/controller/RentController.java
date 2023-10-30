@@ -25,6 +25,6 @@ public class RentController {
     }
     @GetMapping(path = "/all")
     public ResponseUtil getAllRentRecords(){
-        return new ResponseUtil("Ok","Successfully Loaded!","");
+        return new ResponseUtil("Ok","Successfully Loaded!",rentService.getAllRentRecords());
     }
 }
