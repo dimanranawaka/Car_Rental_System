@@ -72,7 +72,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public CarAllDTO getCar(String regNum){
+    public CarAllDTO getCar(String regNum) throws RuntimeException{
         if (!carRepo.existsById(regNum)){
             throw new RuntimeException(regNum+" : is Not Exists, Please Enter Valid RegNum !");
         }
@@ -80,7 +80,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public Long countAvailableCar() {
+    public Long countAvailableCar() throws  RuntimeException{
         if (carRepo.countAvailableCars()==0){
             throw new RuntimeException(" No Available Cars for now !");
         }
@@ -88,7 +88,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public Long countReserveCarAmount() {
+    public Long countReserveCarAmount() throws RuntimeException{
         if (carRepo.countReservedCars()==0){
             throw new RuntimeException("No Cars Reserved at the moment !");
 
@@ -97,7 +97,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public void updateCar(CarDTO carDTO) {
+    public void updateCar(CarDTO carDTO) throws RuntimeException{
 
         if(!carRepo.existsById(carDTO.getRegNum())){
             throw new RuntimeException(carDTO.getRegNum()+" : is Not Exists!");
@@ -111,7 +111,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public void deleteCar(String regNum) {
+    public void deleteCar(String regNum) throws RuntimeException{
         if (!carRepo.existsById(regNum)){
             throw new RuntimeException(regNum+" : is Not Exists!");
         }
@@ -122,7 +122,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public Long countMaintainingCarAmount() {
+    public Long countMaintainingCarAmount() throws RuntimeException{
         if (carRepo.countMaintainingCars()==0){
             throw new RuntimeException("No cars in maintain at the moment!");
         }
@@ -130,7 +130,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public List countCarAmountByBrand() {
+    public List countCarAmountByBrand() throws RuntimeException {
         return  carRepo.countCarBrands();
     }
 
@@ -159,7 +159,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public List<CarAllDTO> filterCarsByRegNum(String text, String search, String fuel) {
+    public List<CarAllDTO> filterCarsByRegNum(String text, String search, String fuel) throws RuntimeException{
         fuel = fuel.equals("ALL") ? "" : fuel;
 
         switch (search){
@@ -185,7 +185,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public void moveCarToMaintain(String regNum) {
+    public void moveCarToMaintain(String regNum) throws RuntimeException{
         if (!carRepo.existsById(regNum)){
             throw new RuntimeException(regNum+" : is Not Exists!");
         }

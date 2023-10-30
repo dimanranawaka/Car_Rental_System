@@ -1,15 +1,21 @@
 package lk.ijse.spring.service.impl;
 
 import lk.ijse.spring.dto.CustomerDTO;
+import lk.ijse.spring.dto.CustomerImageDTO;
 import lk.ijse.spring.entity.Customer;
 import lk.ijse.spring.repo.CustomerRepo;
 import lk.ijse.spring.service.CustomerService;
+import lk.ijse.spring.util.ImagePathWriterUtil;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 @Service
@@ -67,6 +73,36 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Long countCustomerAmount() {
         return customerRepo.countCustomersByNic();
+    }
+
+    @Override
+    public void saveCustomerImages(String nic,CustomerImageDTO customerImageDTO) throws RuntimeException {
+        Customer customer = customerRepo.findById(nic).get();
+
+        if (customerImageDTO.getLicenseImage() !=null && customerImageDTO.getNicImage() !=null){
+            try {
+
+                byte[] nicB = customerImageDTO.getNicImage().getBytes();
+                byte[] licenseB = customerImageDTO.getLicenseImage().getBytes();
+
+                Path nicPath = Paths.get(ImagePathWriterUtil.projectPath + "/images/customer/nic/nic_" + nic + ".jpeg");
+                Path licPath = Paths.get(ImagePathWriterUtil.projectPath + "/images/customer/lic/license_" +  nic+ ".jpeg");
+
+                Files.write(nicPath,nicB);
+                Files.write(licPath,licenseB);
+
+                customerImageDTO.getNicImage().transferTo(nicPath);
+                customerImageDTO.getLicenseImage().transferTo(licPath);
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            customer.setLicenseImage("/assets/images/customer/license/license_"+".jpeg");
+            customer.setNicImage("/assets/images/customer/nic/nic_"+".jpeg");
+
+            customerRepo.save(customer);
+        }
     }
 
 }
