@@ -59,4 +59,9 @@ public class PaymentServiceImpl implements PaymentService {
     public List getMonthlyIncome() throws RuntimeException {
         return paymentRepo.getMonthlyIncome();
     }
+
+    @Override
+    public List getYearlyIncome() throws RuntimeException {
+        return paymentRepo.getYearlyIncome();
+    }
 }

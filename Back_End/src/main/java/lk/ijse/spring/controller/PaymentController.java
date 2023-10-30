@@ -42,6 +42,6 @@ public class PaymentController {
 
     @GetMapping(path = "/yearly")
     public ResponseUtil getYearlyIncome(){
-        return new ResponseUtil("Ok","Successfully Loaded!","");
+        return new ResponseUtil("Ok","Successfully Loaded!",service.getYearlyIncome());
     }
 }
