@@ -2,6 +2,7 @@ package lk.ijse.spring.service;
 
 import lk.ijse.spring.dto.CustomerDTO;
 import lk.ijse.spring.dto.RentDTO;
+import lk.ijse.spring.dto.RentDetailsDTO;
 
 import java.util.List;
 
@@ -19,4 +20,6 @@ public interface RentService {
     Long getRentsCount() throws RuntimeException;
 
     void getRentRequestStatus(String rentId, String option) throws RuntimeException;
+
+    List<RentDetailsDTO> getDriverSchedule(String nic) throws RuntimeException;
 }
