@@ -26,33 +26,29 @@ public class DriverServiceImpl implements DriverService {
     DriverRepo driverRepo;
 
     @Override
-    public void addDriver(DriverDTO dto) {
+    public void addDriver(DriverDTO dto) throws RuntimeException{
         if (driverRepo.existsById(dto.getNic())){
             throw new RuntimeException("Driver Already Exists!");
         }
         Driver map = modelMapper.map(dto, Driver.class);
 
-        map.setNic(dto.getNic());
-        map.setLicense(dto.getLicense());
-        map.setName(dto.getName());
-        map.setAddress(dto.getAddress());
-        map.setEmail(dto.getEmail());
-
-        map.setAvailabilityStatus("YES");
-
 //        dto.getUser().setRole("Driver");
-        map.setUser(dto.getUser());
-
-        byte[] bytes = dto.getLicenseImage().getBytes();
-
-        Path licenseImageLocation = Paths.get(ImagePathWriterUtil.projectPath,"/images/driver/license_",map.getLicense()+".jpeg");
+//        map.setUser(dto.getUser());
 
         try {
-            Files.write(licenseImageLocation,bytes);
-            map.setLicenseImage("images/driver/license_"+map.getLicense()+".jpeg");
+
+           if (dto.getLicenseImage().getBytes()!=null){
+               byte[] bytes = dto.getLicenseImage().getBytes();
+
+               Path licenseImageLocation = Paths.get(ImagePathWriterUtil.projectPath,"/images/driver/license_",map.getLicense()+".jpeg");
+               Files.write(licenseImageLocation,bytes);
+               map.setLicenseImage("images/driver/license_"+map.getLicense()+".jpeg");
+           }
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
+        map.setAvailabilityStatus("YES");
+        driverRepo.save(map);
     }
 }
