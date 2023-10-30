@@ -47,6 +47,6 @@ public class DriverController {
     }
     @GetMapping()
     public ResponseUtil getCurrentDriver(){
-        return new ResponseUtil("Ok","Successfully Loaded!","");
+        return new ResponseUtil("Ok","Successfully Loaded!",service.getCurrentDriver());
     }
 }
