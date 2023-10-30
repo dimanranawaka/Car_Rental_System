@@ -91,4 +91,9 @@ public class DriverServiceImpl implements DriverService {
     public Long getAllAvailableDriversAmount() throws RuntimeException {
         return driverRepo.countAvailableDriversAmount();
     }
+
+    @Override
+    public Long getReservedDriversAmount() throws RuntimeException {
+        return driverRepo.countReservedDriversAmount();
+    }
 }
