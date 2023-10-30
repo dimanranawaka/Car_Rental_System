@@ -1,14 +1,13 @@
 package lk.ijse.spring.service.impl;
 
+import lk.ijse.spring.dto.CustomerDTO;
+import lk.ijse.spring.dto.CustomerImageDTO;
 import lk.ijse.spring.dto.RentDTO;
 import lk.ijse.spring.entity.Car;
 import lk.ijse.spring.entity.Driver;
 import lk.ijse.spring.entity.Rent;
 import lk.ijse.spring.entity.RentDetails;
-import lk.ijse.spring.repo.CarRepo;
-import lk.ijse.spring.repo.DriverRepo;
-import lk.ijse.spring.repo.RentDetailsRepo;
-import lk.ijse.spring.repo.RentRepo;
+import lk.ijse.spring.repo.*;
 import lk.ijse.spring.service.RentService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -39,6 +38,9 @@ public class RentServiceImpl implements RentService {
 
     @Autowired
     CarRepo carRepo;
+
+    @Autowired
+    CustomerRepo customerRepo;
 
     @Override
     public void rentRequest(RentDTO rentDTO) throws RuntimeException {
@@ -80,5 +82,10 @@ public class RentServiceImpl implements RentService {
     @Override
     public List<RentDTO> getAllRentRecords() throws RuntimeException {
        return modelMapper.map(rentRepo.findAll(),new TypeToken<ArrayList<RentDTO>>(){}.getType());
+    }
+
+    @Override
+    public CustomerDTO getCustomer(String username) throws RuntimeException {
+       return modelMapper.map(customerRepo.getCustomerByUserName(username),CustomerDTO.class);
     }
 }

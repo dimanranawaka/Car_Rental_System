@@ -1,6 +1,6 @@
 package lk.ijse.spring.service;
 
-import lk.ijse.spring.dto.CustomerImageDTO;
+import lk.ijse.spring.dto.CustomerDTO;
 import lk.ijse.spring.dto.RentDTO;
 
 import java.util.List;
@@ -10,5 +10,5 @@ public interface RentService {
     String generateNewRentId() throws RuntimeException;
     List<RentDTO> getAllRentRecords() throws RuntimeException;
 
-    CustomerImageDTO getCustomer(String username) throws RuntimeException;
+    CustomerDTO getCustomer(String username) throws RuntimeException;
 }
