@@ -1,5 +1,7 @@
 package lk.ijse.spring.service;
 
-public interface RentService {
+import lk.ijse.spring.dto.RentDTO;
 
+public interface RentService {
+    void rentRequest(RentDTO rentDTO) throws RuntimeException;
 }
