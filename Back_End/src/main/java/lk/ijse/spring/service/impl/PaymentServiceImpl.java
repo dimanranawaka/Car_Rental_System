@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,5 +64,10 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public List getYearlyIncome() throws RuntimeException {
         return paymentRepo.getYearlyIncome();
+    }
+
+    @Override
+    public BigDecimal getCurrentDayIncome() throws RuntimeException {
+        return paymentRepo.getCurrentDayIncome();
     }
 }
