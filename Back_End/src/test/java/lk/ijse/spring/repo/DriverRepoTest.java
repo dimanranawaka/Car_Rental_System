@@ -25,4 +25,20 @@ class DriverRepoTest {
     @Test
     void countAvailableDriverAmount() {
     }
+
+    @Test
+    void testGetAllAvailableDriverList1() {
+    }
+
+    @Test
+    void testGetDriverByUserName1() {
+    }
+
+    @Test
+    void countAvailableDriversAmount() {
+    }
+
+    @Test
+    void countReservedDriversAmount() {
+    }
 }

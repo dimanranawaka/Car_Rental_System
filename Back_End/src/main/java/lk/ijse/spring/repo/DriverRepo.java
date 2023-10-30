@@ -14,5 +14,8 @@ public interface DriverRepo extends JpaRepository<Driver,String> {
     Driver getDriverByUserName(String username);
 
     @Query(value = "SELECT COUNT(nic) FROM Driver WHERE availabilityStatus='YES'",nativeQuery = true)
-    Long countAvailableDriverAmount() throws RuntimeException;
+    Long countAvailableDriversAmount() throws RuntimeException;
+
+    @Query(value = "SELECT COUNT(nic) FROM Driver WHERE availabilityStatus='NO'",nativeQuery = true)
+    Long countReservedDriversAmount() throws RuntimeException;
 }
