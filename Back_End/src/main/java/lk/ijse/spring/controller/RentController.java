@@ -33,6 +33,6 @@ public class RentController {
     }
     @GetMapping(params = {"rentID"})
     public ResponseUtil getRentByRentId(@RequestParam String rentId){
-        return new ResponseUtil("","","");
+        return new ResponseUtil("","",rentService.requestRentByRentId(rentId));
     }
 }

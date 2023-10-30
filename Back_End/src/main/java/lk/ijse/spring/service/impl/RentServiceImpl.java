@@ -88,6 +88,10 @@ public class RentServiceImpl implements RentService {
        return modelMapper.map(customerRepo.getCustomerByUserName(username),CustomerDTO.class);
     }
 
+    @Override
+    public RentDTO requestRentByRentId(String rentId) throws RuntimeException {
+        return modelMapper.map(rentRepo.findById(rentId),RentDTO.class);
+    }
 
 
 }

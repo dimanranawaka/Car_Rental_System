@@ -12,5 +12,5 @@ public interface RentService {
 
     CustomerDTO getCustomer(String username) throws RuntimeException;
 
-    String requestRentByRentId(String rentId) throws RuntimeException;
+    RentDTO requestRentByRentId(String rentId) throws RuntimeException;
 }
