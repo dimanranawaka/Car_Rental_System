@@ -39,10 +39,14 @@ public class DriverController {
 
     @GetMapping(path = "/available")
     public ResponseUtil getAvailableDriversAmount(){
-        return new ResponseUtil("Ok","Successfully Loaded",service.getAllAvailableDriversAmount());
+        return new ResponseUtil("Ok","Successfully Loaded!",service.getAllAvailableDriversAmount());
     }
     @GetMapping(path = "/reserved")
     public ResponseUtil getReservedDriversAmount(){
-        return new ResponseUtil("Ok","Successfully Loaded",service.getReservedDriversAmount());
+        return new ResponseUtil("Ok","Successfully Loaded!",service.getReservedDriversAmount());
+    }
+    @GetMapping()
+    public ResponseUtil getCurrentDriver(){
+        return new ResponseUtil("Ok","Successfully Loaded!","");
     }
 }
