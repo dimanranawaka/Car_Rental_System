@@ -1,6 +1,7 @@
 package lk.ijse.spring.controller;
 
 import lk.ijse.spring.dto.CustomerDTO;
+import lk.ijse.spring.dto.CustomerImageDTO;
 import lk.ijse.spring.service.CustomerService;
 import lk.ijse.spring.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +40,9 @@ public class CustomerController {
     @GetMapping(path = "/count")
     public ResponseUtil countCustomerAmount(){
         return new ResponseUtil("Ok","Amount Calculated!",customerService.countCustomerAmount());
+    }
+    @GetMapping(params = {"image"})
+    public ResponseUtil saveImages(@ModelAttribute CustomerImageDTO customerImageDTO){
+        return new ResponseUtil("Ok","Successfully Saved!","");
     }
 }
