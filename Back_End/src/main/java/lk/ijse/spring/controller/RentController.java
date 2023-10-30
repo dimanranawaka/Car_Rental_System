@@ -28,7 +28,7 @@ public class RentController {
         return new ResponseUtil("Ok","Successfully Loaded!",rentService.getAllRentRecords());
     }
     @GetMapping(params = "username")
-    public ResponseUtil getCustomer(){
-        return new ResponseUtil("Ok","Successfully Loaded!","");
+    public ResponseUtil getCustomer(@RequestParam String username){
+        return new ResponseUtil("Ok","Successfully Loaded!",rentService.getCustomer(username));
     }
 }
