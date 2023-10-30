@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -102,6 +104,52 @@ public class RentServiceImpl implements RentService {
     public Long getRentsCount() throws RuntimeException {
        return rentRepo.getBookAmount();
     }
+
+    @Override
+    public void getRentRequestStatus(String rentId, String option) throws RuntimeException {
+        // Retrieve the Rent object associated with the given rentId from the repository.
+        Rent rent = rentRepo.findById(rentId).get();
+
+        // Check if the option is "accepted".
+        if (option.equals("accepted")) {
+            // If accepted, set the status to "Accepted" and update the description with the current date and time.
+            rent.setStatus("Accepted");
+            rent.setDescription("Rent Accepted On : " + LocalDate.now() + " " + LocalTime.now());
+        } else if (option.equals("reject")) {
+            // If the option is "reject", set the status to "Rejected".
+            rent.setStatus("Rejected");
+
+            // Loop through RentDetails associated with the Rent and update driver availability status to "YES".
+            for (RentDetails rentDetail : rent.getRentDetails()) {
+                if (rentDetail.getDriver() != null) {
+                    rentDetail.getDriver().setAvailabilityStatus("YES");
+                }
+            }
+
+            // Update the description with the current date and time to indicate rejection.
+            rent.setDescription("Rent Rejected On : " + LocalDate.now() + " " + LocalTime.now());
+        } else {
+            // If the option is not "accepted" or "reject," set the status to "Closed".
+            rent.setStatus("Closed");
+
+            // Loop through RentDetails associated with the Rent.
+            for (RentDetails rentDetail : rent.getRentDetails()) {
+                if (rentDetail.getDriver() != null) {
+                    // If there is a driver associated, set their availability status to "YES".
+                    rentDetail.getDriver().setAvailabilityStatus("YES");
+                    // Also, set the car availability to "MAINTAIN".
+                    rentDetail.getCar().setAvailability("MAINTAIN");
+                }
+            }
+
+            // Update the description with the current date and time to indicate closure.
+            rent.setDescription("Rent was Closed On : " + LocalDate.now() + " " + LocalDate.now());
+        }
+
+        // Save the updated Rent object to the repository.
+        rentRepo.save(rent);
+    }
+
 
 
 }
