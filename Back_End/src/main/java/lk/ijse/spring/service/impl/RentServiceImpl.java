@@ -98,5 +98,10 @@ public class RentServiceImpl implements RentService {
         return modelMapper.map(rentRepo.getRentByNic_Nic(),new TypeToken<ArrayList<RentDTO>>(){}.getType());
     }
 
+    @Override
+    public Long getRentsCount() throws RuntimeException {
+       return rentRepo.getBookAmount();
+    }
+
 
 }
