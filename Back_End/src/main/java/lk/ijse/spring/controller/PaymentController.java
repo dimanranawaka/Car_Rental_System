@@ -27,4 +27,11 @@ public class PaymentController {
     public ResponseUtil getPaymentByNic(@RequestParam String nic){
         return new ResponseUtil("Ok","Successfully Loaded!",service.getPaymentsByNic(nic));
     }
+
+    @GetMapping(path = "/daily")
+    public ResponseUtil getDailyIncome(){
+
+        return new ResponseUtil("OK","Successfully Loaded!","");
+
+    }
 }
