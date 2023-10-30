@@ -39,4 +39,9 @@ public class RentController {
     public ResponseUtil requestRentByNic(@RequestParam String nic){
         return new ResponseUtil("Ok","Successfully Loaded!",rentService.requestRentByNic(nic));
     }
+
+    @GetMapping(params = "/count")
+    public ResponseUtil getRentsCount(){
+        return new ResponseUtil("Ok","Successfully Loaded!","");
+    }
 }
