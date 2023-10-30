@@ -8,4 +8,6 @@ public interface PaymentService {
     void addPayment(PaymentDTO dto) throws RuntimeException;
 
     List<PaymentDTO> getAllPayments() throws RuntimeException;
+
+    List<PaymentDTO> getPaymentsByNic() throws RuntimeException;
 }
