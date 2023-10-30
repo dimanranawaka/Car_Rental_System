@@ -20,6 +20,6 @@ public class PaymentController {
     }
     @GetMapping
     public ResponseUtil getAllPayments(){
-        return new ResponseUtil("","","");
+        return new ResponseUtil("","",service.getAllPayments());
     }
 }
