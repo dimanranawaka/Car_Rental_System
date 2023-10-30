@@ -56,7 +56,7 @@ public class DriverServiceImpl implements DriverService {
     public void updateDriver(DriverDTO dto) throws RuntimeException {
 
         if (!driverRepo.existsById(dto.getNic())){
-            throw new RuntimeException(dto.getNic()+" : is not exists!");
+            throw new RuntimeException(dto.getNic()+" : is not Exists!");
         }
 
         Driver map = modelMapper.map(dto, Driver.class);
@@ -68,5 +68,13 @@ public class DriverServiceImpl implements DriverService {
         map.setAvailabilityStatus("YES");
         map.getUser().setRole("Driver");
         driverRepo.save(map);
+    }
+
+    @Override
+    public void deleteDriver(String nic) throws RuntimeException {
+        if (!driverRepo.existsById(nic)){
+            throw new RuntimeException(nic +" : is not Exists!");
+        }
+        driverRepo.deleteById(nic);
     }
 }
