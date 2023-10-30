@@ -26,7 +26,7 @@ public class PaymentServiceImpl implements PaymentService {
     RentRepo rentRepo;
 
     @Override
-    public void addPayment(PaymentDTO dto) {
+    public void addPayment(PaymentDTO dto) throws RuntimeException{
 
         Payment map = modelMapper.map(dto, Payment.class);
         Rent rent = rentRepo.findById(dto.getRentId().getRentId()).get();
