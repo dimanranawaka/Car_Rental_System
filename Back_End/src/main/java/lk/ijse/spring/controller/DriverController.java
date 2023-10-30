@@ -27,5 +27,9 @@ public class DriverController {
         service.updateDriver(dto);
         return new ResponseUtil("Ok","Successfully Updated!","");
     }
+    @DeleteMapping
+    public ResponseUtil deleteDriver(String nic){
+        return new ResponseUtil("","","");
+    }
 
 }
