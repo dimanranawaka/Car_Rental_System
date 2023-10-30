@@ -44,4 +44,9 @@ public class PaymentController {
     public ResponseUtil getYearlyIncome(){
         return new ResponseUtil("Ok","Successfully Loaded!",service.getYearlyIncome());
     }
+
+    @GetMapping(path = "/day")
+    public ResponseUtil getCurrentDayIncome(){
+        return new ResponseUtil("Ok","Successfully Loaded!","");
+    }
 }
