@@ -43,6 +43,6 @@ public class DriverController {
     }
     @GetMapping(path = "/reserved")
     public ResponseUtil getReservedDriversAmount(){
-        return new ResponseUtil("","","");
+        return new ResponseUtil("Ok","Successfully Loaded",service.getReservedDriversAmount());
     }
 }
