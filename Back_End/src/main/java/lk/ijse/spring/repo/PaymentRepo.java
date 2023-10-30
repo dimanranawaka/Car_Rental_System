@@ -4,6 +4,7 @@ import lk.ijse.spring.entity.Payment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface PaymentRepo extends JpaRepository<Payment,String> {
@@ -16,4 +17,7 @@ public interface PaymentRepo extends JpaRepository<Payment,String> {
 
     @Query(value = "SELECT YEAR(`date`),SUM(total) FROM Payment GROUP BY YEAR (`date`)",nativeQuery = true)
     List getYearlyIncome() throws RuntimeException;
+
+    @Query(value = "SELECT SUM(total) FROM Payment WHERE `date`=DATE(now())", nativeQuery = true)
+    BigDecimal getCurrentDayIncome() throws RuntimeException;
 }

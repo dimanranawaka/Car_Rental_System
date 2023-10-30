@@ -2,6 +2,7 @@ package lk.ijse.spring.service;
 
 import lk.ijse.spring.dto.PaymentDTO;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface PaymentService {
@@ -16,4 +17,6 @@ public interface PaymentService {
     List getMonthlyIncome() throws RuntimeException;
 
     List getYearlyIncome() throws RuntimeException;
+
+    BigDecimal getCurrentDayIncome() throws RuntimeException;
 }
