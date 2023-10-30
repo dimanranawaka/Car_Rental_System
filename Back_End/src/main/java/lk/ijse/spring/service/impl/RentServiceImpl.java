@@ -11,11 +11,13 @@ import lk.ijse.spring.repo.RentDetailsRepo;
 import lk.ijse.spring.repo.RentRepo;
 import lk.ijse.spring.service.RentService;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -73,5 +75,10 @@ public class RentServiceImpl implements RentService {
     public String generateNewRentId() throws RuntimeException {
         String s = rentRepo.generateLastRentId();
         return s !=null ? String.format("RID-%03d",(Integer.parseInt(s.replace("RID-",""))+1)) : "RID-001";
+    }
+
+    @Override
+    public List<RentDTO> getAllRentRecords() throws RuntimeException {
+       return modelMapper.map(rentRepo.findAll(),new TypeToken<ArrayList<RentDTO>>(){}.getType());
     }
 }
