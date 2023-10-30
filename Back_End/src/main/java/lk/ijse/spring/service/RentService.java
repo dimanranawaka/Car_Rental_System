@@ -17,4 +17,6 @@ public interface RentService {
     List<RentDTO> requestRentByNic(String nic) throws RuntimeException;
 
     Long getRentsCount() throws RuntimeException;
+
+    void getRentRequestStatus(String rentId, String option) throws RuntimeException;
 }
