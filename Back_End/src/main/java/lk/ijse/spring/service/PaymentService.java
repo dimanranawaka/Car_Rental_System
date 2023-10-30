@@ -21,4 +21,6 @@ public interface PaymentService {
     BigDecimal getCurrentDayIncome() throws RuntimeException;
 
     BigDecimal getCurrentMonthIncome() throws RuntimeException;
+
+    BigDecimal getCurrentYearIncome() throws RuntimeException;
 }
