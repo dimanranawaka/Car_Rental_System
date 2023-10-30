@@ -7,12 +7,15 @@ import lk.ijse.spring.repo.PaymentRepo;
 import lk.ijse.spring.repo.RentRepo;
 import lk.ijse.spring.service.PaymentService;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -36,5 +39,10 @@ public class PaymentServiceImpl implements PaymentService {
         map.setDate(LocalTime.now());
 
         paymentRepo.save(map);
+    }
+
+    @Override
+    public List<PaymentDTO> getAllPayments() throws RuntimeException {
+        return modelMapper.map(paymentRepo.findAll(),new TypeToken<ArrayList<PaymentDTO>>(){}.getType());
     }
 }
