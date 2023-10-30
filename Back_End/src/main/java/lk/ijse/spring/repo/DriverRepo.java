@@ -9,4 +9,7 @@ import java.util.List;
 public interface DriverRepo extends JpaRepository<Driver,String> {
     @Query(value = "SELECT * FROM Driver WHERE availabilityStatus='YES'",nativeQuery = true)
     List<Driver> getAllAvailableDriverList() throws RuntimeException;
+
+    @Query(value = "SELECT * FROM Driver WHERE user_username=?",nativeQuery = true)
+    Driver getDriverByUserName(String username);
 }
