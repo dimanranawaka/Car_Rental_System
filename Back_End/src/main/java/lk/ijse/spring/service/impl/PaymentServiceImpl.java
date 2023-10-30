@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,5 +43,10 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public List<PaymentDTO> getAllPayments() throws RuntimeException {
         return modelMapper.map(paymentRepo.findAll(),new TypeToken<ArrayList<PaymentDTO>>(){}.getType());
+    }
+
+    @Override
+    public List<PaymentDTO> getPaymentsByNic() throws RuntimeException {
+        return null;
     }
 }
