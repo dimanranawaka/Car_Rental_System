@@ -15,6 +15,7 @@ public class PaymentController {
 
     @PostMapping
     public ResponseUtil addPayment(@RequestBody PaymentDTO dto){
-        return new ResponseUtil("","","");
+        service.addPayment(dto);
+        return new ResponseUtil("Ok","Successfully added!","");
     }
 }
