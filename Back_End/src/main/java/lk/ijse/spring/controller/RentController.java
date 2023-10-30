@@ -46,6 +46,7 @@ public class RentController {
     }
     @PutMapping(params = {"rentId"})
     public ResponseUtil getRentRequestStatus(@RequestParam String rentId, @RequestParam String option){
+        rentService.getRentRequestStatus(rentId,option);
         return new ResponseUtil("Ok","Successfully Loaded!","");
     }
 }
