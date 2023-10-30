@@ -86,4 +86,9 @@ public class DriverServiceImpl implements DriverService {
     public List<DriverDTO> getAllDrivers() throws RuntimeException {
        return modelMapper.map(driverRepo.findAll(),new TypeToken<ArrayList<DriverAllStringDTO>>(){}.getType());
     }
+
+    @Override
+    public Long getAllAvailableDriversAmount() throws RuntimeException {
+        return driverRepo.countAvailableDriversAmount();
+    }
 }
