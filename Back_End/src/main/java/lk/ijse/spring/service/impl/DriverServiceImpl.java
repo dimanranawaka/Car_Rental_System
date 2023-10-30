@@ -6,6 +6,7 @@ import lk.ijse.spring.entity.Driver;
 import lk.ijse.spring.repo.DriverRepo;
 import lk.ijse.spring.service.DriverService;
 import lk.ijse.spring.util.ImagePathWriterUtil;
+import lk.ijse.spring.util.UserUtil;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,5 +96,10 @@ public class DriverServiceImpl implements DriverService {
     @Override
     public Long getReservedDriversAmount() throws RuntimeException {
         return driverRepo.countReservedDriversAmount();
+    }
+
+    @Override
+    public DriverDTO getCurrentDriver() throws RuntimeException {
+        return modelMapper.map(driverRepo.getDriverByUserName(UserUtil.currentUser.getUsername()),DriverDTO.class);
     }
 }
