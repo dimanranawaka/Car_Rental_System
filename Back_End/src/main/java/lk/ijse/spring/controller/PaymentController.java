@@ -18,4 +18,8 @@ public class PaymentController {
         service.addPayment(dto);
         return new ResponseUtil("Ok","Successfully added!","");
     }
+    @GetMapping
+    public ResponseUtil getAllPayments(){
+        return new ResponseUtil("","","");
+    }
 }
