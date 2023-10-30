@@ -21,6 +21,6 @@ public class RentController {
 
     @GetMapping
     public ResponseUtil generateNewRentId(){
-        return new ResponseUtil("","","");
+        return new ResponseUtil("","",rentService.generateNewRentId());
     }
 }
