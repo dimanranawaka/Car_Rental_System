@@ -12,4 +12,6 @@ public interface DriverService {
     List<DriverDTO> getAllDrivers() throws RuntimeException;
 
     Long getAllAvailableDriversAmount() throws RuntimeException;
+
+    Long getReservedDriversAmount() throws RuntimeException;
 }
