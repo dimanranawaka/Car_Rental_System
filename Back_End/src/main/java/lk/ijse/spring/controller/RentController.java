@@ -44,4 +44,8 @@ public class RentController {
     public ResponseUtil getRentsCount(){
         return new ResponseUtil("Ok","Successfully Loaded!",rentService.getRentsCount());
     }
+    @PutMapping(params = {"rentId"})
+    public ResponseUtil getRentRequestStatus(){
+        return new ResponseUtil("Ok","Successfully Loaded!","");
+    }
 }
