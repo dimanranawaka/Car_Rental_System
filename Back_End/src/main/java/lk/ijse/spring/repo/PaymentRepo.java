@@ -2,9 +2,12 @@ package lk.ijse.spring.repo;
 
 import lk.ijse.spring.entity.Payment;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
 public interface PaymentRepo extends JpaRepository<Payment,String> {
     List<Payment> findAllByRentId_Nic_Nic(String nic) throws RuntimeException;
+    @Query(value = "SELECT `date`,SUM(total) FROM Payment GROUP BY (`date`)", nativeQuery = true)
+    List getDailyIncome() throws RuntimeException;
 }

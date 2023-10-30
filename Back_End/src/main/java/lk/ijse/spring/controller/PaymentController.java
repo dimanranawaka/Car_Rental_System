@@ -31,7 +31,7 @@ public class PaymentController {
     @GetMapping(path = "/daily")
     public ResponseUtil getDailyIncome(){
 
-        return new ResponseUtil("OK","Successfully Loaded!","");
+        return new ResponseUtil("OK","Successfully Loaded!",service.getDailyIncome());
 
     }
 }

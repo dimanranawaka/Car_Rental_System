@@ -49,4 +49,9 @@ public class PaymentServiceImpl implements PaymentService {
     public List<PaymentDTO> getPaymentsByNic(String nic) throws RuntimeException {
         return modelMapper.map(paymentRepo.findAllByRentId_Nic_Nic(nic), new TypeToken<ArrayList<PaymentDTO>>(){}.getType());
     }
+
+    @Override
+    public List getDailyIncome() throws RuntimeException {
+        return paymentRepo.getDailyIncome();
+    }
 }
