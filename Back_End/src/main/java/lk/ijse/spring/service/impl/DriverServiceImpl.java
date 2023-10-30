@@ -55,5 +55,18 @@ public class DriverServiceImpl implements DriverService {
     @Override
     public void updateDriver(DriverDTO dto) throws RuntimeException {
 
+        if (!driverRepo.existsById(dto.getNic())){
+            throw new RuntimeException(dto.getNic()+" : is not exists!");
+        }
+
+        Driver map = modelMapper.map(dto, Driver.class);
+
+        Driver driver = driverRepo.findById(dto.getNic()).get();
+
+        map.setLicenseImage(driver.getLicenseImage());
+
+        map.setAvailabilityStatus("YES");
+        map.getUser().setRole("Driver");
+        driverRepo.save(map);
     }
 }
