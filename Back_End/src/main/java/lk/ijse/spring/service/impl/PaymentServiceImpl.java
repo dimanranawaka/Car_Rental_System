@@ -70,4 +70,9 @@ public class PaymentServiceImpl implements PaymentService {
     public BigDecimal getCurrentDayIncome() throws RuntimeException {
         return paymentRepo.getCurrentDayIncome();
     }
+
+    @Override
+    public BigDecimal getCurrentMonthIncome() throws RuntimeException {
+        return paymentRepo.getCurrentMonthIncome();
+    }
 }

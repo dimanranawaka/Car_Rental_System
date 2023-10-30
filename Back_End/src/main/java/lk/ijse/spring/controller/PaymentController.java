@@ -52,6 +52,6 @@ public class PaymentController {
 
     @GetMapping(path = "/month")
     public ResponseUtil getCurrentCurrentMonthIncome(){
-        return new ResponseUtil("Ok","Successfully Loaded!","");
+        return new ResponseUtil("Ok","Successfully Loaded!",service.getCurrentMonthIncome());
     }
 }
