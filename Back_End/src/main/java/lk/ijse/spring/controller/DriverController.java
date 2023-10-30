@@ -49,4 +49,8 @@ public class DriverController {
     public ResponseUtil getCurrentDriver(){
         return new ResponseUtil("Ok","Successfully Loaded!",service.getCurrentDriver());
     }
+    @GetMapping(params = {"nic"})
+    public ResponseUtil getDriverSchedule(){
+        return new ResponseUtil("","","");
+    }
 }
