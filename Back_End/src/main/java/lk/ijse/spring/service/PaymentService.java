@@ -14,4 +14,6 @@ public interface PaymentService {
     List getDailyIncome() throws RuntimeException;
 
     List getMonthlyIncome() throws RuntimeException;
+
+    List getYearlyIncome() throws RuntimeException;
 }
