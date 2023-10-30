@@ -37,6 +37,6 @@ public class RentController {
     }
     @GetMapping(params = {"nic"})
     public ResponseUtil requestRentByNic(@RequestParam String nic){
-        return new ResponseUtil("Ok","Successfully Loaded!","");
+        return new ResponseUtil("Ok","Successfully Loaded!",rentService.requestRentByNic(nic));
     }
 }
