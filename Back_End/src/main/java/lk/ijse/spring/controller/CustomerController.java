@@ -43,6 +43,7 @@ public class CustomerController {
     }
     @GetMapping(params = {"image"})
     public ResponseUtil saveImages(@ModelAttribute CustomerImageDTO customerImageDTO){
+        customerService.saveCustomerImages(customerImageDTO.getNic(),customerImageDTO);
         return new ResponseUtil("Ok","Successfully Saved!","");
     }
 }
