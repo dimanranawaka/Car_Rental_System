@@ -112,7 +112,20 @@ function performHomePageFunctions(){
             dataType: "json",
             success: function (res) {
 
-                $("#reserved-cars").text(res.data);
+                $("#maintain-cars").text(res.data);
+
+            }
+        });
+
+        // Request Available Drivers Amount
+
+        $.ajax({
+            url: baseUrl+"driver/available",
+            method:"get",
+            dataType: "json",
+            success: function (res) {
+
+                $("#available-drivers").text(res.data);
 
             }
         });
