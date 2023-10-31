@@ -104,5 +104,18 @@ function performHomePageFunctions(){
             }
         });
 
+        // Request In-Maintain Car Amount
+
+        $.ajax({
+            url: baseUrl+"car/count/maintain",
+            method:"get",
+            dataType: "json",
+            success: function (res) {
+
+                $("#reserved-cars").text(res.data);
+
+            }
+        });
+
     }
 }
