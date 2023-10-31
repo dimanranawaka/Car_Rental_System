@@ -78,7 +78,7 @@ function performHomePageFunctions(){
 
         });
 
-        // Request Car Amount
+        // Request Available Car Amount
 
         $.ajax({
            url: baseUrl+"car/count",
@@ -90,5 +90,19 @@ function performHomePageFunctions(){
 
            }
         });
+
+        // Request Reserved Car Amount
+
+        $.ajax({
+            url: baseUrl+"car/count/reserved",
+            method:"get",
+            dataType: "json",
+            success: function (res) {
+
+                $("#reserved-cars").text(res.data);
+
+            }
+        });
+
     }
 }
