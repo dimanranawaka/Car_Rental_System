@@ -21,4 +21,16 @@ class RentRepoTest {
     @Test
     void getBookAmount() {
     }
+
+    @Test
+    void testGenerateLastRentId1() {
+    }
+
+    @Test
+    void testGetRentByNic_Nic() {
+    }
+
+    @Test
+    void testGetBookAmount() {
+    }
 }
