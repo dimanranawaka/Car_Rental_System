@@ -130,5 +130,18 @@ function performHomePageFunctions(){
             }
         });
 
+        // Request Reserved Drivers
+
+        $.ajax({
+            url: baseUrl+"driver/reserved",
+            method:"get",
+            dataType: "json",
+            success: function (res) {
+
+                $("#reserved-drivers").text(res.data);
+
+            }
+        });
+
     }
 }
