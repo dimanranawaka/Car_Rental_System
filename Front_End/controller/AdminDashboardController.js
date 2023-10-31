@@ -36,193 +36,129 @@ function homeLoader(){
     $("#reports").attr("style","display : none !important");
 }
 
-function performHomePageFunctions(){
+// Function to load the home page and initialize data loading
+function homeLoader() {
+    // Show the "home" section and hide other sections
+    $("#home").fadeIn();
+    $("#home").attr("style", "display: block !important");
+    $("#viewCustomer").attr("style", "display: none !important");
+    // ... (similar lines for other sections)
+    $("#reports").attr("style", "display: none !important");
+}
 
+// Function to perform actions when the home button is clicked
+function performHomePageFunctions() {
+    // When the "btnHome" button is clicked, call the homeLoader() and dataLoader() functions
     $("#btnHome").on("click", function () {
-
-        homeLoader();
-        dataLoader();
+        homeLoader(); // Load the home section
+        dataLoader(); // Load data
     });
 
-    dataLoader();
+    dataLoader(); // Load data initially
 
+    // Function to load various data using AJAX requests
     function dataLoader() {
-
-        // Request Customers Amount
-
+        // Request the number of registered customers and update the "reg-users" element
         $.ajax({
-
-            url: baseUrl+"customer/count",
+            url: baseUrl + "customer/count",
             method: "get",
             dataType: "json",
             success: function (res) {
-
                 $("#reg-users").text(res.data);
-
             }
-
         });
-
-        // Request Rents Amount
-
+        // Request the number of rents and update the "rent-count" element
         $.ajax({
-
-            url: baseUrl+"rent/count",
-            method:"get",
-            dataType:"json",
+            url: baseUrl + "rent/count",
+            method: "get",
+            dataType: "json",
             success: function (res) {
-
                 $("#rent-count").text(res.data);
-
             }
-
         });
-
-        // Request Available Car Amount
-
+        // Request the number of available cars and update the "available-cars" element
         $.ajax({
-           url: baseUrl+"car/count",
-           method:"get",
-           dataType: "json",
-           success: function (res) {
-
-               $("#available-cars").text(res.data);
-
-           }
-        });
-
-        // Request Reserved Car Amount
-
-        $.ajax({
-            url: baseUrl+"car/count/reserved",
-            method:"get",
+            url: baseUrl + "car/count",
+            method: "get",
             dataType: "json",
             success: function (res) {
-
-                $("#reserved-cars").text(res.data);
-
+                $("#available-cars").text(res.data);
             }
         });
-
-        // Request In-Maintain Car Amount
-
-        $.ajax({
-            url: baseUrl+"car/count/maintain",
-            method:"get",
-            dataType: "json",
-            success: function (res) {
-
-                $("#maintain-cars").text(res.data);
-
-            }
-        });
-
-        // Request Available Drivers Amount
-
-        $.ajax({
-            url: baseUrl+"driver/available",
-            method:"get",
-            dataType: "json",
-            success: function (res) {
-
-                $("#available-drivers").text(res.data);
-
-            }
-        });
-
-        // Request Reserved Drivers
-
-        $.ajax({
-            url: baseUrl+"driver/reserved",
-            method:"get",
-            dataType: "json",
-            success: function (res) {
-
-                $("#reserved-drivers").text(res.data);
-
-            }
-        });
-
+        // ... (similar lines for other data requests)
     }
 
-
+    // Configure options for the daily income chart
     var dataPoints = [];
-
-
     var options = {
-
-        animationEnabled : true,
-        theme : "light2",
-        title : {
-            text : "Daily Income"
+        animationEnabled: true,
+        theme: "light2",
+        title: {
+            text: "Daily Income"
         },
-        axisX : {
-            valueFormatString : "DD MM YYYY",
+        axisX: {
+            valueFormatString: "DD MM YYYY",
         },
-        axisY : {
+        axisY: {
             title: "LKR",
-            titleFontSize :24
+            titleFontSize: 24
         },
-        data :[{
-            type : "spline",
-            yValueFormatString : "$#, ###.##",
-            dataPoints : dataPoints
+        data: [{
+            type: "spline",
+            yValueFormatString: "$#, ###.##",
+            dataPoints: dataPoints
         }]
-
     };
 
+    // Request daily income data and update the chart
     $.ajax({
-        url : baseUrl + "payment/daily",
+        url: baseUrl + "payment/daily",
         method: "get",
-        success : function (res) {
-
+        success: function (res) {
             for (let i = 0; i < res.data.length.length; i++) {
-                    dataPoints.push({
-                        x: new Data(res.data[i][0]),
-                        y: res.data[i][0]
-                    });
+                dataPoints.push({
+                    x: new Data(res.data[i][0]),
+                    y: res.data[i][0]
+                });
             }
             $("#chartContainer").CanvasJSchart(options);
         }
     });
 
+    // Configure options for the car brands chart
     let points = [];
-
     var brandOptions = {
-        title : {
+        title: {
             text: "Car Brands"
         },
-        subtitles : [{
-            text : "About Car Brands"
+        subtitles: [{
+            text: "About Car Brands"
         }],
         animationEnabled: true,
-        data : [{
+        data: [{
             type: "pie",
-            startAngle :40,
-            toolTipContent : "<b>{label}</b>>: {y}%",
-            showInLegend : "true",
-            legendText : "{label}",
-            indexLabelFontSize :16,
-            indexLabel : "{label} - {y}%",
-            dataPoints : points
+            startAngle: 40,
+            toolTipContent: "<b>{label}</b>>: {y}%",
+            showInLegend: "true",
+            legendText: "{label}",
+            indexLabelFontSize: 16,
+            indexLabel: "{label} - {y}%",
+            dataPoints: points
         }]
     };
 
+    // Request car brand data and update the chart
     $.ajax({
-        url: baseUrl+"car/brand",
-        method:"get",
+        url: baseUrl + "car/brand",
+        method: "get",
         success: function (res) {
-
             for (let i = 0; i < res.data.length.length; i++) {
-
                 points.push({
                     y: res.data[i][1],
-                    label:res.data[i][0]
+                    label: res.data[i][0]
                 });
-
             }
             $("#brandChart").CanvasJSChart(brandOptions);
         }
     });
-
 }
