@@ -19,6 +19,7 @@ $.ajax({
     }
 });
 
+performHomePageFunctions();
 homeLoader();
 
 function homeLoader(){
@@ -33,4 +34,28 @@ function homeLoader(){
     $("#rents").attr("style","display : none !important");
     $("#payments").attr("style","display : none !important");
     $("#reports").attr("style","display : none !important");
+}
+
+function performHomePageFunctions(){
+
+    $("#btnHome").on("click", function () {
+
+        homeLoader();
+        dataLoader();
+    });
+
+    dataLoader();
+
+    function dataLoader() {
+        $.ajax({
+
+            url: baseUrl+"customer/count",
+            method: "get",
+            dataType: "json",
+            success: function (res) {
+                $("#reg-users").text(res.data);
+            }
+
+        });
+    }
 }
