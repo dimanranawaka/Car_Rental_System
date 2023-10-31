@@ -77,5 +77,18 @@ function performHomePageFunctions(){
             }
 
         });
+
+        // Request Car Amount
+
+        $.ajax({
+           url: baseUrl+"car/count",
+           method:"get",
+           dataType: "json",
+           success: function (res) {
+
+               $("#available-cars").text(res.data);
+
+           }
+        });
     }
 }
