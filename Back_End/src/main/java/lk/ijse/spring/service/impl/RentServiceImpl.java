@@ -98,7 +98,7 @@ public class RentServiceImpl implements RentService {
 
     @Override
     public List<RentDTO> requestRentByNic(String nic) throws RuntimeException {
-        return modelMapper.map(rentRepo.getRentByNic_Nic(),new TypeToken<ArrayList<RentDTO>>(){}.getType());
+        return modelMapper.map(rentRepo.getRentByNic_Nic(nic),new TypeToken<ArrayList<RentDTO>>(){}.getType());
     }
 
     @Override
