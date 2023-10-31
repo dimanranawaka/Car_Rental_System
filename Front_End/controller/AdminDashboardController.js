@@ -37,7 +37,7 @@ function homeLoader(){
 }
 
 function performHomePageFunctions(){
-
+// When the "btnHome" button is clicked, call the homeLoader() and dataLoader() functions
     $("#btnHome").on("click", function () {
 
         homeLoader();
@@ -145,7 +145,7 @@ function performHomePageFunctions(){
 
     }
 
-
+// Configure options for the daily income chart
     var dataPoints = [];
 
 
@@ -170,7 +170,7 @@ function performHomePageFunctions(){
         }]
 
     };
-
+// Request daily income data and update the chart
     $.ajax({
         url : baseUrl + "payment/daily",
         method: "get",
@@ -187,7 +187,7 @@ function performHomePageFunctions(){
     });
 
     let points = [];
-
+// Configure options for the car brands chart
     var brandOptions = {
         title : {
             text: "Car Brands"
@@ -207,7 +207,7 @@ function performHomePageFunctions(){
             dataPoints : points
         }]
     };
-
+// Request car brand data and update the chart
     $.ajax({
         url: baseUrl+"car/brand",
         method:"get",
