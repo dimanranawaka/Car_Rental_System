@@ -144,4 +144,85 @@ function performHomePageFunctions(){
         });
 
     }
+
+
+    var dataPoints = [];
+
+
+    var options = {
+
+        animationEnabled : true,
+        theme : "light2",
+        title : {
+            text : "Daily Income"
+        },
+        axisX : {
+            valueFormatString : "DD MM YYYY",
+        },
+        axisY : {
+            title: "LKR",
+            titleFontSize :24
+        },
+        data :[{
+            type : "spline",
+            yValueFormatString : "$#, ###.##",
+            dataPoints : dataPoints
+        }]
+
+    };
+
+    $.ajax({
+        url : baseUrl + "payment/daily",
+        method: "get",
+        success : function (res) {
+
+            for (let i = 0; i < res.data.length.length; i++) {
+                    dataPoints.push({
+                        x: new Data(res.data[i][0]),
+                        y: res.data[i][0]
+                    });
+            }
+            $("#chartContainer").CanvasJSchart(options);
+        }
+    });
+
+    let points = [];
+
+    var brandOptions = {
+        title : {
+            text: "Car Brands"
+        },
+        subtitles : [{
+            text : "About Car Brands"
+        }],
+        animationEnabled: true,
+        data : [{
+            type: "pie",
+            startAngle :40,
+            toolTipContent : "<b>{label}</b>>: {y}%",
+            showInLegend : "true",
+            legendText : "{label}",
+            indexLabelFontSize :16,
+            indexLabel : "{label} - {y}%",
+            dataPoints : points
+        }]
+    };
+
+    $.ajax({
+        url: baseUrl+"car/brand",
+        method:"get",
+        success: function (res) {
+
+            for (let i = 0; i < res.data.length.length; i++) {
+
+                points.push({
+                    y: res.data[i][1],
+                    label:res.data[i][0]
+                });
+
+            }
+            $("#brandChart").CanvasJSChart(brandOptions);
+        }
+    });
+
 }
