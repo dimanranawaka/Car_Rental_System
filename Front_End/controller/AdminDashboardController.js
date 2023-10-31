@@ -47,13 +47,33 @@ function performHomePageFunctions(){
     dataLoader();
 
     function dataLoader() {
+
+        // Request Customers Amount
+
         $.ajax({
 
             url: baseUrl+"customer/count",
             method: "get",
             dataType: "json",
             success: function (res) {
+
                 $("#reg-users").text(res.data);
+
+            }
+
+        });
+
+        // Request Rents Amount
+
+        $.ajax({
+
+            url: baseUrl+"rent/count",
+            method:"get",
+            dataType:"json",
+            success: function (res) {
+
+                $("#rent-count").text(res.data);
+
             }
 
         });
