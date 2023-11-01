@@ -24,6 +24,7 @@ performCarPageFunctions();
 performDriverPageFunctions();
 performRentPageFunctions();
 performPaymentPageFunctions();
+performReportPageFunctions();
 performHomePageFunctions();
 
 homeLoader();
@@ -221,7 +222,7 @@ function performHomePageFunctions(){
         method:"get",
         success: function (res) {
 
-            for (let i = 0; i < res.data.length.length; i++) {
+            for (let i = 0; i < res.data.length; i++) {
 
                 points.push({
                     y: res.data[i][1],
@@ -1621,3 +1622,124 @@ function performPaymentPageFunctions() {
 }
 
 /**             **** Report Page ****                       */
+
+function performReportPageFunctions() {
+
+    $("#btnReport").on("click", function () {
+        $('#reports').fadeIn();
+        $("#home").attr("style", "display : none !important");
+        $("#viewCustomer").attr("style", "display : none !important");
+        $("#manageCustomers").attr("style", "display : none !important");
+        $("#manageCar").attr("style", "display : none !important");
+        $("#viewCar").attr("style", "display : none !important");
+        $("#manageDriver").attr("style", "display : none !important");
+        $("#drivers").attr("style", "display : none !important");
+        $("#rents").attr("style", "display : none !important");
+        $("#payments").attr("style", "display : none !important");
+        $("#reports").attr("style", "display : block !important");
+
+        $.ajax({
+            url: baseUrl + "payment/day",
+            method: "get",
+            success: function (res) {
+                if (res.data != null) {
+                    $("#day").text(res.data);
+                }
+            }
+        });
+
+        $.ajax({
+            url: baseUrl + "payment/month",
+            method: "get",
+            success: function (res) {
+                if (res.data != null) {
+                    $("#month").text(res.data);
+                }
+            }
+        });
+
+        $.ajax({
+            url: baseUrl + "payment/year",
+            method: "get",
+            success: function (res) {
+                if (res.data != null) {
+                    $("#year").text(res.data);
+                }
+            }
+        });
+
+        var dataPoints = [];
+
+        var options = {
+            animationEnabled: true,
+            theme: "light2",
+            title: {
+                text: "Monthly Sales Income"
+            },
+            axisX: {
+                valueFormatString: "#",
+            },
+            axisY: {
+                title: "LKR",
+                titleFontSize: 24
+            },
+            data: [{
+                type: "spline",
+                yValueFormatString: "$#,###.##",
+                dataPoints: dataPoints
+            }]
+        };
+
+        $.ajax({
+            url: baseUrl + "payment/monthly",
+            method: "get",
+            success: function (res) {
+                for (var i = 0; i < res.data.length; i++) {
+                    dataPoints.push({
+                        x: res.data[i][0],
+                        y: res.data[i][1]
+                    });
+                }
+                $("#chart").CanvasJSChart(options);
+            }
+        });
+
+        var yearDataPoints = [];
+
+        var year = {
+            animationEnabled: true,
+            theme: "light2",
+            title: {
+                text: "Yearly Sales Income"
+            },
+            axisX: {
+                valueFormatString: "#",
+            },
+            axisY: {
+                title: "LKR",
+                titleFontSize: 24
+            },
+            data: [{
+                type: "spline",
+                yValueFormatString: "$#,###.##",
+                dataPoints: yearDataPoints
+            }]
+        };
+
+        $.ajax({
+            url: baseUrl + "payment/yearly",
+            method: "get",
+            success: function (res) {
+                for (var i = 0; i < res.data.length; i++) {
+                    yearDataPoints.push({
+                        x: res.data[i][0],
+                        y: res.data[i][1]
+                    });
+                }
+                $("#yearChart").CanvasJSChart(year);
+            }
+        });
+
+    });
+
+}
