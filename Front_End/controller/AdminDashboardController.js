@@ -357,5 +357,7 @@ function performCustomerFunctions() {
 
         loadAllCustomers();
 
+
+
     });
 }
