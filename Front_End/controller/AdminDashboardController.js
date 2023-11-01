@@ -226,3 +226,39 @@ function performHomePageFunctions(){
     });
 
 }
+
+
+function performCustomerFunctions() {
+
+    $("#btnCustomer").on("click",function () {
+
+        $('#viewCustomer').fadeIn();
+        $("#viewCustomer").attr("style","display:block !important");
+        $("#manageCustomers").attr("style","display:none !important");
+        $("#manageCar").attr("style","display:none !important");
+        $("#viewCar").attr("style","display:none !important");
+        $("#manageDriver").attr("style","display:none !important");
+        $("#drivers").attr("style","display:none !important");
+        $("#rents").attr("style","display:none !important");
+        $("#reports").attr("style","display:none !important");
+
+        // Load uploaded NIC image
+
+        loadSelectedImage("#cusNicImage");
+
+        // Load uploaded License image
+
+        loadSelectedImage("#cusLicenseImage");
+
+        $("#btnAddNewCustomer").on("click", function () {
+
+            $("#btnSaveCustomer").text("Save");
+
+        });
+
+        $("#btnCustomer").on("click", function () {
+
+        });
+
+    });
+}
