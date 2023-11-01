@@ -386,6 +386,20 @@ function performCustomerFunctions() {
                     }
                 });
 
+                /** this code extracts text content from specific child elements of the parent of the parent of the current element and sets the values of various input fields with corresponding IDs. */
+
+                // Set the value of an input field with id "cusNic" to the text content of the 1st child of the parent of the parent of the current element.
+                $("#cusNic").val($(this).parent().parent().children(":eq(0)").text());
+                // Set the value of an input field with id "cusName" to the text content of the 2nd child of the parent of the parent of the current element.
+                $("#cusName").val($(this).parent().parent().children(":eq(1)").text());
+                $("#cusLicense").val($(this).parent().parent().children(":eq(4)").text());
+                $("#cusAddress").val($(this).parent().parent().children(":eq(3)").text());
+                $("#cusContact").val($(this).parent().parent().children(":eq(7)").text());
+                $("#cusEmail").val($(this).parent().parent().children(":eq(2)").text());
+                $("#cusUsername").val($(this).parent().parent().children(":eq(5)").text());
+                $("#cusPassword").val($(this).parent().parent().children(":eq(6)").text());
+
+                $("#btnSaveCustomer").text("Update");
 
             });
 
