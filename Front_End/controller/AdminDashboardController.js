@@ -287,7 +287,7 @@ function performCustomerFunctions() {
                 success: function (res) {
 
                     $("#btnSaveCustomer").text() == "Save" ? saveAlert() : updateAlert();
-
+                    loadAllCustomers();
 
                 }
 
@@ -306,7 +306,7 @@ function performCustomerFunctions() {
                     success: function (res) {
 
                         saveAlert();
-
+                        loadAllCustomers();
 
                     }
 
@@ -315,6 +315,47 @@ function performCustomerFunctions() {
             }
 
         });
+
+        function loadAllCustomers(){
+
+            s.ajax({
+                url: baseUrl+ "customer",
+                method:"get",
+                dataType:"json",
+                success: function (res) {
+
+                    $("#tblCustomer").empty();
+
+                    for (let customer of res.data){
+
+                        $("#tblCustomer").append(`
+                        
+                    <tr class="text-secondary">
+                    
+                        <td>${customer.nic}</td>
+                        <td>${customer.name}</td>
+                        <td>${customer.email}</td>
+                        <td>${customer.address}</td>
+                        <td>${customer.license}</td>
+                        <td>${customer.user.username}</td>
+                        <td>${customer.user.password}</td>
+                        <td>${customer.contact}</td>
+                        <td><img src="${customer.nicImage}" alt="" srcset="" width="150" height="100"></td>
+                        <td><img src="${customer.licenseImage}" alt="" srcset="" width="150" height="100"></td>
+                        <td><i class="bi bi-pen-fill text-success text-center btn btnUpdate" data-bs-toggle="modal" data-bs-target="#registerCustomerModal"></i><i class="bi bi-trash-fill text-danger text-center btn btnDelete"></i></td>
+                        
+                    </tr>
+                        `);
+
+                    }
+
+                }
+
+            });
+
+        }
+
+        loadAllCustomers();
 
     });
 }
