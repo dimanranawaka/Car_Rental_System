@@ -16,7 +16,7 @@ import java.time.LocalTime;
 public class PaymentDTO {
 
     Integer paymentId;
-    Rent rentId;
+    RentDTO rentId;
     String type;
     String description;
     LocalTime date;
