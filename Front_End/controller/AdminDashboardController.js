@@ -291,6 +291,26 @@ function performCustomerFunctions() {
 
             });
 
+            if ($("#btnSaveCustomer").text() == "Save"){
+
+                s.ajax({
+
+                    url: baseUrl+ "customer?image",
+                    method: "post",
+                    async: false,
+                    data:data,
+                    contentType: false,
+                    processData: false,
+                    success: function (res) {
+
+                        saveAlert();
+
+
+                    }
+
+                });
+
+            }
 
         });
 
