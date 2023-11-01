@@ -28,9 +28,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     ModelMapper modelMapper;
 
-    public CustomerServiceImpl() {
-        System.out.println("CustomerServiceImpl : Instantiated");
-    }
+
 
     @Override
     public void addCustomer(CustomerDTO customerDTO) {
@@ -87,8 +85,8 @@ public class CustomerServiceImpl implements CustomerService {
 
                 String projectPath = "D:\\Dev\\Java\\My_Projects\\Car_Rental_System\\Front_End\\assets";
 
-                Path nicPath = Paths.get(projectPath + "/images/customer/nic/nic_" + nic + ".jpeg");
-                Path licPath = Paths.get(projectPath + "/images/customer/lic/license_" +  nic+ ".jpeg");
+                Path nicPath = Paths.get(projectPath + "/images/bucket/customer/nic/nic_" + nic + ".jpeg");
+                Path licPath = Paths.get(projectPath + "/images/bucket/customer/lic/license_" +  nic + ".jpeg");
 
                 Files.write(nicPath,nicB);
                 Files.write(licPath,licenseB);
@@ -103,6 +101,7 @@ public class CustomerServiceImpl implements CustomerService {
             customer.setLicenseImage("/assets/images/bucket/customer/license/license_"+".jpeg");
             customer.setNicImage("/assets/images/bucket/customer/nic/nic_"+".jpeg");
 
+            customer.getUser().setRole("Customer");
             customerRepo.save(customer);
         }
     }

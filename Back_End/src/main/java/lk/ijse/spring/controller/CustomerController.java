@@ -24,8 +24,8 @@ public class CustomerController {
     }
     @GetMapping
     public ResponseUtil getAllCustomers(){
-        List<CustomerDTO> allCustomers = customerService.getAllCustomers();
-        return new ResponseUtil("Ok","Successfully Loaded!",allCustomers);
+
+        return new ResponseUtil("Ok","Successfully Loaded!",customerService.getAllCustomers());
     }
     @DeleteMapping
     public ResponseUtil deleteCustomer(@RequestParam String nic){

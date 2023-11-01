@@ -1,1 +1,1 @@
-const baseUrl = "http://localhost:8080/dreedRentals/";
+const baseUrl = "http://localhost:8080/Back_End_war/";

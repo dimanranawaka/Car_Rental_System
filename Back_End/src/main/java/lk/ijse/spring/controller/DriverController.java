@@ -18,9 +18,9 @@ public class DriverController {
     RentService rentService;
 
     @PostMapping
-    public ResponseUtil addDriver(@RequestParam String username, @RequestParam String password, @ModelAttribute DriverDTO dto){
-        dto.setUser(new UserDTO(username,password,"Driver"));
-        service.addDriver(dto);
+    public ResponseUtil addDriver(@RequestParam String username, @RequestParam String password, @ModelAttribute DriverDTO driverDTO){
+        driverDTO.setUser(new UserDTO(username,password,"Driver"));
+        service.addDriver(driverDTO);
         return new ResponseUtil("Ok","Driver Added Successful!","");
     }
 

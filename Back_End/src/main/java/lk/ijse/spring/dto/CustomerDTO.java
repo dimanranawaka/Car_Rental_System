@@ -1,6 +1,5 @@
 package lk.ijse.spring.dto;
 
-import lk.ijse.spring.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +16,7 @@ public class CustomerDTO {
     private String address;
     private String contact;
     private String email;
-    private User user;
+    private UserDTO user;
     private String nicImage;
     private String licenseImage;
 }

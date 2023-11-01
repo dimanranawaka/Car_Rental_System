@@ -11,9 +11,8 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
-import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -31,48 +30,55 @@ public class DriverServiceImpl implements DriverService {
     DriverRepo driverRepo;
 
     @Override
-    public void addDriver(DriverDTO dto) throws RuntimeException{
-        if (driverRepo.existsById(dto.getNic())){
+    public void addDriver(DriverDTO driverDTO) throws RuntimeException{
+
+        if (driverRepo.existsById(driverDTO.getNic())){
             throw new RuntimeException("Driver Already Exists!");
         }
-        Driver map = modelMapper.map(dto, Driver.class);
+        Driver driver = modelMapper.map(driverDTO, Driver.class);
 
 //        dto.getUser().setRole("Driver");
 //        map.setUser(dto.getUser());
 
         try {
 
-           if (dto.getLicenseImage().getBytes()!=null){
-               byte[] bytes = dto.getLicenseImage().getBytes();
+           if (driverDTO.getLicenseImage().getBytes()!=null){
 
-               Path licenseImageLocation = Paths.get(ImagePathWriterUtil.projectPath,"/images/driver/license_",map.getLicense()+".jpeg");
+               byte[] bytes = driverDTO.getLicenseImage().getBytes();
+
+               Path licenseImageLocation = Paths.get(ImagePathWriterUtil.projectPath,"/images/bucket/driver/license_",driver.getNic()+".jpeg");
                Files.write(licenseImageLocation,bytes);
-               map.setLicenseImage("images/driver/license_"+map.getLicense()+".jpeg");
+               driverDTO.getLicenseImage().transferTo(licenseImageLocation);
+
+               driver.setLicenseImage("/images/bucket/driver/license_"+driver.getNic()+".jpeg");
            }
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        map.setAvailabilityStatus("YES");
-        driverRepo.save(map);
+        driver.setAvailabilityStatus("YES");
+        driver.getUser().setRole("Driver");
+
+        driverRepo.save(driver);
     }
 
     @Override
-    public void updateDriver(DriverDTO dto) throws RuntimeException {
+    public void updateDriver(DriverDTO driverDTO) throws RuntimeException {
 
-        if (!driverRepo.existsById(dto.getNic())){
-            throw new RuntimeException(dto.getNic()+" : is not Exists!");
+        if (!driverRepo.existsById(driverDTO.getNic())){
+            throw new RuntimeException(driverDTO.getNic()+" : is not Exists!");
         }
 
-        Driver map = modelMapper.map(dto, Driver.class);
+        Driver driver = modelMapper.map(driverDTO, Driver.class);
 
-        Driver driver = driverRepo.findById(dto.getNic()).get();
+        Driver driver1 = driverRepo.findById(driverDTO.getNic()).get();
 
-        map.setLicenseImage(driver.getLicenseImage());
+        driver.setLicenseImage(driver1.getLicenseImage());
 
-        map.setAvailabilityStatus("YES");
-        map.getUser().setRole("Driver");
-        driverRepo.save(map);
+        driver.setAvailabilityStatus("YES");
+        driver.getUser().setRole("Driver");
+        driverRepo.save(driver);
+
     }
 
     @Override

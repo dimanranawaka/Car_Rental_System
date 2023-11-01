@@ -36,31 +36,26 @@ public class CarServiceImpl implements CarService {
     @Override
     public void addCar(CarDTO carDTO) throws RuntimeException{
 
-        if (carRepo.existsById(carDTO.getRegNum())){
-            throw new RuntimeException(carDTO.getRegNum()+" : is Already Exists!");
+        if (carRepo.existsById(carDTO.getRegNum())) {
+            throw new RuntimeException("Already Exists!");
         }
 
         Car car = modelMapper.map(carDTO, Car.class);
 
         try {
 
-            car.getCarImage().setFront(new ImagePathWriterUtil().imagePathWriter(carDTO.getCarImageDTO().getFront(), Paths.get(ImagePathWriterUtil.projectPath+"/images/bucket/car/front_"+carDTO.getRegNum()+".jpeg")));
-            car.getCarImage().setBack(new ImagePathWriterUtil().imagePathWriter(carDTO.getCarImageDTO().getBack(), Paths.get(ImagePathWriterUtil.projectPath+"/images/bucket/car/back_"+carDTO.getRegNum()+".jpeg")));
-            car.getCarImage().setSide(new ImagePathWriterUtil().imagePathWriter(carDTO.getCarImageDTO().getSide(), Paths.get(ImagePathWriterUtil.projectPath+"/images/bucket/car/side_"+carDTO.getRegNum()+".jpeg")));
-            car.getCarImage().setInterior(new ImagePathWriterUtil().imagePathWriter(carDTO.getCarImageDTO().getInterior(), Paths.get(ImagePathWriterUtil.projectPath+"/images/bucket/car/interior_"+carDTO.getRegNum()+".jpeg")));
+            car.getCarImage().setFront(new ImagePathWriterUtil().imagePathWriter(carDTO.getCarImageDTO().getFront(),Paths.get(ImagePathWriterUtil.projectPath +"/images/bucket/car/front_"+ carDTO.getRegNum()+".jpeg")));
+            car.getCarImage().setFront(new ImagePathWriterUtil().imagePathWriter(carDTO.getCarImageDTO().getBack(),Paths.get(ImagePathWriterUtil.projectPath +"/images/bucket/car/back_"+ carDTO.getRegNum()+".jpeg")));
+            car.getCarImage().setFront(new ImagePathWriterUtil().imagePathWriter(carDTO.getCarImageDTO().getBack(),Paths.get(ImagePathWriterUtil.projectPath +"/images/bucket/car/side_"+ carDTO.getRegNum()+".jpeg")));
+            car.getCarImage().setFront(new ImagePathWriterUtil().imagePathWriter(carDTO.getCarImageDTO().getInterior(),Paths.get(ImagePathWriterUtil.projectPath +"/images/bucket/car/interior_"+ carDTO.getRegNum()+".jpeg")));
 
             carRepo.save(car);
 
         } catch (IOException e) {
-
             throw new RuntimeException(e);
-
         } catch (URISyntaxException e) {
-
             throw new RuntimeException(e);
-
         }
-
 
     }
 

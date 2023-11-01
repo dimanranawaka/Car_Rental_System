@@ -7,7 +7,7 @@ import lk.ijse.spring.dto.CarImageDTO;
 import java.util.List;
 
 public interface CarService {
-    void addCar(CarDTO dto) throws RuntimeException;
+    void addCar(CarDTO carDTO) throws RuntimeException;
 
     List<CarDTO> getAllCars() throws RuntimeException;
 

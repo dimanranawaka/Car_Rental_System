@@ -611,6 +611,7 @@ function performCarPageFunctions() {
                 url: baseUrl + "car",
                 async: false,
                 data:data,
+                method: "post",
                 contentType:false,
                 processData:false,
                 success: function (res) {
@@ -620,8 +621,9 @@ function performCarPageFunctions() {
                     $.ajax({
                         url: baseUrl + "car",
                         method:"get",
-                        success: function (res) {
 
+                        success: function (res) {
+                            loadAllCars(res.data);
                         }
                     })
 

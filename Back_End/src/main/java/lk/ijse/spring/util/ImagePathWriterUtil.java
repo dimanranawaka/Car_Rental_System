@@ -10,12 +10,12 @@ import java.nio.file.Path;
 public class ImagePathWriterUtil {
     public static String projectPath = "D:\\Dev\\Java\\My_Projects\\Car_Rental_System\\Front_End\\assets";
 
-    public String imagePathWriter(MultipartFile multipartFile, Path pathLocation) throws IOException, URISyntaxException {
+    public String imagePathWriter(MultipartFile file, Path location) throws IOException, URISyntaxException {
 
-        Files.write(pathLocation,multipartFile.getBytes());
+        Files.write(location,file.getBytes());
 
-        multipartFile.transferTo(pathLocation);
+        file.transferTo(location);
 
-        return pathLocation.toString().replace("D:\\Dev\\Java\\My_Projects\\Car_Rental_System\\Front_End\\assets","");
+        return location.toString().replace(projectPath,"");
     }
 }
