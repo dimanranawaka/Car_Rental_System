@@ -357,7 +357,39 @@ function performCustomerFunctions() {
 
         loadAllCustomers();
 
+        function bindUpdateEvents() {
 
+            $(".btnUpdate").on("click", function () {
+
+                $.ajax({
+                    // Send an AJAX request with the following settings:
+                    url: baseUrl + `rent?username=${$(this).parent().parent().children(":eq(5)").text()}`,
+                    // Construct the URL for the request using baseUrl and a username query parameter extracted from the DOM.
+
+                    method: "get",
+                    // Use the HTTP GET method to retrieve data.
+
+                    async: false,
+                    // Make the request synchronous (blocking), which means the code will wait for the response before continuing execution.
+
+                    dataType: "json",
+                    // Expect the response data to be in JSON format.
+
+                    success: function (res) {
+                        // Define a success callback function to handle the response data.
+
+                        // Set the background of an element with id "cusNicImgContext" using data from the response.
+                        $("#cusNicImgContext").attr(`style`, `background : url(..${res.data.nicImage}); background-position:center; background-size:cover`);
+
+                        // Set the background of an element with id "cusLicenseImgContext" using data from the response.
+                        $("#cusLicenseImgContext").attr(`style`, `background : url(..${res.data.licenseImage}); background-position:center; background-size:cover`);
+                    }
+                });
+
+
+            });
+
+        }
 
     });
 }
