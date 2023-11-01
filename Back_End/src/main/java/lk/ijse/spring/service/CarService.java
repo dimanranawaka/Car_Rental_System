@@ -3,32 +3,31 @@ package lk.ijse.spring.service;
 import lk.ijse.spring.dto.CarAllDTO;
 import lk.ijse.spring.dto.CarDTO;
 import lk.ijse.spring.dto.CarImageDTO;
-import lk.ijse.spring.entity.Car;
 
 import java.util.List;
 
 public interface CarService {
     void addCar(CarDTO dto) throws RuntimeException;
 
-    List<Car> getAllCars() throws RuntimeException;
+    List<CarDTO> getAllCars() throws RuntimeException;
 
-    public CarAllDTO getCar(String regNum);
+    public CarAllDTO getCar(String regNum)throws RuntimeException;
 
-    Long countAvailableCar();
+    Long countAvailableCar()throws RuntimeException;
 
-    Long countReserveCarAmount();
+    Long countReserveCarAmount() throws RuntimeException;
 
-    void updateCar(CarDTO carDTO);
+    void updateCar(CarDTO carDTO) throws RuntimeException;
 
-    void deleteCar(String regNum);
+    void deleteCar(String regNum) throws RuntimeException;
 
-    Long countMaintainingCarAmount();
+    Long countMaintainingCarAmount() throws RuntimeException;
 
-    List countCarAmountByBrand();
+    List countCarAmountByBrand() throws RuntimeException;
 
-    void editCarImages(CarImageDTO carImageDTO,CarDTO carDTO);
+    void editCarImages(CarImageDTO carImageDTO) throws RuntimeException;
 
-    List<CarAllDTO> filterCarsByRegNum(String text,String search,String fuel);
+    List<CarAllDTO> filterCarsByRegNum(String text,String search,String fuel) throws RuntimeException;
 
-    void moveCarToMaintain(String regNum);
+    void moveCarToMaintain(String regNum) throws RuntimeException;
 }

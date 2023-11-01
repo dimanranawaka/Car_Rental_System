@@ -1,6 +1,5 @@
 package lk.ijse.spring.dto;
 
-import lk.ijse.spring.embeddable.CarImage;
 import lk.ijse.spring.embeddable.FreeMileage;
 import lk.ijse.spring.embeddable.Price;
 import lombok.AllArgsConstructor;

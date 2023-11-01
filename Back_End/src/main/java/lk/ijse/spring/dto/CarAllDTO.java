@@ -1,5 +1,6 @@
 package lk.ijse.spring.dto;
 
+import lk.ijse.spring.embeddable.CarImage;
 import lk.ijse.spring.embeddable.FreeMileage;
 import lk.ijse.spring.embeddable.Price;
 import lombok.AllArgsConstructor;
@@ -26,5 +27,5 @@ public class CarAllDTO {
     private BigDecimal extraKMPrice;
     private BigDecimal lostDamageCost;
     private String meterValue;
-    private CarImageDTO carImageDTO;
+    private CarImage carImage;
 }

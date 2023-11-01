@@ -85,8 +85,10 @@ public class CustomerServiceImpl implements CustomerService {
                 byte[] nicB = customerImageDTO.getNicImage().getBytes();
                 byte[] licenseB = customerImageDTO.getLicenseImage().getBytes();
 
-                Path nicPath = Paths.get(ImagePathWriterUtil.projectPath + "/images/customer/nic/nic_" + nic + ".jpeg");
-                Path licPath = Paths.get(ImagePathWriterUtil.projectPath + "/images/customer/lic/license_" +  nic+ ".jpeg");
+                String projectPath = "D:\\Dev\\Java\\My_Projects\\Car_Rental_System\\Front_End\\assets";
+
+                Path nicPath = Paths.get(projectPath + "/images/customer/nic/nic_" + nic + ".jpeg");
+                Path licPath = Paths.get(projectPath + "/images/customer/lic/license_" +  nic+ ".jpeg");
 
                 Files.write(nicPath,nicB);
                 Files.write(licPath,licenseB);
@@ -98,8 +100,8 @@ public class CustomerServiceImpl implements CustomerService {
                 throw new RuntimeException(e);
             }
 
-            customer.setLicenseImage("/assets/images/customer/license/license_"+".jpeg");
-            customer.setNicImage("/assets/images/customer/nic/nic_"+".jpeg");
+            customer.setLicenseImage("/assets/images/bucket/customer/license/license_"+".jpeg");
+            customer.setNicImage("/assets/images/bucket/customer/nic/nic_"+".jpeg");
 
             customerRepo.save(customer);
         }

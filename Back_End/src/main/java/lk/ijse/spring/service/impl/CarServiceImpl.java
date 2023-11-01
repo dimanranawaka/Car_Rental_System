@@ -34,20 +34,20 @@ public class CarServiceImpl implements CarService {
     RentDetailsRepo detailsRepo;
 
     @Override
-    public void addCar(CarDTO dto) throws RuntimeException{
+    public void addCar(CarDTO carDTO) throws RuntimeException{
 
-        if (carRepo.existsById(dto.getRegNum())){
-            throw new RuntimeException(dto.getRegNum()+" : is Already Exists!");
+        if (carRepo.existsById(carDTO.getRegNum())){
+            throw new RuntimeException(carDTO.getRegNum()+" : is Already Exists!");
         }
 
-        Car car = modelMapper.map(dto, Car.class);
+        Car car = modelMapper.map(carDTO, Car.class);
 
         try {
 
-            car.getCarImage().setFront(new ImagePathWriterUtil().imagePathWriter(dto.getCarImageDTO().getFront(), Paths.get(ImagePathWriterUtil.projectPath+"/images/car/front_"+dto.getRegNum()+".jpeg")));
-            car.getCarImage().setBack(new ImagePathWriterUtil().imagePathWriter(dto.getCarImageDTO().getBack(), Paths.get(ImagePathWriterUtil.projectPath+"/images/car/back_"+dto.getRegNum()+".jpeg")));
-            car.getCarImage().setSide(new ImagePathWriterUtil().imagePathWriter(dto.getCarImageDTO().getSide(), Paths.get(ImagePathWriterUtil.projectPath+"/images/car/side_"+dto.getRegNum()+".jpeg")));
-            car.getCarImage().setInterior(new ImagePathWriterUtil().imagePathWriter(dto.getCarImageDTO().getInterior(), Paths.get(ImagePathWriterUtil.projectPath+"/images/car/interior_"+dto.getRegNum()+".jpeg")));
+            car.getCarImage().setFront(new ImagePathWriterUtil().imagePathWriter(carDTO.getCarImageDTO().getFront(), Paths.get(ImagePathWriterUtil.projectPath+"/images/bucket/car/front_"+carDTO.getRegNum()+".jpeg")));
+            car.getCarImage().setBack(new ImagePathWriterUtil().imagePathWriter(carDTO.getCarImageDTO().getBack(), Paths.get(ImagePathWriterUtil.projectPath+"/images/bucket/car/back_"+carDTO.getRegNum()+".jpeg")));
+            car.getCarImage().setSide(new ImagePathWriterUtil().imagePathWriter(carDTO.getCarImageDTO().getSide(), Paths.get(ImagePathWriterUtil.projectPath+"/images/bucket/car/side_"+carDTO.getRegNum()+".jpeg")));
+            car.getCarImage().setInterior(new ImagePathWriterUtil().imagePathWriter(carDTO.getCarImageDTO().getInterior(), Paths.get(ImagePathWriterUtil.projectPath+"/images/bucket/car/interior_"+carDTO.getRegNum()+".jpeg")));
 
             carRepo.save(car);
 
@@ -65,7 +65,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public List<Car> getAllCars() throws RuntimeException {
+    public List<CarDTO> getAllCars() throws RuntimeException {
 
         return modelMapper.map(carRepo.findAll(), new TypeToken<ArrayList<CarAllDTO>>() {
         }.getType());
@@ -73,17 +73,17 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public CarAllDTO getCar(String regNum) throws RuntimeException{
-        if (!carRepo.existsById(regNum)){
-            throw new RuntimeException(regNum+" : is Not Exists, Please Enter Valid RegNum !");
-        }
+//        if (!carRepo.existsById(regNum)){
+//            throw new RuntimeException(regNum+" : is Not Exists, Please Enter Valid RegNum !");
+//        }
         return modelMapper.map(carRepo.findById(regNum), CarAllDTO.class);
     }
 
     @Override
     public Long countAvailableCar() throws  RuntimeException{
-        if (carRepo.countAvailableCars()==0){
-            throw new RuntimeException(" No Available Cars for now !");
-        }
+//        if (carRepo.countAvailableCars()==0){
+//            throw new RuntimeException(" No Available Cars for now !");
+//        }
         return carRepo.countAvailableCars();
     }
 
@@ -135,8 +135,8 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public void editCarImages(CarImageDTO carImageDTO,CarDTO dto) {
-        Car car = modelMapper.map(dto, Car.class);
+    public void editCarImages(CarImageDTO dto) {
+        /*Car car = modelMapper.map(dto, Car.class);
 
         try {
 
@@ -155,7 +155,7 @@ public class CarServiceImpl implements CarService {
 
             throw new RuntimeException(e);
 
-        }
+        }*/
     }
 
     @Override
@@ -165,19 +165,19 @@ public class CarServiceImpl implements CarService {
         switch (search){
             case "REG_NUM":
 
-                List<CarAllDTO> map1 = modelMapper.map(carRepo.findByRegNumLikeAndFuelTypeLike("%" + text + "%", "%" + fuel + "%"), new TypeToken<ArrayList<CarAllDTO>>() {
+                return  modelMapper.map(carRepo.findByRegNumLikeAndFuelTypeLike("%" + text + "%", "%" + fuel + "%"), new TypeToken<ArrayList<CarAllDTO>>() {
                 }.getType());
-                return map1;
+
 
             case "BRAND":
-                List<CarAllDTO> map2 = modelMapper.map(carRepo.findByBrandLikeAndFuelTypeLike("%" + text + "%", "%" + fuel + "%"), new TypeToken<ArrayList<CarAllDTO>>() {
+                return modelMapper.map(carRepo.findByBrandLikeAndFuelTypeLike("%" + text + "%", "%" + fuel + "%"), new TypeToken<ArrayList<CarAllDTO>>() {
                 }.getType());
-                return map2;
+
 
             case "COLOR":
-                List<CarAllDTO> map3 = modelMapper.map(carRepo.findByColorLikeAndFuelTypeLike("%" + text + "%", "%" + fuel + "%"), new TypeToken<ArrayList<CarAllDTO>>() {
+                return modelMapper.map(carRepo.findByColorLikeAndFuelTypeLike("%" + text + "%", "%" + fuel + "%"), new TypeToken<ArrayList<CarAllDTO>>() {
                 }.getType());
-                return map3;
+
 
             default:
                 return null;

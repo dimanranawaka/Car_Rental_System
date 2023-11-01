@@ -1,4 +1,3 @@
-import {Alert} from "../assets/js/bootstrap.esm";
 
 $("#btnLogin").on("click",function () {
 
@@ -22,12 +21,13 @@ $("#btnLogin").on("click",function () {
                 case "Driver":
                     window.open("driver_dashboard.html",'_self');
                     break;
-                    
+                default:
+                    alert("none")
             }
         },
         
         error:function (res) {
-            alert("Invalid Username or Password")
+            errorAlert("Invalid Username or Password")
         }
     });
 })
