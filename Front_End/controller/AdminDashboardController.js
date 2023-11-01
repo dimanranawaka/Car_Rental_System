@@ -23,6 +23,7 @@ performCustomerFunctions();
 performCarPageFunctions();
 performDriverPageFunctions();
 performRentPageFunctions();
+performPaymentPageFunctions();
 performHomePageFunctions();
 
 homeLoader();
@@ -1565,5 +1566,58 @@ function performRentPageFunctions() {
 
 
 function performPaymentPageFunctions() {
-    
+
+    $("#btnManagePayment").on("click", function () {
+
+        $('#payments').fadeIn();
+        $("#home").attr("style", "display : none !important");
+        $("#viewCustomer").attr("style", "display : none !important");
+        $("#manageCustomers").attr("style", "display : none !important");
+        $("#manageCar").attr("style", "display : none !important");
+        $("#viewCar").attr("style", "display : none !important");
+        $("#manageDriver").attr("style", "display : none !important");
+        $("#drivers").attr("style", "display : none !important");
+        $("#rents").attr("style", "display : none !important");
+        $("#payments").attr("style", "display : block !important");
+        $("#reports").attr("style", "display : none !important");
+
+        loadAllPayments();
+
+    });
+
+    loadAllPayments();
+
+    function loadAllPayments() {
+
+        $.ajax({
+            url: baseUrl + `payment`,
+            method: "get",
+            dataType: "json",
+            success: function (res) {
+
+                $("#tblPayment").empty();
+
+                for (let payment of res.data) {
+                    $("#tblPayment").append(`
+                    <tr>
+                        <td>${payment.paymentId}</td>
+                        <td>${payment.rentId.rentId}</td>
+                        <td>${payment.type}</td>
+                        <td>${payment.description}</td>
+                        <td>${payment.total}</td>
+                        <td>${payment.cash}</td>
+                        <td>${payment.balance}</td>
+                        <td>${payment.date.toString().replaceAll(",", "-")}</td>
+                        <td>${payment.time.toString().replaceAll(",", ":")}</td>
+                        <td><i class="bi bi-pen-fill text-success text-center btn btnUpdate" data-bs-toggle="modal" data-bs-target="#registerDriver"></i><i class="bi bi-trash-fill text-danger text-center btn btnDelete"></i></td>
+                    </tr>
+                `);
+                }
+            }
+        });
+
+    }
+
 }
+
+/**             **** Report Page ****                       */
