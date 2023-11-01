@@ -21,6 +21,7 @@ $.ajax({
 
 performCustomerFunctions();
 performCarPageFunctions();
+performDriverPageFunctions();
 performHomePageFunctions();
 
 homeLoader();
@@ -1029,4 +1030,256 @@ function performCarPageFunctions() {
 
   });
 
+}
+
+/**          **** Driver Page ****             */
+
+function performDriverPageFunctions() {
+    $("#btnDriver").on("click", function () {
+
+        loadAllDrivers();
+
+        $('#manageDriver').fadeIn();
+        $("#home").attr("style", "display : none !important");
+        $("#viewCustomer").attr("style", "display : none !important");
+        $("#manageCustomers").attr("style", "display : none !important");
+        $("#manageCar").attr("style", "display : none !important");
+        $("#viewCar").attr("style", "display : none !important");
+        $("#manageDriver").attr("style", "display : none !important");
+        $("#drivers").attr("style", "display : block !important");
+        $("#rents").attr("style", "display : none !important");
+        $("#payments").attr("style", "display : none !important");
+        $("#reports").attr("style", "display : none !important");
+
+        // Upload License Image
+        loadSelectedImage("#licenseImage");
+
+        $("#btnAddNewDriver").on("click", function () {
+            $("#btnSaveDriver").text("Save");
+        })
+
+        $("#btnSaveDriver").on("click", function () {
+
+            let data = new FormData($("#driverForm")[0]);
+
+            $.ajax({
+                url: baseUrl + ($("#btnSaveDriver").text() == "Save" ? "driver" : "driver/update"),
+                method: "post",
+                data: data,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+
+                    if ($("#btnSaveDriver").text() == "Save") {
+                        saveAlert();
+                    } else {
+                        updateAlert();
+                    }
+
+                    loadAllDrivers();
+
+                }
+            });
+        });
+
+        function loadAllDrivers() {
+
+            $.ajax({
+                url: baseUrl + "driver/all",
+                method: "get",
+                async: false,
+                dataType: "json",
+                success: function (res) {
+
+                    $("#tblDriver").empty();
+
+                    for (let driver of res.data) {
+
+                        $("#tblDriver").append(`
+                                    <tr>
+                                      <td>${driver.nic}</td>
+                                      <td>${driver.name}</td>
+                                      <td>${driver.email}</td>
+                                      <td>${driver.address}</td>
+                                      <td>${driver.license}</td>
+                                      <td>${driver.contact}</td>
+                                      <td>${driver.user.username}</td>
+                                      <td>${driver.user.password}</td>
+                                      <td><img src="../assets${driver.licenseImage}" width="150" height="100" alt="license"></td>
+                                      <td>${driver.availabilityStatus}</td>
+                                      <td><i class="bi bi-pen-fill text-success text-center btn btnUpdate" data-bs-toggle="modal" data-bs-target="#registerDriver"></i><i class="bi bi-trash-fill text-danger text-center btn btnDelete"></i></td>
+                                    </tr>
+                                `)
+
+                    }
+
+                    bindUpdateEvent();
+                    bindDeleteEvent();
+
+                }
+            });
+
+        }
+
+        function bindUpdateEvent() {
+            $(".btnUpdate").on("click", function () {
+
+                $("#nic").val($(this).parent().parent().children(":eq(0)").text());
+                $("#name").val($(this).parent().parent().children(":eq(1)").text());
+                $("#email").val($(this).parent().parent().children(":eq(2)").text());
+                $("#address").val($(this).parent().parent().children(":eq(3)").text());
+                $("#license").val($(this).parent().parent().children(":eq(4)").text());
+                $("#availability").val($(this).parent().parent().children(":eq(9)").text());
+                $("#contact").val($(this).parent().parent().children(":eq(5)").text());
+                $("#username").val($(this).parent().parent().children(":eq(6)").text());
+                $("#password").val($(this).parent().parent().children(":eq(8)").text());
+                loadSelectedImage("#licenseImageContext");
+
+                $("#btnSaveDriver").text("Update");
+
+            });
+        }
+
+        function bindDeleteEvent() {
+            $(".btnDelete").on("click", function () {
+
+                let nic = $(this).parent().parent().children(":eq(0)").text();
+
+                if (!confirm("Are You Sure")) return;
+
+
+                $.ajax({
+                    url: baseUrl + "driver?nic=" + nic,
+                    method: "delete",
+                    async: false,
+                    data: nic,
+                    contentType: false,
+                    processData: false,
+                    success: function (res) {
+                        deleteAlert();
+                        loadAllDrivers();
+                    }
+                });
+
+            });
+        }
+
+        const cusNameRegEx = /^[A-z ]{4,20}$/;
+        const cusEmailRegEx = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-]+)(\.[a-zA-Z]{2,5}){1,2}$/;
+        const cusNicRegEx = /^[0-9]{9,10}[A-z]?$/;
+        const cusAddressRegEx = /^[0-9/A-z. ,]{5,}$/;
+        const cusContactRegEx = /^[0-9]{10}$/;
+
+        let driverValidations = [];
+        driverValidations.push({
+            reg: cusNameRegEx,
+            field: $('#name'),
+            error: 'Customer Name Pattern is Wrong : A-z 5-20'
+        });
+        driverValidations.push({
+            reg: cusNicRegEx,
+            field: $('#nic'),
+            error: 'NIC Pattern is Wrong : 2001134561'
+        });
+        driverValidations.push({
+            reg: cusNicRegEx,
+            field: $('#license'),
+            error: 'NIC Pattern is Wrong : 2001134561'
+        });
+        driverValidations.push({
+            reg: cusAddressRegEx,
+            field: $('#address'),
+            error: 'Customer Address Pattern is Wrong : A-z 0-9 ,/'
+        });
+        driverValidations.push({
+            reg: cusContactRegEx,
+            field: $('#contact'),
+            error: 'Contact Pattern is Wrong : 0-9 ,/'
+        });
+        driverValidations.push({
+            reg: cusEmailRegEx,
+            field: $('#email'),
+            error: 'Email Pattern is Wrong : diman@gmail.com'
+        });
+        driverValidations.push({
+            reg: cusAddressRegEx,
+            field: $('#username'),
+            error: 'Invalid Username'
+        });
+        driverValidations.push({
+            reg: cusAddressRegEx,
+            field: $('#password'),
+            error: 'Password Pattern is not Strong'
+        });
+        driverValidations.push({
+            reg: cusAddressRegEx,
+            field: $('#re-password'),
+            error: 'Password Pattern is not Strong'
+        });
+
+
+        $("#name,#nic,#license,#address,#address,#email,#username,#contact,#password,#re-password").on('keyup', function (event) {
+            checkValidity(driverValidations);
+        });
+
+        $("#name,#nic,#license,#address,#address,#email,#username,#contact,#password,#re-password").on('blur', function (event) {
+            checkValidity(driverValidations);
+        });
+
+        $("#name").on('keydown', function (event) {
+            if (event.key == "Enter" && check(cusNameRegEx, $("#name"))) {
+                $("#nic").focus();
+            } else {
+                focusText($("#txtCusId"));
+            }
+        });
+
+        $("#nic").on('keydown', function (event) {
+            if (event.key == "Enter" && check(cusNicRegEx, $("#nic"))) {
+                focusText($("#license"));
+            }
+        });
+
+        $("#license").on('keydown', function (event) {
+            if (event.key == "Enter" && check(cusNicRegEx, $("#license"))) {
+                focusText($("#address"));
+            }
+        });
+
+        $("#address").on('keydown', function (event) {
+            if (event.key == "Enter" && check(cusAddressRegEx, $("#address"))) {
+                focusText($("#contact"));
+            }
+        });
+
+        $("#contact").on('keydown', function (event) {
+            if (event.key == "Enter" && check(cusAddressRegEx, $("#contact"))) {
+                focusText($("#email"));
+            }
+        });
+
+        $("#email").on('keydown', function (event) {
+            if (event.key == "Enter" && check(cusEmailRegEx, $("#email"))) {
+                focusText($("#username"));
+            }
+        });
+
+        $("#username").on('keydown', function (event) {
+            if (event.key == "Enter" && check(cusNameRegEx, $("#username"))) {
+                focusText($("#password"));
+            }
+        });
+
+        $("#password").on('keydown', function (event) {
+            if (event.key == "Enter" && check(cusAddressRegEx, $("#password"))) {
+                focusText($("#re-password"));
+            }
+        });
+
+        $("#re-password").on('keydown', function (event) {
+            if (event.key == "Enter" && check(cusAddressRegEx, $("#re-password"))) {
+
+            }
+        });
+    });
 }
