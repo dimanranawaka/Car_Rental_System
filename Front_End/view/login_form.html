@@ -8,33 +8,108 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../assets/css/styles.css">
 
-    <meta name="viewport" content="width=device-width initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <style>
+        body {
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        main {
+            background-image: url(../assets/images/Login.png);
+            background-size: cover;
+            background-position: center;
+            width: 40vw;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            color: #fff;
+        }
+
+        form {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 15px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 1.2rem;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: none;
+            border-bottom: 1px solid #fff;
+            border-radius: 0;
+            padding: 10px 20px;
+            margin: 10px 0;
+            width: 100%;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #007bff;
+        }
+
+        button#btnLogin {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button#btnLogin:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
-<body class="d-flex justify-content-center align-items-center bg-dark" style="background: #95a5a6">
+<body>
+<main>
+    <form class="shadow" id="loginForm">
+        <h1>Login</h1>
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" id="username" name="username">
+        </div>
+        <div class="mb-3 mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" name="password">
+        </div>
+        <button type="button" id="btnLogin">Login</button>
+    </form>
+</main>
 
-    <main class="d-flex justify-content-end align-items-center shadow-lg rounded rounded-5 bg-dark" style="background:url(../assets/images/Login.png); background-size: cover; background-position: center; background-repeat: no-repeat; width: 60vw; height: 80vh">
-        <form class="shadow d-flex bg-dark text-white flex-column p-5 rounded rounded-5 h-75" id="loginForm" >
-            <h1>Login</h1>
-            <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="email" class="form-control bg-dark text-white" id="username" name="username">
-            </div>
-            <div class="mb-3 mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control bg-dark text-white" id="password" name="password">
-            </div>
-            <button type="button" id="btnLogin" class="btn btn-primary col col-md-5">Login</button>
-        </form>
-    </main>
-
-    <script src="../assets/js/bootstrap.bundle.min.js"></script>
-
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <script src="../controller/LoginFormController.js"></script>
-
-    <script src="../assets/js/jquery-3.6.1.min.js"></script>
-
+<script src="../assets/js/bootstrap.bundle.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../controller/LoginFormController.js"></script>
+<script src="../assets/js/jquery-3.6.1.min.js"></script>
 </body>
 </html>
