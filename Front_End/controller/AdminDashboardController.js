@@ -20,6 +20,7 @@ $.ajax({
 });
 
 performCustomerFunctions();
+performCarPageFunctions();
 performHomePageFunctions();
 
 homeLoader();
@@ -37,6 +38,8 @@ function homeLoader(){
     $("#payments").attr("style","display : none !important");
     $("#reports").attr("style","display : none !important");
 }
+
+/**       **** Dashboard Home *****                        */
 
 function performHomePageFunctions(){
 // When the "btnHome" button is clicked, call the homeLoader() and dataLoader() functions
@@ -229,6 +232,7 @@ function performHomePageFunctions(){
 
 }
 
+/**            ****Customer Page****                                              */
 
 function performCustomerFunctions() {
 
@@ -563,5 +567,466 @@ function performCustomerFunctions() {
 
 
     });
+
+}
+/**             ****  Car Page  ****                                                                 */
+function performCarPageFunctions() {
+
+    $("#btnCar").on("click",function () {
+
+
+    $('#viewCar').fadeIn();
+    $("#home").attr("style", "display : none !important");
+    $("#manageCustomers").attr("style", "display : none !important");
+    $("#viewCustomer").attr("style", "display : none !important");
+    $("#viewCar").attr("style", "display : block !important");
+    $("#manageDriver").attr("style", "display : none !important");
+    $("#drivers").attr("style", "display : none !important");
+    $("#rents").attr("style", "display : none !important");
+    $("#payments").attr("style", "display : none !important");
+    $("#reports").attr("style", "display : none !important");
+
+    loadSelectedImage("#front");
+    loadSelectedImage("#back");
+    loadSelectedImage("#side");
+    loadSelectedImage("#interior");
+
+    $("#btnAddNewCar").on("click", function () {
+
+        $("#btnSaveCustomer").text("Save");
+
+    });
+
+    $("#btnSaveCar").on("click", function () {
+
+        let data = new FormData($("#carForm")[0]);
+
+        if ($("#btnSaveCar").text() == "Save"){
+
+            $.ajax({
+                url: baseUrl + "car",
+                async: false,
+                data:data,
+                contentType:false,
+                processData:false,
+                success: function (res) {
+
+                    saveAlert();
+
+                    $.ajax({
+                        url: baseUrl + "car",
+                        method:"get",
+                        success: function (res) {
+
+                        }
+                    })
+
+                },
+
+                error: function (res) {
+                    let parse = JSON.parse(res);
+                    errorAlert(parse.message);
+                }
+
+            });
+
+        }else {
+
+            $.ajax({
+                url: baseUrl + "car/update",
+                data: data,
+                method: "post",
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    updateAlert();
+
+                    $.ajax({
+                        url: baseUrl + "car",
+                        method: "get",
+
+                        success: function (res) {
+                            loadAllCars(res.data);
+                        }
+
+                    });
+                }
+            });
+
+        }
+
+    });
+
+    function bindUpdateEvent() {
+        $(".btnUpdate").on("click", function () {
+
+            regNum = $(this).parent().parent().children(":eq(6)").children(":eq(0)").text().trim();
+
+            $.ajax({
+                url: baseUrl + "car?regNum=" + regNum,
+                async: false,
+                method: "get",
+                dataType: "json",
+                success: function (res) {
+
+                    $("#regNum").val(res.data.regNum);
+                    $("#carType").val(res.data.type);
+                    $("#color").val(res.data.color);
+                    $("#brand").val(res.data.brand);
+                    $("#dailyRate").val(res.data.freeMileage.dailyRate);
+                    $("#monthlyRate").val(res.data.freeMileage.monthlyRate);
+
+                    if (res.data.fuelType == "petrol") {
+                        $("#petrol").prop("checked", true)
+                    } else {
+                        $("#diesel").prop("checked", true)
+                    }
+
+                    if (res.data.availability == "YES") {
+                        $("#yes").prop("checked", true);
+                    } else if (res.data.availability == "NO") {
+                        $("#no").prop("checked", true);
+                    } else {
+                        $("#maintain").prop("checked", true);
+                    }
+
+                    $("#dailyPriceRate").val(res.data.price.dailyPriceRate);
+                    $("#monthlyPriceRate").val(res.data.price.monthlyPriceRate);
+
+                    if (res.data.transmissionType == "manual") {
+                        $("#manual").prop("checked", true)
+                    } else {
+                        $("#auto").prop("checked", true)
+                    }
+
+                    $("#extraKMPrice").val(res.data.extraKMPrice);
+                    $("#passengers").val(res.data.passengers);
+                    $("#lostDamageCost").val(res.data.lostDamageCost);
+                    $("#meterValue").val(res.data.meterValue);
+                    $("#frontImgContext").attr(`style`, `background : url(../assets${res.data.photos.front}); background-position: center; background-size: cover`)
+                    $("#backImgContext").attr(`style`, `background : url(../assets${res.data.photos.back}); background-position: center; background-size: cover`)
+                    $("#sideImgContext").attr(`style`, `background : url(../assets${res.data.photos.side}); background-position: center; background-size: cover`)
+                    $("#interiorImgContext").attr(`style`, `background : url(../assets${res.data.photos.interior}); background-position: center; background-size: cover`)
+
+                    $("#btnSaveCar").text("Update");
+
+                }
+            });
+
+        });
+    }
+
+    function bindDeleteEvent() {
+
+        $(".btnDelete").on("click", function () {
+
+            regNum = $(this).parent().parent().children(":eq(6)").children(":eq(0)").text().trim();
+
+            if (confirm("Are You Sure..?")) {
+                $.ajax({
+                    url: baseUrl + "car?regNum=" + regNum,
+                    method: "delete",
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: function (res) {
+                        deleteAlert();
+                        $.ajax({
+                            url: baseUrl + "car",
+                            method: "get",
+
+                            success: function (res) {
+                                loadAllCars(res.data);
+                            }
+
+                        });
+                    }
+                });
+            }
+        });
+
+    }
+
+    $.ajax({
+        url: baseUrl + "car",
+        method: "get",
+
+        success: function (res) {
+            loadAllCars(res.data);
+        }
+
+    });
+
+    function loadAllCars(cars) {
+
+        $("#cars").empty();
+
+        for (let car of cars) {
+            $("#cars").append(`<div class="col col-lg-3">
+            <div class="card">
+                <img src="../assets/${car.photos.front}" height="230px" class="card-img-top" alt="car">
+
+                <div class="card-body">
+                    <h5 class="card-title">${car.brand}</h5>
+
+                    <section class="mb-4">
+                        <img src="../assets/${car.photos.back}" class="w-25 h-25" alt="${car.photos.back}">
+                        <img src="../assets/${car.photos.side}" class="w-25 h-25" alt="car">
+                        <img src="../assets/${car.photos.interior}" class="w-25 h-25" alt="car">
+                    </section>
+
+                    <section class="d-flex gap-3 justify-content-between">
+                        <p class="card-text"><i class="bi bi-fuel-pump-diesel-fill me-1 text-success"></i>${car.fuelType}</p>
+                        <p class="card-text"><i class="bi bi-palette-fill me-1 text-danger"></i>${car.color}</p>
+                        <p class="card-text"><i class="bi bi-gear-wide-connected me-1 text-info"></i>${car.transmissionType}</p>
+                        <p class="card-text"><i class="bi bi-people-fill me-1 text-primary"></i>${car.passengers}</p>
+                    </section>
+
+                    <section class="row justify-content-between align-items-center p-0 m-0 g-0">
+                        <p class="card-text col col-12 p-0 m-0 g-0">Free Mileage</p>
+                        <p class="card-text text-secondary col col-lg-6 mb-lg-0 mb-4">${car.freeMileage.dailyRate}km Daily</p>
+                        <p class="card-text text-secondary col col-lg-6 mb-lg-0 mb-4 text-end">${car.freeMileage.monthlyRate}km Monthly</p>
+                    </section>
+
+                    <section class="row justify-content-between align-items-center p-0 m-0 g-0">
+                        <p class="card-text col col-12 p-0 m-0 g-0">Price</p>
+                        <p class="card-text text-secondary col col-lg-6 mb-lg-0 mb-4">${car.price.dailyPriceRate} LKR Daily</p>
+                        <p class="card-text text-secondary col col-lg-6 mb-lg-0 mb-4 text-end">${car.price.monthlyPriceRate} LKR Monthly</p>
+                    </section>
+
+                    <section class="row justify-content-between">
+                        <p class="card-text col col-lg-6">Lost Damage Cost</p>
+                        <p class="card-text text-secondary col text-end">${car.lostDamageCost} LKR</p>
+                    </section>
+                    
+                    <section class="row justify-content-between">
+                        <p class="card-text text-secondary col col-6" id="registerNum"><i class="bi bi-car-front me-1"></i>${car.regNum}</p>
+                        <p class="card-text text-secondary col col-6 text-danger text-end">${car.availability == "YES" ? "" : "Out Of Stock"}</p>
+                    </section>
+                        
+                    <section class="d-flex justify-content-between flex-lg-row flex-column gap-1">
+                        <button class="btn btn-warning btnUpdate" data-bs-toggle="modal" data-bs-target="#registerCar"><p class="card-text"><i class="bi bi-app-indicator"></i> Update </p></button>
+                        <button class="btn btn-danger btnDelete"><p class="card-text"><i class="bi bi-trash-fill"></i> Delete </p></button>
+                    </section>
+
+                </div>
+
+            </div>
+        </div>`);
+            getDetail();
+        }
+        bindUpdateEvent();
+        bindDeleteEvent();
+
+    }
+    // Function for searching and filtering the cars
+
+    $("#search").on("keyup", function () {
+
+        let text = $("#search").val();
+        let searchBy = $("#searchBy").val();
+        let fuel = $("#fuelTypes").val();
+
+        $.ajax({
+            url: baseUrl + `car/filterByRegNum?text=${text}&search=${searchBy}&fuel=${fuel}`,
+            method: "get",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (res) {
+                loadAllCars(res.data);
+            }
+        });
+
+    });
+
+    $("#searchBy, #fuelTypes").change(function () {
+        let text = $("#search").val();
+        let searchBy = $("#searchBy").val();
+        let fuel = $("#fuelTypes").val();
+
+        $.ajax({
+            url: baseUrl + `car/filterByRegNum?text=${text}&search=${searchBy}&fuel=${fuel}`,
+            method: "get",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (res) {
+                loadAllCars(res.data);
+            }
+        });
+    });
+
+    function getDetail() {
+
+        $(".rent").on("click", function () {
+
+            regNum = $(this).parent().parent().children(":eq(6)").text();
+            dailyMileage = $(this).parent().parent().children(":eq(4)").children(":eq(1)").text();
+            monthlyMileage = $(this).parent().parent().children(":eq(4)").children(":eq(2)").text();
+            dailyPrice = $(this).parent().parent().children(":eq(4)").children(":eq(1)").text();
+            monthlyPrice = $(this).parent().parent().children(":eq(4)").children(":eq(2)").text();
+
+        });
+
+    }
+
+    const regNumRegEx = /^[A-Z]{3}-?\d{3}|^\d{3}-?[A-Z]{3}$/;
+    const colorRegEx = /^[A-z ]{2,20}$/;
+    const brandRegEx = /^[A-z ]{2,20}$/;
+    const priceRegEx = /^[0-9]{1,}[.]?[0-9]{1,2}$/;
+    const passengersRegEx = /^[0-9]$/;
+
+    let carValidations = [];
+    carValidations.push({
+        reg: regNumRegEx,
+        field: $('#regNum'),
+        error: 'Car Number Pattern is Wrong : AAA-5500'
+    });
+    carValidations.push({
+        reg: colorRegEx,
+        field: $('#color'),
+        error: 'Color Pattern is Wrong'
+    });
+    carValidations.push({
+        reg: brandRegEx,
+        field: $('#brand'),
+        error: 'Brand Pattern is Wrong'
+    });
+    carValidations.push({
+        reg: priceRegEx,
+        field: $('#dailyPriceRate'),
+        error: 'Price Pattern is Wrong'
+    });
+    carValidations.push({
+        reg: priceRegEx,
+        field: $('#monthlyPriceRate'),
+        error: 'Price Pattern is Wrong'
+    });
+    carValidations.push({
+        reg: priceRegEx,
+        field: $('#extraKMPrice'),
+        error: 'Price Pattern is Wrong'
+    });
+    carValidations.push({
+        reg: passengersRegEx,
+        field: $('#passengers'),
+        error: 'Invalid Number'
+    });
+    carValidations.push({
+        reg: priceRegEx,
+        field: $('#lostDamageCost'),
+        error: 'Price Pattern is Wrong'
+    });
+    carValidations.push({
+        reg: priceRegEx,
+        field: $('#meterValue'),
+        error: 'Meter Value Pattern is Wrong'
+    });
+
+
+    $("#regNum,#color,#brand,#dailyPriceRate,#monthlyPriceRate,#extraKMPrice,#passengers,#lostDamageCost,#meterValue").on('keyup', function (event) {
+        checkValidity(carValidations);
+    });
+
+    $("#regNum,#color,#brand,#dailyPriceRate,#monthlyPriceRate,#extraKMPrice,#passengers,#lostDamageCost,#meterValue").on('blur', function (event) {
+        checkValidity(carValidations);
+    });
+
+    $("#regNum").on('keydown', function (event) {
+        if (event.key == "Enter" && check(regNumRegEx, $("#regNum"))) {
+            $("#carType").focus();
+        } else {
+            focusText($("#regNum"));
+        }
+    });
+
+    $("#carType").on('keydown', function (event) {
+        if (event.key == "Enter") {
+            focusText($("#color"));
+            textSuccess($("#carType"), "");
+        }
+    });
+
+    $("#color").on('keydown', function (event) {
+        if (event.key == "Enter" && check(colorRegEx, $("#color"))) {
+            focusText($("#brand"));
+        }
+    });
+
+    $("#brand").on('keydown', function (event) {
+        if (event.key == "Enter" && check(brandRegEx, $("#brand"))) {
+            focusText($("#dailyRate"));
+        }
+    });
+
+    $("#dailyRate").on('keydown', function (event) {
+        if (event.key == "Enter") {
+            textSuccess($("#dailyRate"), "");
+            focusText($("#monthlyRate"));
+        }
+    });
+
+    $("#monthlyRate").on('keydown', function (event) {
+        if (event.key == "Enter") {
+            textSuccess($("#monthlyRate"), "");
+            focusText($("#petrol"));
+        }
+    });
+
+    $("#petrol").on('keydown', function (event) {
+        if (event.key == "Enter") {
+            textSuccess($("#petrol"), "");
+            focusText($("#yes"));
+        }
+    });
+
+    $("#yes").on('keydown', function (event) {
+        if (event.key == "Enter") {
+            textSuccess($("#yes"), "");
+            focusText($("#dailyPriceRate"));
+        }
+    });
+
+    $("#dailyPriceRate").on('keydown', function (event) {
+        if (event.key == "Enter" && check(priceRegEx, $("#dailyPriceRate"))) {
+            focusText($("#monthlyPriceRate"));
+        }
+    });
+
+    $("#monthlyPriceRate").on('keydown', function (event) {
+        if (event.key == "Enter" && check(priceRegEx, $("#monthlyPriceRate"))) {
+            focusText($("#auto"));
+        }
+    });
+
+    $("#auto").on('keydown', function (event) {
+        if (event.key == "Enter" && check(priceRegEx, $("#monthlyPriceRate"))) {
+            focusText($("#extraKMPrice"));
+        }
+    });
+
+    $("#extraKMPrice").on('keydown', function (event) {
+        if (event.key == "Enter" && check(priceRegEx, $("#extraKMPrice"))) {
+            focusText($("#passengers"));
+        }
+    });
+
+    $("#passengers").on('keydown', function (event) {
+        if (event.key == "Enter" && check(passengersRegEx , $("#passengers"))) {
+            focusText($("#lostDamageCost"));
+        }
+    });
+
+    $("#lostDamageCost").on('keydown', function (event) {
+        if (event.key == "Enter" && check(priceRegEx, $("#lostDamageCost"))) {
+            focusText($("#meterValue"));
+        }
+    });
+
+    $("#meterValue").on('keydown', function (event) {
+        if (event.key == "Enter" && check(priceRegEx, $("#meterValue"))) {
+
+        }
+    });
+
+  });
 
 }

@@ -1,0 +1,160 @@
+
+    /* Styling for the body */
+body {
+    background-color: #f8f9fa;
+}
+
+/* Styling for the header */
+header {
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+}
+
+/* Styling for the navbar */
+.navbar {
+    padding: 10px 0;
+}
+
+/* Styling for the logo in the navbar */
+.navbar-brand {
+    font-size: 24px;
+}
+
+/* Styling for the "Logout" link */
+.navbar a {
+    color: #6c757d;
+}
+
+/* Styling for the main content container */
+#main-context {
+    padding: 20px;
+}
+
+/* Styling for the left sidebar */
+.col-auto {
+    background-color: #fff;
+    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+}
+
+
+.nav-link {
+    color: #6c757d;
+}
+
+
+#user {
+    font-size: 18px;
+    color: #6c757d;
+}
+
+
+.col {
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+
+
+ #btnAddNewCustomer {
+         background-color: #ffc107;
+         color: #fff;
+ }
+
+    /* Styling for the customer table */
+
+table.table {
+        border-collapse: collapse;
+        width: 100%;
+}
+
+table.table th {
+        background-color: #343a40;
+        color: #fff;
+}
+
+table.table th, table.table td {
+        padding: 10px;
+        text-align: center;
+}
+
+    /* Styling for the modal dialog */
+.modal-content {
+        background-color: #fff;
+        border-radius: 10px;
+}
+
+.modal-title {
+        color: #000;
+}
+
+    /* Styling for the form inputs in the modal */
+.form-control {
+        border-radius: 5px;
+}
+
+    /* Styling for the "Submit" button in the modal */
+#btnSaveCustomer {
+        background-color: #007bff;
+        color: #fff;
+}
+
+         /* Styling for the "Add New Car" and "Add New Driver" buttons */
+ #btnAddNewCar,
+ #btnAddNewDriver {
+         background-color: #ffc107;
+         color: #fff;
+ }
+
+    /* Styling for the search form elements */
+#searchBy,
+#search,
+#fuelTypes {
+        border-radius: 5px;
+}
+
+    /* Styling for the "Request Car" and "Submit" buttons in the modal dialogs */
+#btnRequestCar,
+#btnSaveCar,
+#btnSaveDriver {
+        background-color: #007bff;
+        color: #fff;
+}
+
+    /* Styling for the modal dialogs */
+.modal-content {
+        background-color: #fff;
+        border-radius: 10px;
+}
+
+.modal-title {
+        color: #000;
+}
+
+    /* Styling for the form inputs in the modal dialogs */
+.form-control {
+        border-radius: 5px;
+}
+
+    /* Styling for the radio buttons and checkboxes in the modal dialogs */
+.form-check-input {
+        margin-right: 5px;
+}
+
+    /* Styling for the table */
+table.table {
+        border-collapse: collapse;
+        width: 100%;
+}
+
+table.table th {
+        background-color: #343a40;
+        color: #fff;
+}
+
+table.table th, table.table td {
+        padding: 10px;
+        text-align: center;
+}
+
+
