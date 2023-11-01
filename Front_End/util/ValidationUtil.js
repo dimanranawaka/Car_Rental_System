@@ -1,60 +1,50 @@
-/** This function can be used to validate user inputs by invoking the checkValidity function. */
 function checkValidity(validationArray) {
     let errorCount = 0;
-    for (let validationArrayElement of validationArray) {
-
-        // Check each validation rule and handle success or error
-
-        if (check(validationArrayElement.reg, validationArrayElement.field)) {
-            textSuccess(validationArrayElement.field, "");
+    for (let validation of validationArray) {
+        if (check(validation.reg, validation.field)) {
+            textSuccess(validation.field, "");
         } else {
-            errorCount++;
-            setTextError(validationArrayElement.field, validationArrayElement.error);
+            errorCount = errorCount + 1;
+            setTextError(validation.field, validation.error);
         }
     }
-    // Enable or disable buttons based on the error count
-    setButtonAvailable(errorCount);
+    setButtonState(errorCount);
 }
-
-/** Check if the input value matches the provided regex pattern. */
-function check(regex, textField) {
-    let inputValue = textField.val();
-    return regex.test(inputValue);
+// This function checks if a regular expression matches the value of a text field.
+function check(regex, txtField) {
+    let inputValue = txtField.val();
+    return regex.test(inputValue) ? true : false;
 }
-
-/** Set an error state for a text field and display an error message. */
+// This function sets an error state for a text field and displays an error message.
 function setTextError(txtField, error) {
     if (txtField.val().length <= 0) {
         defaultText(txtField, "");
     } else {
-        txtField.css("border", "2.5px solid red");
+        txtField.css('border', '2.5px solid red');
         txtField.parent().children('span').text(error);
     }
 }
-
-/** Focus on the provided text field. */
-function focusText(textField) {
-    textField.focus();
-}
-
-/** Set a success state for a text field and display a success message. */
+// This function sets a success state for a text field and displays a success message
 function textSuccess(txtField, error) {
     if (txtField.val().length <= 0) {
         defaultText(txtField, "");
     } else {
-        txtField.css("border", "1.5px solid green");
+        txtField.css('border', '2.5px solid green');
         txtField.parent().children('span').text(error);
     }
 }
-
-/** Reset a text field to its default state. */
+// This function resets a text field to its default state
 function defaultText(txtField, error) {
-    txtField.css("border", "1.5px solid #94c3f2");
+    txtField.css("border", "1.5px solid #ced4da");
     txtField.parent().children('span').text(error);
 }
+// This function focuses on a specified text field
+function focusText(txtField) {
+    txtField.focus();
+}
 
-/** Enable or disable buttons based on the provided value. */
-function setButtonAvailable(value) {
+// This function sets the state (enabled/disabled) of certain buttons based on a value
+function setButtonState(value) {
     if (value > 0) {
         $("#btnSaveCustomer, #btnSaveDriver, #btnSaveCar").attr('disabled', true);
     } else {

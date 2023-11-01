@@ -62,141 +62,123 @@ const cusNameRegEx = /^[A-z ]{5,20}$/;
 const cusEmailRegEx = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-]+)(\.[a-zA-Z]{2,5}){1,2}$/;
 const cusNicRegEx = /^[0-9]{9,10}[A-z]?$/;
 const cusAddressRegEx = /^[0-9/A-z. ,]{5,}$/;
-const cusPasswordRegEx = /^[0-9/A-z. ,]{5,}$/;
 const cusContactRegEx = /^[0-9]{10}$/;
 
-
-// Let's put those Reg-Ex to a array
-
 let customerValidations = [];
-
 customerValidations.push({
     reg: cusNameRegEx,
-    field : $('#cusName'),
-    error : 'Customer Name Pattern is Invalid ! : A-z 5-20'
+    field: $('#cusName'),
+    error: 'Customer Name Pattern is Wrong : A-z 5-20'
 });
-
-
+customerValidations.push({
+    reg: cusNicRegEx,
+    field: $('#cusNic'),
+    error: 'NIC Pattern is Wrong : 2001134561'
+});
+customerValidations.push({
+    reg: cusNicRegEx,
+    field: $('#cusLicense'),
+    error: 'NIC Pattern is Wrong : 2001134561'
+});
+customerValidations.push({
+    reg: cusAddressRegEx,
+    field: $('#cusAddress'),
+    error: 'Customer Address Pattern is Wrong : A-z 0-9 ,/'
+});
+customerValidations.push({
+    reg: cusContactRegEx,
+    field: $('#cusContact'),
+    error: 'Contact Pattern is Wrong : 0-9 ,/'
+});
 customerValidations.push({
     reg: cusEmailRegEx,
     field: $('#cusEmail'),
-    error: 'Customer E-mail Pattern is Invalid ! : dimanranawaka@gmail.com'
+    error: 'Email Pattern is Wrong : diman@gmail.com'
 });
-
 customerValidations.push({
-    reg:cusNicRegEx,
-    field:$('#cusNic'),
-    error: 'Customer NIC Pattern is Invalid ! : 970790448'
+    reg: cusAddressRegEx,
+    field: $('#cusUsername'),
+    error: 'Invalid Username'
 });
-
 customerValidations.push({
-    reg:cusAddressRegEx,
-    field:$('#cusAddress'),
-    error:'Customer Address Pattern is Invalid ! : A-z 0-9 ,/'
+    reg: cusAddressRegEx,
+    field: $('#cusPassword'),
+    error: 'Password Pattern is not Strong'
 });
-
 customerValidations.push({
-    reg:cusContactRegEx,
-    field:$('#cusLicense'),
-    error: 'Customer License Pattern is Invalid ! : 12345678'
+    reg: cusAddressRegEx,
+    field: $('#cusRe-password'),
+    error: 'Password Pattern is not Strong'
 });
 
-customerValidations.push({
-    reg:cusContactRegEx,
-    field:$('#cusContact'),
-    error: 'Customer Contact Pattern is Invalid ! : 077123456'
-});
 
-customerValidations.push({
-    reg:cusPasswordRegEx,
-    field:$('#cusPassword'),
-    error: 'Customer Password Pattern is Invalid ! : 077123456'
-});
-
-customerValidations.push({
-    reg:cusPasswordRegEx,
-    field:$('#cusRe-password'),
-    error: 'Customer Re-Password Pattern is Invalid ! : 077123456'
-});
-
-$("#cusName, #cusNic, #cusLicense, #cusContact, #cusAddress , #cusEmail, #cusUsername, #cusPassword, #cusRe-password").on('keyup', function (event) {
+$("#cusName,#cusNic,#cusLicense,#cusAddress,#cusContact,#cusEmail,#cusUsername,#cusPassword,#cusRe-password").on('keyup', function (event) {
     checkValidity(customerValidations);
 });
 
-$("#cusName, #cusNic, #cusLicense, #cusContact, #cusAddress , #cusEmail, #cusUsername, #cusPassword, #cusRe-password").on('blur', function (event) {
+$("#cusName,#cusNic,#cusLicense,#cusAddress,#cusContact,#cusEmail,#cusUsername,#cusPassword,#cusRe-password").on('blur', function (event) {
     checkValidity(customerValidations);
 });
 
 $("#cusName").on('keydown', function (event) {
-
-    if (event.key == "Enter" && check(cusNameRegEx, $("#cusName"))){
+    if (event.key == "Enter" && check(cusNameRegEx, $("#cusName"))) {
         $("#cusNic").focus();
     } else {
-        focusText($("#cusName"));
+        focusText($("#txtCusId"));
     }
 });
 
 $("#cusNic").on('keydown', function (event) {
-    if (event.key == "Enter" && check(cusNicRegEx, $("#cusNic"))){
-        $("#cusLicense").focus();
-    }else{
-        focusText($("#cusNic"));
-    }
-});
-
-$("#cusLicense").on('keydown', function (event) {
-    if (event.key == "Enter" && check(cusNicRegEx, $("#cusLicense"))){
-        $("#cusAddress").focus();
-    }else{
+    if (event.key == "Enter" && check(cusNicRegEx, $("#cusNic"))) {
         focusText($("#cusLicense"));
     }
 });
 
-$("#cusAddress").on('keydown', function (event) {
-    if (event.key == "Enter" && check(cusNicRegEx, $("#cusAddress"))){
-        $("#cusContact").focus();
-    }else{
+$("#cusLicense").on('keydown', function (event) {
+    if (event.key == "Enter" && check(cusNicRegEx, $("#cusLicense"))) {
         focusText($("#cusAddress"));
     }
 });
 
-$("#cusContact").on('keydown', function (event) {
-    if (event.key == "Enter" && check(cusNicRegEx, $("#cusContact"))){
-        $("#cusEmail").focus();
-    }else{
+$("#cusAddress").on('keydown', function (event) {
+    if (event.key == "Enter" && check(cusAddressRegEx, $("#cusAddress"))) {
         focusText($("#cusContact"));
     }
 });
 
-$("#cusEmail").on('keydown', function (event) {
-    if (event.key == "Enter" && check(cusNicRegEx, $("#cusEmail"))){
-        $("#cusUsername").focus();
-    }else{
+$("#cusContact").on('keydown', function (event) {
+    if (event.key == "Enter" && check(cusAddressRegEx, $("#cusContact"))) {
         focusText($("#cusEmail"));
     }
 });
 
-$("#cusUsername").on('keydown', function (event) {
-    if (event.key == "Enter" && check(cusNicRegEx, $("#cusPassword"))){
-        $("#cusPassword").focus();
-    }else{
+$("#cusEmail").on('keydown', function (event) {
+    if (event.key == "Enter" && check(cusEmailRegEx, $("#cusEmail"))) {
         focusText($("#cusUsername"));
     }
 });
 
-$("#cusPassword").on('keydown', function (event) {
-    if (event.key == "Enter" && check(cusNicRegEx, $("#cusPassword"))){
-        $("#cusRe-password").focus();
-    }else{
+$("#cusUsername").on('keydown', function (event) {
+    if (event.key == "Enter" && check(cusNameRegEx, $("#cusUsername"))) {
         focusText($("#cusPassword"));
     }
 });
 
-$("#cusRe-password").on('keydown', function (event) {
-    if (event.key == "Enter" && check(cusNicRegEx, $("#cusRe-password"))){
-        $("#cusNicImage").focus();
-    }else{
+$("#cusUsername").on('keydown', function (event) {
+    if (event.key == "Enter" && check(cusNameRegEx, $("#cusUsername"))) {
+        focusText($("#cusPassword"));
+    }
+});
+
+$("#cusPassword").on('keydown', function (event) {
+    if (event.key == "Enter" && check(cusAddressRegEx, $("#cusPassword"))) {
         focusText($("#cusRe-password"));
+    }
+});
+
+$("#cusRe-password").on('keydown', function (event) {
+    if (event.key == "Enter" && check(cusAddressRegEx, $("#cusRe-password"))) {
+
     }
 });
 
