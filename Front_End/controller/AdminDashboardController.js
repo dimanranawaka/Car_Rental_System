@@ -22,6 +22,7 @@ $.ajax({
 performCustomerFunctions();
 performCarPageFunctions();
 performDriverPageFunctions();
+performRentPageFunctions();
 performHomePageFunctions();
 
 homeLoader();
@@ -1039,6 +1040,8 @@ function performDriverPageFunctions() {
 
         loadAllDrivers();
 
+        // Show the "manageDriver" section and hide other sections
+
         $('#manageDriver').fadeIn();
         $("#home").attr("style", "display : none !important");
         $("#viewCustomer").attr("style", "display : none !important");
@@ -1051,17 +1054,20 @@ function performDriverPageFunctions() {
         $("#payments").attr("style", "display : none !important");
         $("#reports").attr("style", "display : none !important");
 
-        // Upload License Image
+        // Upload License Image and set up an event handler for adding a new driver
         loadSelectedImage("#licenseImage");
 
         $("#btnAddNewDriver").on("click", function () {
             $("#btnSaveDriver").text("Save");
         })
 
+        // Event handler for saving or updating driver information
+
         $("#btnSaveDriver").on("click", function () {
 
             let data = new FormData($("#driverForm")[0]);
 
+            // Perform an AJAX request to save or update the driver information
             $.ajax({
                 url: baseUrl + ($("#btnSaveDriver").text() == "Save" ? "driver" : "driver/update"),
                 method: "post",
@@ -1093,6 +1099,8 @@ function performDriverPageFunctions() {
 
                     $("#tblDriver").empty();
 
+                    // Loop through the retrieved driver data and populate the driver table in the HTML
+
                     for (let driver of res.data) {
 
                         $("#tblDriver").append(`
@@ -1113,6 +1121,7 @@ function performDriverPageFunctions() {
 
                     }
 
+                // Set up event handlers for updating and deleting drivers
                     bindUpdateEvent();
                     bindDeleteEvent();
 
@@ -1120,7 +1129,7 @@ function performDriverPageFunctions() {
             });
 
         }
-
+        // Function to bind event handlers for updating drivers
         function bindUpdateEvent() {
             $(".btnUpdate").on("click", function () {
 
@@ -1139,7 +1148,7 @@ function performDriverPageFunctions() {
 
             });
         }
-
+        // Function to bind event handlers for deleting drivers
         function bindDeleteEvent() {
             $(".btnDelete").on("click", function () {
 
@@ -1282,4 +1291,279 @@ function performDriverPageFunctions() {
             }
         });
     });
+}
+
+/**                 **** Rent Page ****                 */
+
+function performRentPageFunctions() {
+
+    $("#btnRent").on("click", function () {
+
+        $('#rents').fadeIn();
+        $("#home").attr("style", "display : none !important");
+        $("#viewCustomer").attr("style", "display : none !important");
+        $("#manageCustomers").attr("style", "display : none !important");
+        $("#manageCar").attr("style", "display : none !important");
+        $("#viewCar").attr("style", "display : none !important");
+        $("#manageDriver").attr("style", "display : none !important");
+        $("#drivers").attr("style", "display : none !important");
+        $("#rents").attr("style", "display : block !important");
+        $("#payments").attr("style", "display : none !important");
+        $("#reports").attr("style", "display : none !important");
+
+        $.ajax({
+
+            url: baseUrl + "rent/all",
+            async: false,
+            method: "get",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (res) {
+                loadCards(res);
+            }
+
+        });
+
+        function loadCards(res) {
+
+            $("#rent-context").empty();
+
+
+            for (let rent of res.data) {
+
+                if ($("#searchRent").val()  == rent.rentId || $("#searchRent").val() == ""){
+
+                    $("#rent-context").append(`
+            <div class="card col col-5 text-center p-2 shadow-sm" style="min-height: 570px!important;">
+                <div class="card-body" id="${res.rentId}">
+                    <h5 class="card-title">${rent.rentId}</h5>
+                    <p class="card-text">Customer NIC : ${rent.nic.nic}</p>
+                    <p class="card-text">Customer Name : ${rent.nic.name}</p>
+                    <p class="card-text">Pick Up Date : ${rent.pickUpDate.toString().replaceAll(",", "/")}</p>
+                    <p class="card-text">Pick Up Time: ${rent.pickUpTime.toString().replaceAll(",", ":")}</p>
+                    <p class="card-text">Return Date : ${rent.returnDate.toString().replaceAll(",", "/")}</p>
+                    <p class="card-text">Return Time : ${rent.returnTime.toString().replaceAll(",", ":")}</p>
+                    <p class="card-text">Description : ${rent.description.split(".")[0]}</p>
+                    <p class="card-text">Rent Status : ${rent.status}</p>
+                    <table class="table" id=${rent.rentId}>
+                        <thead>
+                              <tr>
+                                    <th scope="col">Register Number</th>
+                                    <th scope="col">Car Cost</th>
+                                    <th scope="col">Driver Cost</th>
+                                    <th scope="col">Driver NIC</th>
+                              </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <section class="mb-2">
+                    <button class="btn btn-success me-2 btnAccept"><i class="bi bi-calendar2-check"></i> Accept</button>
+                    <button class="btn btn-success me-2 btn-warning pay" data-bs-toggle="modal" data-bs-target="#paymentModel"><i class="bi bi-paypal"></i> Pay</button>
+                    <button class="btn btn-danger btnReject me-2"><i class="bi bi-calendar-x-fill"></i> Reject</button>
+                    <button class="btn btn-dark btnClose"><i class="bi bi-calendar-x-fill"></i> Close</button>
+                </section>
+            </div>
+            `);
+
+                    $(`#${res.rentId} > tbody`).empty();
+
+                    for (let rentDetail of rent.rentDetails) {
+                        $(`#${rent.rentId} > tbody`).append(`
+                    <tr>
+                      <td>${rentDetail.regNum}</td>
+                      <td>${rentDetail.carCost}</td>
+                      <td>${rentDetail.driverCost}</td>
+                      <td>${rentDetail.nic == null ? "--" : rentDetail.nic}</td>
+                    </tr>  
+                `);
+                    }
+
+                }
+
+            }
+
+            bindAcceptEvent();
+            bindPayEvent();
+            bindRejectEvent();
+            bindCloseEvent();
+
+        }
+
+        $("#searchRent").on("keyup", function () {
+            $.ajax({
+
+                url: baseUrl + "rent/all",
+                async: false,
+                method: "get",
+                contentType: "application/json",
+                dataType: "json",
+                success: function (res) {
+                    loadCards(res);
+                }
+
+            });
+        });
+
+
+        function bindAcceptEvent() {
+            $(".btnAccept").on("click", function () {
+
+                let text = $(this).parent().parent().children(":eq(0)").children(":eq(0)").text();
+
+                $.ajax({
+                    url: baseUrl + `rent?rentId=${text}&option=accepted`,
+                    async: false,
+                    method: "put",
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: function (res) {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Accepted..!',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        $.ajax({
+
+                            url: baseUrl + "rent/all",
+                            async: false,
+                            method: "get",
+                            contentType: "application/json",
+                            dataType: "json",
+                            success: function (res) {
+                                loadCards(res);
+                            }
+
+                        });
+                    }
+                });
+
+            });
+        }
+
+        function bindRejectEvent() {
+            $(".btnReject").on("click", function () {
+
+                let text = $(this).parent().parent().children(":eq(0)").children(":eq(0)").text();
+
+                $.ajax({
+                    url: baseUrl + `rent?rentId=${text}&option=reject`,
+                    async: false,
+                    method: "put",
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: function (res) {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'warning',
+                            title: 'Rejected..!',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        $.ajax({
+
+                            url: baseUrl + "rent/all",
+                            async: false,
+                            method: "get",
+                            contentType: "application/json",
+                            dataType: "json",
+                            success: function (res) {
+                                loadCards(res);
+                            }
+
+                        });
+                    }
+                });
+
+            });
+        }
+
+        function bindCloseEvent() {
+            $(".btnClose").on("click", function () {
+
+                let text = $(this).parent().parent().children(":eq(0)").children(":eq(0)").text();
+
+                $.ajax({
+                    url: baseUrl + `rent?rentId=${text}&option=closed`,
+                    async: false,
+                    method: "put",
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: function (res) {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Closed..!',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        $.ajax({
+
+                            url: baseUrl + "rent/all",
+                            async: false,
+                            method: "get",
+                            contentType: "application/json",
+                            dataType: "json",
+                            success: function (res) {
+                                loadCards(res);
+                            }
+
+                        });
+                    }
+                });
+
+            });
+        }
+
+
+        function bindPayEvent() {
+
+            $(".pay").on("click", function () {
+                rentId = $(this).parent().parent().children(":eq(0)").children(":eq(0)").text();
+            });
+
+        }
+        bindManagePayment();
+
+        function bindManagePayment() {
+            $("#btnPayment").on("click", function () {
+
+                let json = {
+                    balance: $("#balance").val(),
+                    cash: $("#cash").val(),
+                    description: $("#description").val(),
+                    total: $("#total").val(),
+                    type: $("#type").val(),
+                    rentId: {
+                        rentId: rentId
+                    }
+                }
+
+                $.ajax({
+                    url: baseUrl + `payment`,
+                    async: false,
+                    method: "post",
+                    data: JSON.stringify(json),
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: function (res) {
+                        saveAlert();
+                        performPaymentPageFunctions();
+                    }
+                });
+
+            });
+        }
+    });
+
+}
+
+/**             **** Payment Page ****                       */
+
+
+function performPaymentPageFunctions() {
+    
 }
