@@ -349,6 +349,8 @@ function performCustomerFunctions() {
 
                     }
 
+                    bindUpdateEvents();
+                    bindDeleteEvent();
                 }
 
             });
@@ -405,5 +407,35 @@ function performCustomerFunctions() {
 
         }
 
+        function bindDeleteEvent() {
+
+            $(".btnDelete").on("click",function () {
+
+                let nic = $(this).parent().parent().children(":eq(0)").text();
+
+                if (!confirm("Are you sure right?")) return;
+
+                $.ajax({
+
+                    url: baseUrl + "customer?nic=" + nic,
+                    method: "delete",
+                    async: false,
+                    data: nic,
+                    contentType: false,
+                    processData: false,
+                    success :function (res) {
+
+                        deleteAlert();
+                        loadAllCustomers();
+
+                    }
+                });
+
+            });
+
+        }
+
     });
+
+
 }
