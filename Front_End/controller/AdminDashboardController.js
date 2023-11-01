@@ -258,6 +258,8 @@ function performCustomerFunctions() {
 
         $("#btnCustomer").on("click", function () {
 
+            let data = new FormData($("#customerForm")[0]);
+
             let json = {
 
                 nic: $("#cusNic").val(),
