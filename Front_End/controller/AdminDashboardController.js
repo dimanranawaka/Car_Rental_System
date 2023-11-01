@@ -258,6 +258,40 @@ function performCustomerFunctions() {
 
         $("#btnCustomer").on("click", function () {
 
+            let json = {
+
+                nic: $("#cusNic").val(),
+                name:$("#cusName").val(),
+                license:$("#cusLicense").val(),
+                address:$("#cusAddress").val(),
+                contact:$("#cusContact").val(),
+                email:$("#cusEmail").val(),
+                user:{
+
+                    username:$("#cusUsername").val(),
+                    password:$("#cusPassword").val(),
+
+                }
+            }
+
+            s.ajax({
+
+                url: baseUrl+ "customer",
+                method: $("#btnSaveCustomer").text() == "Save" ? "post" : "put",
+                async: false,
+                data: JSON.stringify(json),
+                contentType: "application/json",
+                dataType:"json",
+                success: function (res) {
+
+                    $("#btnSaveCustomer").text() == "Save" ? saveAlert() : updateAlert();
+
+
+                }
+
+            });
+
+
         });
 
     });
