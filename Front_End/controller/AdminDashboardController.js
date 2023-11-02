@@ -319,10 +319,9 @@ function performCustomerPageFunctions() {
                     method: "get",
                     async: false,
                     dataType: "json",
-                    // contentType: "application/json",
                     success: function (res) {
-                        $("#cusNicImgContext").attr(`style`, `background : url(..${res.data.nicImage}); background-position: center; background-size: cover`);
-                        $("#cusLicenseImgContext").attr(`style`, `background : url(..${res.data.licenseImage}); background-position: center; background-size: cover`);
+                        $("#cusNicImgContext").attr(`style`, `background : url(../assets${res.data.nicImage}); background-position: center; background-size: cover`);
+                        $("#cusLicenseImgContext").attr(`style`, `background : url(../assets${res.data.licenseImage}); background-position: center; background-size: cover`);
                     }
                 });
 
