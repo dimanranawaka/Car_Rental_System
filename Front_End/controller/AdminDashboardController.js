@@ -119,6 +119,8 @@ function manageHomePage() {
 
     }
 
+    // Configuration for the daily sales income chart
+
     var dataPoints = [];
 
     var options = {
@@ -141,6 +143,8 @@ function manageHomePage() {
         }]
     };
 
+    // Load data for the daily sales income chart
+
     $.ajax({
         url: baseUrl + "payment/daily",
         method: "get",
@@ -154,6 +158,8 @@ function manageHomePage() {
             $("#chartContainer").CanvasJSChart(options);
         }
     });
+
+    // Configuration for the car brands chart
 
     let points = [];
 
@@ -176,6 +182,8 @@ function manageHomePage() {
             dataPoints: points
         }]
     };
+
+    // Load data for the car brands chart
 
     $.ajax({
         url: baseUrl + "car/brand",
@@ -325,6 +333,8 @@ function performCustomerPageFunctions() {
                     }
                 });
 
+            // this code copies data from specific cells within a table row and populates corresponding input fields with that data
+
                 $("#cusNic").val($(this).parent().parent().children(":eq(0)").text());
                 $("#cusName").val($(this).parent().parent().children(":eq(1)").text());
                 $("#cusLicense").val($(this).parent().parent().children(":eq(4)").text());
@@ -364,12 +374,13 @@ function performCustomerPageFunctions() {
         }
 
         // customer regular expressions
+
         const cusNameRegEx = /^[A-z ]{5,20}$/;
         const cusEmailRegEx = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-]+)(\.[a-zA-Z]{2,5}){1,2}$/;
         const cusNicRegEx = /^[0-9]{9,10}[A-z]?$/;
         const cusAddressRegEx = /^[0-9/A-z. ,]{5,}$/;
         const cusContactRegEx = /^[0-9]{10}$/;
-        const cusSalaryRegEx = /^[0-9]{1,}[.]?[0-9]{1,2}$/;
+
 
         let customerValidations = [];
         customerValidations.push({
@@ -650,8 +661,8 @@ function manageCarPage() {
                     $.ajax({
                         url: baseUrl + "car?regNum=" + regNum,
                         method: "delete",
-                        dataType: "json",
-                        contentType: "application/json",
+                        dataType: "json", // Accept format only be JSON from the server
+                        contentType: "application/json", // Sending format JSON to the server
                         success: function (res) {
                             deleteAlert();
                             $.ajax({
@@ -1078,10 +1089,10 @@ function manageDriverPage() {
                 $.ajax({
                     url: baseUrl + "driver?nic=" + nic,
                     method: "delete",
-                    async: false,
-                    data: nic,
-                    contentType: false,
-                    processData: false,
+                    async: false, // code will wait for the request to finish before it does anything else
+                    data: nic, //
+                    contentType: false, // when using FormData , lik multipart files uploading
+                    processData: false, // prevent jQuery from automatically processing the sending data .
                     success: function (res) {
                         deleteAlert();
                         loadAllDrivers();
