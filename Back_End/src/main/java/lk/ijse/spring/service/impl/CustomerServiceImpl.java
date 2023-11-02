@@ -5,105 +5,98 @@ import lk.ijse.spring.dto.CustomerImageDTO;
 import lk.ijse.spring.entity.Customer;
 import lk.ijse.spring.repo.CustomerRepo;
 import lk.ijse.spring.service.CustomerService;
-import lk.ijse.spring.util.ImagePathWriterUtil;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
-@Transactional // AOP //
+@Transactional
 public class CustomerServiceImpl implements CustomerService {
-
     @Autowired
     CustomerRepo customerRepo;
 
     @Autowired
-    ModelMapper modelMapper;
-
+    ModelMapper mapper;
 
 
     @Override
-    public void addCustomer(CustomerDTO customerDTO) {
-        if(customerRepo.existsById(customerDTO.getNic())){
-            throw new RuntimeException(customerDTO.getNic()+" : is Already Exists!");
-        }
-        Customer customer = modelMapper.map(customerDTO, Customer.class);
-        customerRepo.save(customer);
+    public void saveCustomer(CustomerDTO customerDTO) throws RuntimeException {
+
+        if (customerRepo.existsById(customerDTO.getNic())) throw new RuntimeException("Customer Already Exits..!");
+        customerDTO.getUser().setRole("Customer");
+        customerRepo.save(mapper.map(customerDTO, Customer.class));
+
     }
 
     @Override
-    public List<CustomerDTO> getAllCustomers() {
-        List<Customer> allCustomers = customerRepo.findAll();
-        return modelMapper.map(allCustomers,new TypeToken<List<CustomerDTO>>(){}.getType());
+    public List<CustomerDTO> getAllCustomer() throws RuntimeException {
+        return mapper.map(customerRepo.findAll(), new TypeToken<ArrayList<CustomerDTO>>() {
+        }.getType());
+
     }
 
     @Override
-    public void deleteCustomer(String nic) {
-       if (!customerRepo.existsById(nic)){
-           throw new RuntimeException(nic+" is not Exists to deleted!");
-       }
-       customerRepo.deleteById(nic);
-    }
+    public void saveImages(String nic, CustomerImageDTO imageDTO) throws RuntimeException {
 
-    @Override
-    public void updateCustomer(CustomerDTO customerDTO){
-        if (!customerRepo.existsById(customerDTO.getNic())){
-            throw new RuntimeException(customerDTO.getNic()+" : is not Exists!");}
-
-        Customer customer = modelMapper.map(customerDTO, Customer.class);
-        Customer updatedCustomer = customerRepo.findById(customerDTO.getNic()).get();
-
-        customer.setNicImage(updatedCustomer.getNicImage());
-        customer.setLicenseImage(updatedCustomer.getLicenseImage());
-        customer.getUser().setRole("Customer");
-
-        customerRepo.save(customer);
-    }
-
-    @Override
-    public Long countCustomerAmount() {
-        return customerRepo.countCustomersByNic();
-    }
-
-    @Override
-    public void saveCustomerImages(String nic,CustomerImageDTO customerImageDTO) throws RuntimeException {
         Customer customer = customerRepo.findById(nic).get();
 
-        if (customerImageDTO.getLicenseImage() !=null && customerImageDTO.getNicImage() !=null){
-            try {
+        try {
+            if (imageDTO.getLicenseImage() != null && imageDTO.getNicImage() != null) {
 
-                byte[] nicB = customerImageDTO.getNicImage().getBytes();
-                byte[] licenseB = customerImageDTO.getLicenseImage().getBytes();
+                byte[] nicFileBytes = imageDTO.getNicImage().getBytes();
+                byte[] licenseFileBytes = imageDTO.getLicenseImage().getBytes();
 
                 String projectPath = "D:\\Dev\\Java\\My_Projects\\Car_Rental_System\\Front_End\\assets";
+                Path nicLocation = Paths.get(projectPath + "/image/bucket/customer/nic/nic_" + nic + ".jpeg");
+                Path licenseLocation = Paths.get(projectPath + "/image/bucket/customer/license/license_" + nic + ".jpeg");
 
-                Path nicPath = Paths.get(projectPath + "/images/bucket/customer/nic/nic_" + nic + ".jpeg");
-                Path licPath = Paths.get(projectPath + "/images/bucket/customer/lic/license_" +  nic + ".jpeg");
+                Files.write(nicLocation, nicFileBytes);
+                Files.write(licenseLocation, licenseFileBytes);
 
-                Files.write(nicPath,nicB);
-                Files.write(licPath,licenseB);
-
-                customerImageDTO.getNicImage().transferTo(nicPath);
-                customerImageDTO.getLicenseImage().transferTo(licPath);
-
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                imageDTO.getNicImage().transferTo(nicLocation);
+                imageDTO.getLicenseImage().transferTo(licenseLocation);
             }
 
-            customer.setLicenseImage("/assets/images/bucket/customer/license/license_"+".jpeg");
-            customer.setNicImage("/assets/images/bucket/customer/nic/nic_"+".jpeg");
-
-            customer.getUser().setRole("Customer");
-            customerRepo.save(customer);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+
+        customer.setNicImage("/assets/image/bucket/customer/nic/nic_" + nic + ".jpeg");
+        customer.setLicenseImage("/assets/image/bucket/customer/license/license_" + nic + ".jpeg");
+
+        customer.getUser().setRole("Customer");
+        customerRepo.save(customer);
+
     }
 
+    @Override
+    public void updateCustomer(CustomerDTO customerDTO) throws RuntimeException {
+        if (!customerRepo.existsById(customerDTO.getNic())) throw new RuntimeException("Invalid Customer..!");
+        Customer customer = mapper.map(customerDTO, Customer.class);
+        Customer customer1 = customerRepo.findById(customerDTO.getNic()).get();
+        customer.setLicenseImage(customer1.getLicenseImage());
+        customer.setNicImage(customer1.getNicImage());
+        customer.getUser().setRole("Customer");
+        customerRepo.save(customer);
+    }
+
+    @Override
+    public void deleteCustomer(String nic) throws RuntimeException {
+        if (!customerRepo.existsById(nic)) throw new RuntimeException("Invalid Customer..!");
+        customerRepo.deleteById(nic);
+    }
+
+    @Override
+    public Long countCustomers() throws RuntimeException {
+        return customerRepo.countCustomerByNic();
+    }
 }

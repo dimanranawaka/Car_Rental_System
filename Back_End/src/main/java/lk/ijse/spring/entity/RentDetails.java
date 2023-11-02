@@ -7,9 +7,11 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+
+
 @Entity
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 @ToString
 @IdClass(RentCar_PK.class)
@@ -27,11 +29,10 @@ public class RentDetails {
     private Rent rent;
 
     @ManyToOne
-    @JoinColumn(name = "regNum",referencedColumnName = "regNum",insertable = false,updatable = false)
+    @JoinColumn(name = "regNum", referencedColumnName = "regNum", insertable = false, updatable = false)
     private Car car;
 
     @ManyToOne
-    @JoinColumn(name = "nic",referencedColumnName = "nic",insertable = false,updatable = false)
+    @JoinColumn(name = "nic", referencedColumnName = "nic", insertable = false, updatable = false)
     private Driver driver;
-
 }

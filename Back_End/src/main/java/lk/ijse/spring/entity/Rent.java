@@ -11,15 +11,17 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+
 @Entity
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 @ToString
 public class Rent {
     @Id
     private String rentId;
-    @ManyToOne(cascade = {CascadeType.REFRESH,CascadeType.DETACH})
+
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "nic",referencedColumnName = "nic", nullable = false)
     private Customer nic;
     private LocalDate pickUpDate;

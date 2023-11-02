@@ -9,8 +9,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-@NoArgsConstructor
+
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 @ToString
 public class RentDTO {

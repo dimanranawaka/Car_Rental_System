@@ -6,11 +6,12 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface RentRepo extends JpaRepository<Rent,String> {
-    @Query(value = "SELECT rendId FROM Rent ORDER BY DESC LIMIT 1",nativeQuery = true)
-    String generateLastRentId();
-    List<Rent> getRentByNic_Nic(String nic) throws RuntimeException;
+public interface RentRepo extends JpaRepository<Rent, String> {
+    @Query(value = "SELECT rentId FROM Rent ORDER BY rentId  DESC LIMIT 1", nativeQuery = true)
+    String getLastRentId();
 
-    @Query(value = "SELECT COUNT(rentId) FROM Rent WHERE status!='Closed'",nativeQuery = true)
-    Long getBookAmount() throws RuntimeException;
+    List<Rent> getRentsByNic_Nic(String nic) throws RuntimeException;
+
+    @Query(value = "SELECT COUNT(rentId) FROM Rent WHERE status!='Closed'", nativeQuery = true)
+    Long countBookings() throws RuntimeException;
 }

@@ -7,19 +7,21 @@ import lk.ijse.spring.dto.RentDetailsDTO;
 import java.util.List;
 
 public interface RentService {
-    void rentRequest(RentDTO rentDTO) throws RuntimeException;
-    String generateNewRentId() throws RuntimeException;
-    List<RentDTO> getAllRentRecords() throws RuntimeException;
+    public void requestRent(RentDTO rentDTO) throws RuntimeException;
 
-    CustomerDTO getCustomer(String username) throws RuntimeException;
+    public String generateNewRentId() throws RuntimeException;
 
-    RentDTO requestRentByRentId(String rentId) throws RuntimeException;
+    public CustomerDTO getCustomerByUsername(String username) throws RuntimeException;
 
-    List<RentDTO> requestRentByNic(String nic) throws RuntimeException;
+    public List<RentDTO> getAllRents() throws RuntimeException;
 
-    Long getRentsCount() throws RuntimeException;
+    public void acceptRentRequest(String rentId, String option) throws RuntimeException;
 
-    void getRentRequestStatus(String rentId, String option) throws RuntimeException;
+    public RentDTO getRentByRentId(String rentId) throws RuntimeException;
 
-    List<RentDetailsDTO> getDriverSchedule(String nic) throws RuntimeException;
+    public List<RentDetailsDTO> getDriverSchedule(String nic) throws RuntimeException;
+
+    public List<RentDTO> getRentByNic(String nic) throws RuntimeException;
+
+    public Long countRents() throws RuntimeException;
 }

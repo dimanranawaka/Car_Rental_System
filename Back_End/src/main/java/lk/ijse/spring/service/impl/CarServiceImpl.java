@@ -1,8 +1,8 @@
 package lk.ijse.spring.service.impl;
 
-import lk.ijse.spring.dto.CarAllDTO;
 import lk.ijse.spring.dto.CarDTO;
 import lk.ijse.spring.dto.CarImageDTO;
+import lk.ijse.spring.dto.CarAllDTO;
 import lk.ijse.spring.entity.Car;
 import lk.ijse.spring.repo.CarRepo;
 import lk.ijse.spring.repo.RentDetailsRepo;
@@ -12,8 +12,8 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
@@ -25,29 +25,26 @@ import java.util.List;
 public class CarServiceImpl implements CarService {
 
     @Autowired
-    ModelMapper modelMapper;
+    ModelMapper mapper;
 
     @Autowired
     CarRepo carRepo;
 
     @Autowired
-    RentDetailsRepo detailsRepo;
+    RentDetailsRepo rentDetailsRepo;
 
     @Override
-    public void addCar(CarDTO carDTO) throws RuntimeException{
+    public void saveCar(CarDTO carDTO) throws RuntimeException {
 
-        if (carRepo.existsById(carDTO.getRegNum())) {
-            throw new RuntimeException("Already Exists!");
-        }
+        if (carRepo.existsById(carDTO.getRegNum())) throw new RuntimeException("Car Already Exist..!");
 
-        Car car = modelMapper.map(carDTO, Car.class);
-
+        Car car = mapper.map(carDTO, Car.class);
         try {
 
-            car.getCarImage().setFront(new ImagePathWriterUtil().imagePathWriter(carDTO.getCarImageDTO().getFront(),Paths.get(ImagePathWriterUtil.projectPath +"/images/bucket/car/front_"+ carDTO.getRegNum()+".jpeg")));
-            car.getCarImage().setFront(new ImagePathWriterUtil().imagePathWriter(carDTO.getCarImageDTO().getBack(),Paths.get(ImagePathWriterUtil.projectPath +"/images/bucket/car/back_"+ carDTO.getRegNum()+".jpeg")));
-            car.getCarImage().setFront(new ImagePathWriterUtil().imagePathWriter(carDTO.getCarImageDTO().getBack(),Paths.get(ImagePathWriterUtil.projectPath +"/images/bucket/car/side_"+ carDTO.getRegNum()+".jpeg")));
-            car.getCarImage().setFront(new ImagePathWriterUtil().imagePathWriter(carDTO.getCarImageDTO().getInterior(),Paths.get(ImagePathWriterUtil.projectPath +"/images/bucket/car/interior_"+ carDTO.getRegNum()+".jpeg")));
+            car.getPhotos().setFront(new ImagePathWriterUtil().writeImage(carDTO.getPhotos().getFront(), Paths.get(ImagePathWriterUtil.projectPath + "/image/bucket/car/front_" + carDTO.getRegNum() + ".jpeg")));
+            car.getPhotos().setBack(new ImagePathWriterUtil().writeImage(carDTO.getPhotos().getBack(), Paths.get(ImagePathWriterUtil.projectPath + "/image/bucket/car/back_" + carDTO.getRegNum() + ".jpeg")));
+            car.getPhotos().setSide(new ImagePathWriterUtil().writeImage(carDTO.getPhotos().getSide(), Paths.get(ImagePathWriterUtil.projectPath + "/image/bucket/car/side_" + carDTO.getRegNum() + ".jpeg")));
+            car.getPhotos().setInterior(new ImagePathWriterUtil().writeImage(carDTO.getPhotos().getInterior(), Paths.get(ImagePathWriterUtil.projectPath + "/image/bucket/car/interior_" + carDTO.getRegNum() + ".jpeg")));
 
             carRepo.save(car);
 
@@ -56,138 +53,99 @@ public class CarServiceImpl implements CarService {
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
-
     }
+
+
 
     @Override
     public List<CarDTO> getAllCars() throws RuntimeException {
-
-        return modelMapper.map(carRepo.findAll(), new TypeToken<ArrayList<CarAllDTO>>() {
+        return mapper.map(carRepo.findAll(), new TypeToken<ArrayList<CarAllDTO>>() {
         }.getType());
     }
 
     @Override
-    public CarAllDTO getCar(String regNum) throws RuntimeException{
-//        if (!carRepo.existsById(regNum)){
-//            throw new RuntimeException(regNum+" : is Not Exists, Please Enter Valid RegNum !");
-//        }
-        return modelMapper.map(carRepo.findById(regNum), CarAllDTO.class);
+    public void saveCarImages(CarImageDTO carImageDTO) throws RuntimeException {
+
     }
 
     @Override
-    public Long countAvailableCar() throws  RuntimeException{
-//        if (carRepo.countAvailableCars()==0){
-//            throw new RuntimeException(" No Available Cars for now !");
-//        }
+    public void addToMaintains(String regNum) throws RuntimeException {
+        Car car = carRepo.findCarByRegNum(regNum);
+        car.setAvailability(car.getAvailability().equals("YES") ? "NO" : "YES");
+
+        carRepo.save(car);
+    }
+
+    @Override
+    public CarAllDTO getCar(String regNum) throws RuntimeException {
+        return mapper.map(carRepo.findById(regNum), CarAllDTO.class);
+    }
+
+    @Override
+    public Long countAvailableCars() throws RuntimeException {
         return carRepo.countAvailableCars();
     }
 
     @Override
-    public Long countReserveCarAmount() throws RuntimeException{
-        if (carRepo.countReservedCars()==0){
-            throw new RuntimeException("No Cars Reserved at the moment !");
-
-        }
+    public Long countReservedCars() throws RuntimeException {
         return carRepo.countReservedCars();
     }
 
     @Override
-    public void updateCar(CarDTO carDTO) throws RuntimeException{
+    public void updateCar(CarDTO carDTO) throws RuntimeException {
+        if (!carRepo.existsById(carDTO.getRegNum())) throw new RuntimeException("Car Doesn't Exist..!");
 
-        if(!carRepo.existsById(carDTO.getRegNum())){
-            throw new RuntimeException(carDTO.getRegNum()+" : is Not Exists!");
-        }
+        Car car1 = carRepo.findById(carDTO.getRegNum()).get();
 
-        Car carThatMustUpdate = carRepo.findById(carDTO.getRegNum()).get();
-        Car mapped = modelMapper.map(carDTO, Car.class);
+        Car car = mapper.map(carDTO, Car.class);
 
-        mapped.setCarImage(carThatMustUpdate.getCarImage());
-        carRepo.save(mapped);
+        car.setPhotos(car1.getPhotos());
+
+        carRepo.save(car);
     }
 
     @Override
-    public void deleteCar(String regNum) throws RuntimeException{
-        if (!carRepo.existsById(regNum)){
-            throw new RuntimeException(regNum+" : is Not Exists!");
-        }
-//        carRepo.deleteById(regNum);
+    public void deleteCar(String regNum) throws RuntimeException {
 
-        detailsRepo.deleteRentDetailsByRegNum(regNum);
+        if (!carRepo.existsById(regNum)) throw new RuntimeException("Car Doesn't Exist..!");
+
+        rentDetailsRepo.deleteRentDetailByRegNum(regNum);
+
+
+
         carRepo.deleteById(regNum);
     }
 
     @Override
-    public Long countMaintainingCarAmount() throws RuntimeException{
-        if (carRepo.countMaintainingCars()==0){
-            throw new RuntimeException("No cars in maintain at the moment!");
-        }
-       return carRepo.countReservedCars();
-    }
-
-    @Override
-    public List countCarAmountByBrand() throws RuntimeException {
-        return  carRepo.countCarBrands();
-    }
-
-    @Override
-    public void editCarImages(CarImageDTO dto) {
-        /*Car car = modelMapper.map(dto, Car.class);
-
-        try {
-
-            car.getCarImage().setFront(new ImagePathWriterUtil().imagePathWriter(dto.getCarImageDTO().getFront(), Paths.get(ImagePathWriterUtil.projectPath+"/images/car/front_"+dto.getRegNum()+".jpeg")));
-            car.getCarImage().setBack(new ImagePathWriterUtil().imagePathWriter(dto.getCarImageDTO().getBack(), Paths.get(ImagePathWriterUtil.projectPath+"/images/car/back_"+dto.getRegNum()+".jpeg")));
-            car.getCarImage().setSide(new ImagePathWriterUtil().imagePathWriter(dto.getCarImageDTO().getSide(), Paths.get(ImagePathWriterUtil.projectPath+"/images/car/side_"+dto.getRegNum()+".jpeg")));
-            car.getCarImage().setInterior(new ImagePathWriterUtil().imagePathWriter(dto.getCarImageDTO().getInterior(), Paths.get(ImagePathWriterUtil.projectPath+"/images/car/interior_"+dto.getRegNum()+".jpeg")));
-
-            carRepo.save(car);
-
-        } catch (IOException e) {
-
-            throw new RuntimeException(e);
-
-        } catch (URISyntaxException e) {
-
-            throw new RuntimeException(e);
-
-        }*/
-    }
-
-    @Override
-    public List<CarAllDTO> filterCarsByRegNum(String text, String search, String fuel) throws RuntimeException{
+    public List<CarAllDTO> filterCarsByRegNum(String text, String search, String fuel) throws RuntimeException {
         fuel = fuel.equals("ALL") ? "" : fuel;
 
-        switch (search){
+        switch (search) {
             case "REG_NUM":
-
-                return  modelMapper.map(carRepo.findByRegNumLikeAndFuelTypeLike("%" + text + "%", "%" + fuel + "%"), new TypeToken<ArrayList<CarAllDTO>>() {
+                return mapper.map(carRepo.findByRegNumLikeAndFuelTypeLike("%" + text + "%", "%"+fuel+"%"), new TypeToken<ArrayList<CarAllDTO>>() {
                 }.getType());
-
 
             case "BRAND":
-                return modelMapper.map(carRepo.findByBrandLikeAndFuelTypeLike("%" + text + "%", "%" + fuel + "%"), new TypeToken<ArrayList<CarAllDTO>>() {
+                return mapper.map(carRepo.findByBrandLikeAndFuelTypeLike("%" + text + "%", "%"+fuel+"%"), new TypeToken<ArrayList<CarAllDTO>>() {
                 }.getType());
-
 
             case "COLOR":
-                return modelMapper.map(carRepo.findByColorLikeAndFuelTypeLike("%" + text + "%", "%" + fuel + "%"), new TypeToken<ArrayList<CarAllDTO>>() {
+                return mapper.map(carRepo.findByColorLikeAndFuelTypeLike("%" + text + "%", "%"+fuel+"%"), new TypeToken<ArrayList<CarAllDTO>>() {
                 }.getType());
-
 
             default:
                 return null;
+
         }
     }
 
     @Override
-    public void moveCarToMaintain(String regNum) throws RuntimeException{
-        if (!carRepo.existsById(regNum)){
-            throw new RuntimeException(regNum+" : is Not Exists!");
-        }
-        Car carByRegNum = carRepo.findCarByRegNum(regNum);
-        carByRegNum.setAvailability(carByRegNum.getAvailability().equals("YES")?"NO":"YES");
-        carRepo.save(carByRegNum);
+    public List countCarsByBrand() throws RuntimeException {
+        return carRepo.countCarBrands();
     }
 
-
+    @Override
+    public Long countMaintainingCars() throws RuntimeException {
+        return carRepo.countMaintainingCars();
+    }
 }

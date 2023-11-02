@@ -10,19 +10,21 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"lk.ijse.spring.controller","lk.ijse.spring.advisor"})
+@ComponentScan(basePackages = {"lk.ijse.spring.controller"})
 public class WebAppConfig implements WebMvcConfigurer {
     public WebAppConfig() {
         System.out.println("WebAppConfig : Instantiated");
     }
+
     @Bean
-    public CommonsMultipartResolver commonsMultipartResolver(){
-        CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
-        commonsMultipartResolver.setMaxUploadSize(5000000);
-        return  commonsMultipartResolver;
+    public CommonsMultipartResolver multipartResolver() {
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+        multipartResolver.setMaxUploadSize(5000000);
+        return multipartResolver;
     }
+
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry){
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**/**").addResourceLocations("http://localhost:8080");
     }
 }

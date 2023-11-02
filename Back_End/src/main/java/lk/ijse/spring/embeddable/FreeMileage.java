@@ -8,9 +8,10 @@ import lombok.ToString;
 import javax.persistence.Embeddable;
 import java.math.BigDecimal;
 
+
 @Embeddable
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 @ToString
 public class FreeMileage {

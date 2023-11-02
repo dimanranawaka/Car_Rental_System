@@ -6,14 +6,15 @@ import lk.ijse.spring.dto.CustomerImageDTO;
 import java.util.List;
 
 public interface CustomerService {
-    void addCustomer(CustomerDTO dto) throws RuntimeException;
+    public void saveCustomer(CustomerDTO customerDTO) throws RuntimeException;
 
-     List<CustomerDTO> getAllCustomers() throws RuntimeException;
+    public List<CustomerDTO> getAllCustomer() throws RuntimeException;
 
-     void deleteCustomer(String nic) throws RuntimeException;
+    public void saveImages(String nic, CustomerImageDTO imageDTO) throws RuntimeException;
 
-     void updateCustomer(CustomerDTO customerDTO) throws RuntimeException;
-     Long countCustomerAmount() throws  RuntimeException;
+    public void updateCustomer(CustomerDTO customerDTO) throws RuntimeException;
 
-     void saveCustomerImages(String nic, CustomerImageDTO customerImageDTO) throws RuntimeException;
+    public void deleteCustomer(String nic) throws RuntimeException;
+
+    public Long countCustomers() throws RuntimeException;
 }

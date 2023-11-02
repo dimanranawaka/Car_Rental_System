@@ -10,53 +10,73 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/payment")
 @CrossOrigin
 public class PaymentController {
+
     @Autowired
-    PaymentService service;
+    PaymentService paymentService;
 
     @PostMapping
-    public ResponseUtil addPayment(@RequestBody PaymentDTO dto){
-        service.addPayment(dto);
-        return new ResponseUtil("Ok","Successfully added!","");
+    public ResponseUtil savePayment(@RequestBody PaymentDTO paymentDTO) {
+
+        paymentService.savePayment(paymentDTO);
+        System.out.println(paymentDTO);
+        return new ResponseUtil("OK", "Successfully Saved..!", "");
+
     }
+
     @GetMapping
-    public ResponseUtil getAllPayments(){
-        return new ResponseUtil("Ok","Successfully Loaded!",service.getAllPayments());
+    public ResponseUtil getAllPayments() {
+
+        return new ResponseUtil("OK", "Successfully Loaded..!", paymentService.loadAllPayments());
+
     }
 
     @GetMapping(params = {"nic"})
-    public ResponseUtil getPaymentByNic(@RequestParam String nic){
-        return new ResponseUtil("Ok","Successfully Loaded!",service.getPaymentsByNic(nic));
+    public ResponseUtil getPaymentsByNic(String nic) {
+
+        return new ResponseUtil("OK", "Successfully Loaded..!", paymentService.getPaymentsByNic(nic));
+
     }
 
     @GetMapping(path = "/daily")
-    public ResponseUtil getDailyIncome(){
+    public ResponseUtil getDailyIncome() {
 
-        return new ResponseUtil("OK","Successfully Loaded!",service.getDailyIncome());
+        return new ResponseUtil("OK", "Successfully Loaded..!", paymentService.getDailyIncome());
 
     }
 
     @GetMapping(path = "/monthly")
-    public ResponseUtil getMonthlyIncome(){
-        return new ResponseUtil("Ok","Successfully Loaded!",service.getMonthlyIncome());
+    public ResponseUtil getMonthlyIncome() {
+
+        return new ResponseUtil("OK", "Successfully Loaded..!", paymentService.getMonthlyIncome());
+
     }
 
     @GetMapping(path = "/yearly")
-    public ResponseUtil getYearlyIncome(){
-        return new ResponseUtil("Ok","Successfully Loaded!",service.getYearlyIncome());
+    public ResponseUtil getYearlyIncome() {
+
+        return new ResponseUtil("OK", "Successfully Loaded..!", paymentService.getYearlyIncome());
+
     }
 
     @GetMapping(path = "/day")
-    public ResponseUtil getCurrentDayIncome(){
-        return new ResponseUtil("Ok","Successfully Loaded!",service.getCurrentDayIncome());
+    public ResponseUtil getDayIncome() {
+
+        return new ResponseUtil("OK", "Successfully Loaded..!", paymentService.getCurrentDayIncome());
+
     }
 
     @GetMapping(path = "/month")
-    public ResponseUtil getCurrentCurrentMonthIncome(){
-        return new ResponseUtil("Ok","Successfully Loaded!",service.getCurrentMonthIncome());
+    public ResponseUtil getMonthIncome() {
+
+        return new ResponseUtil("OK", "Successfully Loaded..!", paymentService.getCurrentMonthIncome());
+
     }
 
     @GetMapping(path = "/year")
-    public ResponseUtil getCurrentYearIncome(){
-        return new ResponseUtil("Ok","Successfully Loaded",service.getCurrentYearIncome());
+    public ResponseUtil getYearIncome() {
+
+        return new ResponseUtil("OK", "Successfully Loaded..!", paymentService.getCurrentYearIncome());
+
     }
+
 }

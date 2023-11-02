@@ -1,5 +1,6 @@
 package lk.ijse.spring.embeddable;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,8 +9,8 @@ import lombok.ToString;
 import javax.persistence.Embeddable;
 
 @Embeddable
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 @ToString
 public class CarImage {

@@ -1,24 +1,26 @@
-/** Save Customer method */
+// Save Customer
 
-$("#btnSaveCustomer").on("click",function () {
+$("#btnSaveCustomer").on("click", function () {
 
     let data = new FormData($("#customerForm")[0]);
 
-    let json  = {
+    let json = {
         nic: $("#cusNic").val(),
-        name :$("#cusName").val(),
-        license :$("#cusLicense").val(),
-        address :$("#cusAddress").val(),
-        contact :$("#cusContact").val(),
-        email :$("#cusEmail").val(),
-        user:{
-            username:$("#cusUsername").val(),
-            password:$("#cusPassword").val(),
+        name: $("#cusName").val(),
+        license: $("#cusLicense").val(),
+        address: $("#cusAddress").val(),
+        contact: $("#cusContact").val(),
+        email: $("#cusEmail").val(),
+        user: {
+            username: $("#cusUsername").val(),
+            password: $("#cusPassword").val(),
         }
+
     }
 
     $.ajax({
         url: baseUrl + "customer",
+        method: "post",
         async: false,
         cache: false,
         data: JSON.stringify(json),
@@ -29,10 +31,8 @@ $("#btnSaveCustomer").on("click",function () {
         }
     });
 
-    if ($('#cusNicImage').get(0).files.length === 0 || $('#cusLicenseImage').get(0).files.length === 0){
-
+    if ($('#cusNicImage').get(0).files.length === 0 || $('#cusLicenseImage').get(0).files.length === 0) {
         return;
-
     }
 
     $.ajax({
@@ -43,26 +43,23 @@ $("#btnSaveCustomer").on("click",function () {
         contentType: false,
         processData: false,
         success: function (res) {
-
-            window.open("login_form.html",'_self');
-
+            // saveAlert();
+            window.open("login-form.html", '_self');
         },
-
-        error:function (res) {
+        error: function (res) {
             alert(res.message);
         }
-
     });
 
 });
 
-// RegEx for customer_register page
-
+// customer regular expressions
 const cusNameRegEx = /^[A-z ]{5,20}$/;
 const cusEmailRegEx = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-]+)(\.[a-zA-Z]{2,5}){1,2}$/;
 const cusNicRegEx = /^[0-9]{9,10}[A-z]?$/;
 const cusAddressRegEx = /^[0-9/A-z. ,]{5,}$/;
 const cusContactRegEx = /^[0-9]{10}$/;
+const cusSalaryRegEx = /^[0-9]{1,}[.]?[0-9]{1,2}$/;
 
 let customerValidations = [];
 customerValidations.push({
@@ -93,7 +90,7 @@ customerValidations.push({
 customerValidations.push({
     reg: cusEmailRegEx,
     field: $('#cusEmail'),
-    error: 'Email Pattern is Wrong : diman@gmail.com'
+    error: 'Email Pattern is Wrong : example@gmail.com'
 });
 customerValidations.push({
     reg: cusAddressRegEx,
@@ -181,12 +178,6 @@ $("#cusRe-password").on('keydown', function (event) {
 
     }
 });
-
-
-
-
-
-// This will load the preview of images which we uploaded to page
 
 loadSelectedImage("#cusNicImage");
 loadSelectedImage("#cusLicenseImage");

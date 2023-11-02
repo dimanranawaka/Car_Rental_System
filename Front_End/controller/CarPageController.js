@@ -1,12 +1,13 @@
-$("#viewCar").fadeIn();
+$('#viewCar').fadeIn();
 
 $.ajax({
-    url: baseUrl+ "car",
+    url: baseUrl + "car",
     method: "get",
 
-    success:function (res) {
+    success: function (res) {
         loadAllCars(res.data);
     }
+
 });
 
 function loadAllCars(cars) {
@@ -16,15 +17,15 @@ function loadAllCars(cars) {
     for (let car of cars) {
         $("#cars").append(`<div class="col col-lg-3">
             <div class="card">
-                <img src="../assets/images/${car.photos.front}" height="230px" class="card-img-top" alt="car">
+                <img src="../assets/${car.photos.front}" height="230px" class="card-img-top" alt="car">
 
                 <div class="card-body">
                     <h5 class="card-title">${car.brand}</h5>
 
                     <section class="mb-4">
-                        <img src="../assets/images/${car.photos.back}" class="w-25 h-25" alt="${car.photos.back}">
-                        <img src="../assets/images/${car.photos.side}" class="w-25 h-25" alt="car">
-                        <img src="../assets/images/${car.photos.interior}" class="w-25 h-25" alt="car">
+                        <img src="../assets/${car.photos.back}" class="w-25 h-25" alt="${car.photos.back}">
+                        <img src="../assets/${car.photos.side}" class="w-25 h-25" alt="car">
+                        <img src="../assets/${car.photos.interior}" class="w-25 h-25" alt="car">
                     </section>
 
                     <section class="d-flex gap-3 justify-content-between">
@@ -61,7 +62,10 @@ function loadAllCars(cars) {
             </div>
         </div>`);
     }
+
 }
+
+// Filter
 
 $("#search").on("keyup", function () {
 

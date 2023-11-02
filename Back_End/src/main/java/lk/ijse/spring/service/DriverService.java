@@ -5,15 +5,17 @@ import lk.ijse.spring.dto.DriverDTO;
 import java.util.List;
 
 public interface DriverService {
-    void addDriver(DriverDTO dto) throws RuntimeException;
-    void updateDriver(DriverDTO dto) throws RuntimeException;
-    void deleteDriver(String nic) throws RuntimeException;
+    public void saveDriver(DriverDTO driverDTO) throws RuntimeException;
 
-    List<DriverDTO> getAllDrivers() throws RuntimeException;
+    public void updateDriver(DriverDTO driverDTO) throws RuntimeException;
 
-    Long getAllAvailableDriversAmount() throws RuntimeException;
+    public DriverDTO getDriver() throws RuntimeException;
 
-    Long getReservedDriversAmount() throws RuntimeException;
+    public List<DriverDTO> getAllDrivers() throws RuntimeException;
 
-    DriverDTO getCurrentDriver() throws RuntimeException;
+    public void deleteDriver(String nic) throws RuntimeException;
+
+    public Long countAvailableDrivers() throws RuntimeException;
+
+    public Long countReservedDrivers() throws RuntimeException;
 }

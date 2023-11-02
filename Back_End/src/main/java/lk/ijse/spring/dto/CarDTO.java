@@ -9,8 +9,8 @@ import lombok.ToString;
 
 import java.math.BigDecimal;
 
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 @ToString
 public class CarDTO {
@@ -27,5 +27,5 @@ public class CarDTO {
     private BigDecimal extraKMPrice;
     private BigDecimal lostDamageCost;
     private String meterValue;
-    private CarImageDTO carImageDTO;
+    private CarImageDTO photos;
 }

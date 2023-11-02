@@ -8,43 +8,60 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/customer")
-@Transactional
 @CrossOrigin
+@Transactional
 public class CustomerController {
+
     @Autowired
     CustomerService customerService;
+
     @PostMapping
-    public ResponseUtil addCustomer(@RequestBody CustomerDTO customerDTO){
-        customerService.addCustomer(customerDTO);
-        return new ResponseUtil("Ok","Successfully Added!","");
+    public ResponseUtil saveCustomer(@RequestBody CustomerDTO customerDTO) {
+
+        customerService.saveCustomer(customerDTO);
+        return new ResponseUtil("OK", "Successfully Saved..!", "");
+
     }
+
     @GetMapping
-    public ResponseUtil getAllCustomers(){
+    public ResponseUtil getAll() {
 
-        return new ResponseUtil("Ok","Successfully Loaded!",customerService.getAllCustomers());
+        return new ResponseUtil("OK", "Successfully Saved..!", customerService.getAllCustomer());
+
     }
-    @DeleteMapping
-    public ResponseUtil deleteCustomer(@RequestParam String nic){
-        customerService.deleteCustomer(nic);
-        return new ResponseUtil("Ok","Successfully Deleted!","");
+
+    @PostMapping(params = {"image"})
+    public ResponseUtil saveImages(@ModelAttribute CustomerImageDTO customerImageDTO) {
+
+        customerService.saveImages(customerImageDTO.getNic(), customerImageDTO);
+        return new ResponseUtil("OK", "Successfully Saved..!", "");
+
     }
+
     @PutMapping
-    public ResponseUtil updateCustomer(@RequestBody CustomerDTO customerDTO){
-        customerService.updateCustomer(customerDTO);
-        return new ResponseUtil("Ok","Updated Successfully!","");
-    }
-    @GetMapping(path = "/count")
-    public ResponseUtil countCustomerAmount(){
-        return new ResponseUtil("Ok","Amount Calculated!",customerService.countCustomerAmount());
-    }
-    @GetMapping(params = {"image"})
-    public ResponseUtil saveImages(@ModelAttribute CustomerImageDTO customerImageDTO){
+    public ResponseUtil updateCustomer(@RequestBody CustomerDTO customerDTO) {
 
-        customerService.saveCustomerImages(customerImageDTO.getNic(),customerImageDTO);
-        return new ResponseUtil("Ok","Successfully Saved!","");
+        customerService.updateCustomer(customerDTO);
+        return new ResponseUtil("OK", "Successfully Updated..!", "");
+
     }
+
+    @DeleteMapping
+    public ResponseUtil deleteCustomer(@RequestParam String nic) {
+
+        customerService.deleteCustomer(nic);
+        return new ResponseUtil("OK", "Successfully Deleted..!", "");
+
+    }
+
+    @GetMapping(path = "/count")
+    public ResponseUtil countCustomers(){
+
+        return new ResponseUtil("OK", "Successfully Loaded..!", customerService.countCustomers());
+
+    }
+
+
 }

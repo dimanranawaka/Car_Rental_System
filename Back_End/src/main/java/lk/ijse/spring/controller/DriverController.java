@@ -13,47 +13,69 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 public class DriverController {
     @Autowired
-    DriverService service;
+    DriverService driverService;
+
     @Autowired
     RentService rentService;
 
     @PostMapping
-    public ResponseUtil addDriver(@RequestParam String username, @RequestParam String password, @ModelAttribute DriverDTO driverDTO){
-        driverDTO.setUser(new UserDTO(username,password,"Driver"));
-        service.addDriver(driverDTO);
-        return new ResponseUtil("Ok","Driver Added Successful!","");
+    public ResponseUtil saveDriver(@RequestParam String username, @RequestParam String password, @ModelAttribute DriverDTO driverDTO) {
+
+        driverDTO.setUser(new UserDTO(username, password, "Driver"));
+        driverService.saveDriver(driverDTO);
+        return new ResponseUtil("OK", "Successfully Saved..!", "");
+
+    }
+
+    @GetMapping
+    public ResponseUtil getCurrentDriver() {
+
+        return new ResponseUtil("OK", "Successfully Loaded..!", driverService.getDriver());
+
+    }
+
+    @GetMapping(params = {"nic"})
+    public ResponseUtil getDriverSchedule(String nic) {
+
+        return new ResponseUtil("OK", "Successfully Loaded..!", rentService.getDriverSchedule(nic));
+
+    }
+
+    @GetMapping(path = "/all")
+    public ResponseUtil getAll() {
+
+        return new ResponseUtil("OK", "Successfully Loaded..!", driverService.getAllDrivers());
+
     }
 
     @PostMapping(path = "/update")
-    public ResponseUtil updateDriver(@RequestParam String username,@RequestParam String password,@ModelAttribute DriverDTO dto){
-        dto.setUser(new UserDTO(username,password,"Driver"));
-        service.updateDriver(dto);
-        return new ResponseUtil("Ok","Successfully Updated!","");
+    public ResponseUtil updateDriver(@RequestParam String username, @RequestParam String password, @ModelAttribute DriverDTO driverDTO) {
+
+        driverDTO.setUser(new UserDTO(username, password, "Driver"));
+        driverService.updateDriver(driverDTO);
+        return new ResponseUtil("OK", "Successfully Updated..!", "");
+
     }
+
     @DeleteMapping
     public ResponseUtil deleteDriver(String nic){
-        service.deleteDriver(nic);
-        return new ResponseUtil("Ok","Successfully Deleted!","");
-    }
-    @GetMapping(path = "/all")
-    public ResponseUtil getAllDrivers(){
-        return new ResponseUtil("Ok","Successfully Loaded!",service.getAllDrivers());
+
+        driverService.deleteDriver(nic);
+        return new ResponseUtil("OK", "Successfully Deleted..!", "");
+
     }
 
     @GetMapping(path = "/available")
-    public ResponseUtil getAvailableDriversAmount(){
-        return new ResponseUtil("Ok","Successfully Loaded!",service.getAllAvailableDriversAmount());
+    public ResponseUtil availableDrivers() {
+
+        return new ResponseUtil("OK", "Successfully Loaded..!", driverService.countAvailableDrivers());
+
     }
+
     @GetMapping(path = "/reserved")
-    public ResponseUtil getReservedDriversAmount(){
-        return new ResponseUtil("Ok","Successfully Loaded!",service.getReservedDriversAmount());
-    }
-    @GetMapping()
-    public ResponseUtil getCurrentDriver(){
-        return new ResponseUtil("Ok","Successfully Loaded!",service.getCurrentDriver());
-    }
-    @GetMapping(params = {"nic"})
-    public ResponseUtil getDriverSchedule(@RequestParam String nic){
-        return new ResponseUtil("Ok","Successfully Loaded!",rentService.getDriverSchedule(nic));
+    public ResponseUtil reservedDrivers() {
+
+        return new ResponseUtil("OK", "Successfully Loaded..!", driverService.countReservedDrivers());
+
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface RentDetailsRepo extends JpaRepository<RentDetails,String> {
-    public List<RentDetails> getRentDetailsByNic(String nic);
+    public List<RentDetails> getRentDetailByNic(String nic);
 
-    public void deleteRentDetailsByRegNum(String rentId);
+    public void deleteRentDetailByRegNum(String rentId);
 }

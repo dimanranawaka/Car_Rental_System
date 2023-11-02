@@ -1,25 +1,24 @@
 package lk.ijse.spring.dto;
 
-import lk.ijse.spring.entity.Rent;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 @ToString
 public class PaymentDTO {
-
     Integer paymentId;
     RentDTO rentId;
     String type;
     String description;
-    LocalTime date;
+    LocalDate date;
     LocalTime time;
     BigDecimal total;
     BigDecimal cash;

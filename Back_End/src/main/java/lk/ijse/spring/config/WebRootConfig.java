@@ -1,6 +1,5 @@
 package lk.ijse.spring.config;
 
-import lk.ijse.spring.service.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,8 +13,9 @@ public class WebRootConfig {
     public WebRootConfig() {
         System.out.println("WebRootConfig : Instantiated");
     }
+
     @Bean
-    public ModelMapper modelMapper(){
+    public ModelMapper modelMapper() {
         return new ModelMapper();
     }
 }

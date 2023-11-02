@@ -14,8 +14,8 @@ import javax.persistence.Id;
 import java.math.BigDecimal;
 
 @Entity
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 @ToString
 public class Car {
@@ -36,5 +36,5 @@ public class Car {
     private BigDecimal lostDamageCost;
     private String meterValue;
     @Embedded
-    private CarImage carImage;
+    private CarImage photos;
 }

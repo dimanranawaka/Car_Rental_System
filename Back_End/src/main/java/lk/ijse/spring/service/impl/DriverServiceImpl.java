@@ -1,11 +1,10 @@
 package lk.ijse.spring.service.impl;
 
-import lk.ijse.spring.dto.DriverAllStringDTO;
 import lk.ijse.spring.dto.DriverDTO;
+import lk.ijse.spring.dto.DriverAllDTO;
 import lk.ijse.spring.entity.Driver;
 import lk.ijse.spring.repo.DriverRepo;
 import lk.ijse.spring.service.DriverService;
-import lk.ijse.spring.util.ImagePathWriterUtil;
 import lk.ijse.spring.util.UserUtil;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -19,93 +18,92 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-
 @Service
 @Transactional
 public class DriverServiceImpl implements DriverService {
-    @Autowired
-    ModelMapper modelMapper;
 
     @Autowired
     DriverRepo driverRepo;
 
+    @Autowired
+    ModelMapper mapper;
+
     @Override
-    public void addDriver(DriverDTO driverDTO) throws RuntimeException{
+    public void saveDriver(DriverDTO driverDTO) throws RuntimeException {
 
-        if (driverRepo.existsById(driverDTO.getNic())){
-            throw new RuntimeException("Driver Already Exists!");
-        }
-        Driver driver = modelMapper.map(driverDTO, Driver.class);
+        Driver driver = mapper.map(driverDTO, Driver.class);
 
-//        dto.getUser().setRole("Driver");
-//        map.setUser(dto.getUser());
-
+        if (driverRepo.existsById(driverDTO.getNic())) throw new RuntimeException("Customer Already Exits..!");
         try {
+            if (driverDTO.getLicenseImage().getBytes() != null) {
 
-           if (driverDTO.getLicenseImage().getBytes()!=null){
+                byte[] licenseFileBytes = driverDTO.getLicenseImage().getBytes();
 
-               byte[] bytes = driverDTO.getLicenseImage().getBytes();
+                String projectPath = "D:\\Dev\\Java\\My_Projects\\Car_Rental_System\\Front_End\\assets";
+                Path licenseLocation = Paths.get(projectPath + "/image/bucket/driver/license_" + driver.getNic() + ".jpeg");
 
-               Path licenseImageLocation = Paths.get(ImagePathWriterUtil.projectPath,"/images/bucket/driver/license_",driver.getNic()+".jpeg");
-               Files.write(licenseImageLocation,bytes);
-               driverDTO.getLicenseImage().transferTo(licenseImageLocation);
+                Files.write(licenseLocation, licenseFileBytes);
 
-               driver.setLicenseImage("/images/bucket/driver/license_"+driver.getNic()+".jpeg");
-           }
+                driverDTO.getLicenseImage().transferTo(licenseLocation);
+
+                driver.setLicenseImage("/image/bucket/driver/license_" + driver.getNic() + ".jpeg");
+
+            }
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
         driver.setAvailabilityStatus("YES");
         driver.getUser().setRole("Driver");
 
         driverRepo.save(driver);
+
     }
 
     @Override
     public void updateDriver(DriverDTO driverDTO) throws RuntimeException {
 
-        if (!driverRepo.existsById(driverDTO.getNic())){
-            throw new RuntimeException(driverDTO.getNic()+" : is not Exists!");
-        }
+        Driver driver = mapper.map(driverDTO, Driver.class);
 
-        Driver driver = modelMapper.map(driverDTO, Driver.class);
+        if (!driverRepo.existsById(driverDTO.getNic())) throw new RuntimeException("Invalid Driver..!");
 
         Driver driver1 = driverRepo.findById(driverDTO.getNic()).get();
 
         driver.setLicenseImage(driver1.getLicenseImage());
 
         driver.setAvailabilityStatus("YES");
+
         driver.getUser().setRole("Driver");
+
         driverRepo.save(driver);
 
     }
 
     @Override
-    public void deleteDriver(String nic) throws RuntimeException {
-        if (!driverRepo.existsById(nic)){
-            throw new RuntimeException(nic +" : is not Exists!");
-        }
-        driverRepo.deleteById(nic);
+    public DriverDTO getDriver() throws RuntimeException {
+        return mapper.map(driverRepo.getDriverByUsername(UserUtil.currentUser.getUsername()), DriverDTO.class);
     }
 
     @Override
     public List<DriverDTO> getAllDrivers() throws RuntimeException {
-       return modelMapper.map(driverRepo.findAll(),new TypeToken<ArrayList<DriverAllStringDTO>>(){}.getType());
+        return mapper.map(driverRepo.findAll(), new TypeToken<ArrayList<DriverAllDTO>>() {
+        }.getType());
     }
 
     @Override
-    public Long getAllAvailableDriversAmount() throws RuntimeException {
-        return driverRepo.countAvailableDriversAmount();
+    public void deleteDriver(String nic) throws RuntimeException {
+        if (!driverRepo.existsById(nic)) throw new RuntimeException("Invalid Driver..!");
+        driverRepo.deleteById(nic);
     }
 
     @Override
-    public Long getReservedDriversAmount() throws RuntimeException {
-        return driverRepo.countReservedDriversAmount();
+    public Long countAvailableDrivers() throws RuntimeException {
+        return driverRepo.countAvailableDrivers();
     }
 
     @Override
-    public DriverDTO getCurrentDriver() throws RuntimeException {
-        return modelMapper.map(driverRepo.getDriverByUserName(UserUtil.currentUser.getUsername()),DriverDTO.class);
+    public Long countReservedDrivers() throws RuntimeException {
+        return driverRepo.countReservedDrivers();
     }
 }

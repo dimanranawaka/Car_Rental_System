@@ -1,5 +1,3 @@
-
-
 let regNum;
 let dailyMileage;
 let monthlyMileage;
@@ -7,7 +5,7 @@ let dailyPrice;
 let monthlyPrice;
 let rentId;
 let currentUser;
-let customer;
+
 
 $.ajax({
     url: baseUrl + "login",
@@ -22,12 +20,12 @@ $.ajax({
 });
 
 performCustomerPageFunctions();
-performCarPageFunctions();
-performDriverPageFunctions();
-performRentPageFunctions();
-performPaymentPageFunctions();
-performHomePageFunctions();
-performReportPageFunctions();
+manageCarPage();
+manageDriverPage();
+manageRentPage();
+managePaymentsPage();
+manageHomePage();
+manageReports();
 loadHome();
 
 function loadHome() {
@@ -44,7 +42,7 @@ function loadHome() {
     $("#reports").attr("style", "display : none !important");
 }
 
-function performHomePageFunctions() {
+function manageHomePage() {
 
     $("#btnHome").on("click", function () {
 
@@ -403,7 +401,7 @@ function performCustomerPageFunctions() {
         customerValidations.push({
             reg: cusEmailRegEx,
             field: $('#cusEmail'),
-            error: 'Email Pattern is Wrong : example@gmail.com'
+            error: 'Email Pattern is Wrong : diman@gmail.com'
         });
         customerValidations.push({
             reg: cusAddressRegEx,
@@ -496,10 +494,10 @@ function performCustomerPageFunctions() {
 }
 
 
-/* **********************************************************    Car    ***************************************************** */
+/** **********************************************************    Car Page    ***************************************************** */
 
 
-function performCarPageFunctions() {
+function manageCarPage() {
     $("#btnCar").on("click", function () {
 
         $('#viewCar').fadeIn();
@@ -580,7 +578,7 @@ function performCarPageFunctions() {
                 });
 
             }
-
+            
 
         });
 
@@ -961,10 +959,10 @@ function performCarPageFunctions() {
 }
 
 
-/* **********************************************************    Driver    ****************************************************** */
+/** **********************************************************    Driver Page   ****************************************************** */
 
 
-function performDriverPageFunctions() {
+function manageDriverPage() {
     $("#btnDriver").on("click", function () {
 
         loadAllDrivers();
@@ -1217,10 +1215,10 @@ function performDriverPageFunctions() {
 }
 
 
-/* **********************************************************    Rent    ****************************************************** */
+/** **********************************************************    Rent Page    ****************************************************** */
 
 
-function performRentPageFunctions() {
+function manageRentPage() {
     $("#btnRent").on("click", function () {
 
         $('#rents').fadeIn();
@@ -1330,6 +1328,7 @@ function performRentPageFunctions() {
             });
         });
 
+        // bindManagePayment();
 
         function bindAcceptEvent() {
             $(".btnAccept").on("click", function () {
@@ -1475,7 +1474,7 @@ function performRentPageFunctions() {
                     contentType: "application/json",
                     success: function (res) {
                         saveAlert();
-                        performPaymentPageFunctions();
+                        managePaymentsPage();
                     }
                 });
 
@@ -1488,7 +1487,7 @@ function performRentPageFunctions() {
 /* **********************************************************    Payment    ****************************************************** */
 
 
-function performPaymentPageFunctions() {
+function managePaymentsPage() {
 
     $("#btnManagePayment").on("click", function () {
 
@@ -1544,10 +1543,10 @@ function performPaymentPageFunctions() {
 }
 
 
-/* **********************************************************    Reports    ****************************************************** */
+/** **********************************************************    Report Page    ****************************************************** */
 
 
-function performReportPageFunctions() {
+function manageReports() {
 
     $("#btnReport").on("click", function () {
         $('#reports').fadeIn();

@@ -6,21 +6,21 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface PaymentService {
-    void addPayment(PaymentDTO dto) throws RuntimeException;
+    public void savePayment(PaymentDTO paymentDTO) throws RuntimeException;
 
-    List<PaymentDTO> getAllPayments() throws RuntimeException;
+    public List<PaymentDTO> loadAllPayments() throws RuntimeException;
 
-    List<PaymentDTO> getPaymentsByNic(String nic) throws RuntimeException;
+    public List<PaymentDTO> getPaymentsByNic(String nic) throws RuntimeException;
 
-    List getDailyIncome() throws RuntimeException;
+    public List getDailyIncome() throws RuntimeException;
 
-    List getMonthlyIncome() throws RuntimeException;
+    public List getMonthlyIncome() throws RuntimeException;
 
-    List getYearlyIncome() throws RuntimeException;
+    public List getYearlyIncome() throws RuntimeException;
 
-    BigDecimal getCurrentDayIncome() throws RuntimeException;
+    public BigDecimal getCurrentDayIncome() throws RuntimeException;
 
-    BigDecimal getCurrentMonthIncome() throws RuntimeException;
+    public BigDecimal getCurrentMonthIncome() throws RuntimeException;
 
-    BigDecimal getCurrentYearIncome() throws RuntimeException;
+    public BigDecimal getCurrentYearIncome() throws RuntimeException;
 }

@@ -11,8 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 @Entity
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 @ToString
 public class Customer {

@@ -15,16 +15,21 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl implements UserService {
     @Autowired
     UserRepo userRepo;
+
     @Autowired
-    ModelMapper modelMapper;
+    ModelMapper mapper;
+
+
     @Override
-    public UserDTO getUser(String username, String password) {
+    public UserDTO getUser(String username, String password) throws RuntimeException {
+
         User user = userRepo.findById(username).get();
-        if (!user.getPassword().equals(password)){
-            throw new RuntimeException("Invalid Username or Password!");
-        }
-        UserDTO map = modelMapper.map(user, UserDTO.class);
-        UserUtil.currentUser = map;
-        return map;
+        if (!user.getPassword().equals(password))
+            throw new RuntimeException("Wrong Login Details. Please Try Again..!");
+
+        UserDTO userDTO = mapper.map(user, UserDTO.class);
+        UserUtil.currentUser = userDTO;
+        return userDTO;
+
     }
 }
