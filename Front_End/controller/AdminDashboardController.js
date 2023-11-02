@@ -1,3 +1,5 @@
+
+
 let regNum;
 let dailyMileage;
 let monthlyMileage;
@@ -19,216 +21,173 @@ $.ajax({
     }
 });
 
-performCustomerFunctions();
+performCustomerPageFunctions();
 performCarPageFunctions();
 performDriverPageFunctions();
 performRentPageFunctions();
 performPaymentPageFunctions();
-performReportPageFunctions();
 performHomePageFunctions();
+performReportPageFunctions();
+loadHome();
 
-homeLoader();
-
-function homeLoader(){
-    $("#home").fadeIn();
-    $("#home").attr("style","display : block !important");
-    $("#viewCustomer").attr("style","display : none !important");
-    $("#manageCustomers").attr("style","display : none !important");
-    $("#manageCar").attr("style","display : none !important");
-    $("#viewCar").attr("style","display : none !important");
-    $("#manageDriver").attr("style","display : none !important");
-    $("#drivers").attr("style","display : none !important");
-    $("#rents").attr("style","display : none !important");
-    $("#payments").attr("style","display : none !important");
-    $("#reports").attr("style","display : none !important");
+function loadHome() {
+    $('#home').fadeIn();
+    $("#home").attr("style", "display : block !important");
+    $("#viewCustomer").attr("style", "display : none !important");
+    $("#manageCustomers").attr("style", "display : none !important");
+    $("#manageCar").attr("style", "display : none !important");
+    $("#viewCar").attr("style", "display : none !important");
+    $("#manageDriver").attr("style", "display : none !important");
+    $("#drivers").attr("style", "display : none !important");
+    $("#rents").attr("style", "display : none !important");
+    $("#payments").attr("style", "display : none !important");
+    $("#reports").attr("style", "display : none !important");
 }
 
-/**       **** Dashboard Home *****                        */
+function performHomePageFunctions() {
 
-function performHomePageFunctions(){
-// When the "btnHome" button is clicked, call the homeLoader() and dataLoader() functions
     $("#btnHome").on("click", function () {
 
-        homeLoader();
-        dataLoader();
+        loadHome();
+        loadData();
+
     });
 
-    dataLoader();
+    loadData();
 
-    function dataLoader() {
-
-        // Request Customers Amount
-
+    function loadData() {
         $.ajax({
-
-            url: baseUrl+"customer/count",
+            url: baseUrl + "customer/count",
             method: "get",
             dataType: "json",
             success: function (res) {
-
                 $("#reg-users").text(res.data);
-
             }
-
         });
 
-        // Request Rents Amount
-
         $.ajax({
-
-            url: baseUrl+"rent/count",
-            method:"get",
-            dataType:"json",
+            url: baseUrl + "rent/count",
+            method: "get",
+            dataType: "json",
             success: function (res) {
-
                 $("#rent-count").text(res.data);
-
             }
-
         });
 
-        // Request Available Car Amount
-
         $.ajax({
-           url: baseUrl+"car/count",
-           method:"get",
-           dataType: "json",
-           success: function (res) {
-
-               $("#available-cars").text(res.data);
-
-           }
-        });
-
-        // Request Reserved Car Amount
-
-        $.ajax({
-            url: baseUrl+"car/count/reserved",
-            method:"get",
+            url: baseUrl + "car/count",
+            method: "get",
             dataType: "json",
             success: function (res) {
+                $("#available-cars").text(res.data);
+            }
+        });
 
+        $.ajax({
+            url: baseUrl + "car/count/reserved",
+            method: "get",
+            dataType: "json",
+            success: function (res) {
                 $("#reserved-cars").text(res.data);
-
             }
         });
 
-        // Request In-Maintain Car Amount
-
         $.ajax({
-            url: baseUrl+"car/count/maintain",
-            method:"get",
+            url: baseUrl + "car/count/maintain",
+            method: "get",
             dataType: "json",
             success: function (res) {
-
                 $("#maintain-cars").text(res.data);
-
             }
         });
 
-        // Request Available Drivers Amount
-
         $.ajax({
-            url: baseUrl+"driver/available",
-            method:"get",
+            url: baseUrl + "driver/available",
+            method: "get",
             dataType: "json",
             success: function (res) {
-
                 $("#available-drivers").text(res.data);
-
             }
         });
 
-        // Request Reserved Drivers
-
         $.ajax({
-            url: baseUrl+"driver/reserved",
-            method:"get",
+            url: baseUrl + "driver/reserved",
+            method: "get",
             dataType: "json",
             success: function (res) {
-
                 $("#reserved-drivers").text(res.data);
-
             }
         });
 
     }
 
-// Configure options for the daily income chart
     var dataPoints = [];
 
-
     var options = {
-
-        animationEnabled : true,
-        theme : "light2",
-        title : {
-            text : "Daily Income"
+        animationEnabled: true,
+        theme: "light2",
+        title: {
+            text: "Daily Sales Income"
         },
-        axisX : {
-            valueFormatString : "DD MM YYYY",
+        axisX: {
+            valueFormatString: "DD MMM YYYY",
         },
-        axisY : {
+        axisY: {
             title: "LKR",
-            titleFontSize :24
+            titleFontSize: 24
         },
-        data :[{
-            type : "spline",
-            yValueFormatString : "$#, ###.##",
-            dataPoints : dataPoints
+        data: [{
+            type: "spline",
+            yValueFormatString: "$#,###.##",
+            dataPoints: dataPoints
         }]
-
     };
-// Request daily income data and update the chart
-    $.ajax({
-        url : baseUrl + "payment/daily",
-        method: "get",
-        success : function (res) {
 
-            for (let i = 0; i < res.data.length.length; i++) {
-                    dataPoints.push({
-                        x: new Data(res.data[i][0]),
-                        y: res.data[i][0]
-                    });
+    $.ajax({
+        url: baseUrl + "payment/daily",
+        method: "get",
+        success: function (res) {
+            for (var i = 0; i < res.data.length; i++) {
+                dataPoints.push({
+                    x: new Date(res.data[i][0]),
+                    y: res.data[i][1]
+                });
             }
-            $("#chartContainer").CanvasJSchart(options);
+            $("#chartContainer").CanvasJSChart(options);
         }
     });
 
     let points = [];
-// Configure options for the car brands chart
+
     var brandOptions = {
-        title : {
+        title: {
             text: "Car Brands"
         },
-        subtitles : [{
-            text : "About Car Brands"
+        subtitles: [{
+            text: "About Car Brands"
         }],
         animationEnabled: true,
-        data : [{
+        data: [{
             type: "pie",
-            startAngle :40,
-            toolTipContent : "<b>{label}</b>>: {y}%",
-            showInLegend : "true",
-            legendText : "{label}",
-            indexLabelFontSize :16,
-            indexLabel : "{label} - {y}%",
-            dataPoints : points
+            startAngle: 40,
+            toolTipContent: "<b>{label}</b>: {y}%",
+            showInLegend: "true",
+            legendText: "{label}",
+            indexLabelFontSize: 16,
+            indexLabel: "{label} - {y}%",
+            dataPoints: points
         }]
     };
-// Request car brand data and update the chart
+
     $.ajax({
-        url: baseUrl+"car/brand",
-        method:"get",
+        url: baseUrl + "car/brand",
+        method: "get",
         success: function (res) {
-
-            for (let i = 0; i < res.data.length; i++) {
-
+            for (var i = 0; i < res.data.length; i++) {
                 points.push({
                     y: res.data[i][1],
-                    label:res.data[i][0]
+                    label: res.data[i][0]
                 });
-
             }
             $("#brandChart").CanvasJSChart(brandOptions);
         }
@@ -236,28 +195,25 @@ function performHomePageFunctions(){
 
 }
 
-/**            ****Customer Page****                                              */
 
-function performCustomerFunctions() {
-
-    $("#btnCustomer").on("click",function () {
-
+function performCustomerPageFunctions() {
+    $("#btnCustomer").on("click", function () {
         $('#viewCustomer').fadeIn();
-        $("#viewCustomer").attr("style","display:block !important");
-        $("#manageCustomers").attr("style","display:none !important");
-        $("#manageCar").attr("style","display:none !important");
-        $("#viewCar").attr("style","display:none !important");
-        $("#manageDriver").attr("style","display:none !important");
-        $("#drivers").attr("style","display:none !important");
-        $("#rents").attr("style","display:none !important");
-        $("#reports").attr("style","display:none !important");
+        $("#home").attr("style", "display : none !important");
+        $("#viewCustomer").attr("style", "display : block !important");
+        $("#manageCustomers").attr("style", "display : none !important");
+        $("#manageCar").attr("style", "display : none !important");
+        $("#viewCar").attr("style", "display : none !important");
+        $("#manageDriver").attr("style", "display : none !important");
+        $("#drivers").attr("style", "display : none !important");
+        $("#rents").attr("style", "display : none !important");
+        $("#payments").attr("style", "display : none !important");
+        $("#reports").attr("style", "display : none !important");
 
-        // Load uploaded NIC image
-
+        // Upload NIC Image
         loadSelectedImage("#cusNicImage");
 
-        // Load uploaded License image
-
+        // Upload License Image
         loadSelectedImage("#cusLicenseImage");
 
         $("#btnAddNewCustomer").on("click", function () {
@@ -266,82 +222,71 @@ function performCustomerFunctions() {
 
         });
 
+        // Save Customer
         $("#btnSaveCustomer").on("click", function () {
 
             let data = new FormData($("#customerForm")[0]);
 
             let json = {
-
                 nic: $("#cusNic").val(),
-                name:$("#cusName").val(),
-                license:$("#cusLicense").val(),
-                address:$("#cusAddress").val(),
-                contact:$("#cusContact").val(),
-                email:$("#cusEmail").val(),
-                user:{
-
-                    username:$("#cusUsername").val(),
-                    password:$("#cusPassword").val(),
-
+                name: $("#cusName").val(),
+                license: $("#cusLicense").val(),
+                address: $("#cusAddress").val(),
+                contact: $("#cusContact").val(),
+                email: $("#cusEmail").val(),
+                user: {
+                    username: $("#cusUsername").val(),
+                    password: $("#cusPassword").val(),
                 }
+
             }
 
-            s.ajax({
-
-                url: baseUrl+ "customer",
+            $.ajax({
+                url: baseUrl + "customer",
                 method: $("#btnSaveCustomer").text() == "Save" ? "post" : "put",
                 async: false,
                 data: JSON.stringify(json),
                 contentType: "application/json",
-                dataType:"json",
+                dataType: "json",
                 success: function (res) {
 
                     $("#btnSaveCustomer").text() == "Save" ? saveAlert() : updateAlert();
                     loadAllCustomers();
-
                 }
-
             });
 
-            if ($("#btnSaveCustomer").text() == "Save"){
-
-                s.ajax({
-
-                    url: baseUrl+ "customer?image",
+            if ($("#btnSaveCustomer").text() == "Save") {
+                $.ajax({
+                    url: baseUrl + "customer?image",
                     method: "post",
                     async: false,
-                    data:data,
+                    data: data,
                     contentType: false,
                     processData: false,
                     success: function (res) {
 
                         saveAlert();
                         loadAllCustomers();
-
                     }
-
                 });
-
             }
 
         });
 
-        function loadAllCustomers(){
+        function loadAllCustomers() {
 
-            s.ajax({
-                url: baseUrl+ "customer",
-                method:"get",
-                dataType:"json",
+            $.ajax({
+                url: baseUrl + "customer",
+                method: "get",
+                dataType: "json",
                 success: function (res) {
 
                     $("#tblCustomer").empty();
 
-                    for (let customer of res.data){
+                    for (let customer of res.data) {
 
                         $("#tblCustomer").append(`
-                        
                     <tr class="text-secondary">
-                    
                         <td>${customer.nic}</td>
                         <td>${customer.name}</td>
                         <td>${customer.email}</td>
@@ -353,56 +298,37 @@ function performCustomerFunctions() {
                         <td><img src="${customer.nicImage}" alt="" srcset="" width="150" height="100"></td>
                         <td><img src="${customer.licenseImage}" alt="" srcset="" width="150" height="100"></td>
                         <td><i class="bi bi-pen-fill text-success text-center btn btnUpdate" data-bs-toggle="modal" data-bs-target="#registerCustomerModal"></i><i class="bi bi-trash-fill text-danger text-center btn btnDelete"></i></td>
-                        
                     </tr>
-                        `);
-
+                    `);
                     }
 
-                    bindUpdateEvents();
+                    bindUpdateEvent();
                     bindDeleteEvent();
-                }
 
+                }
             });
+
 
         }
 
         loadAllCustomers();
 
-        function bindUpdateEvents() {
-
+        function bindUpdateEvent() {
             $(".btnUpdate").on("click", function () {
 
                 $.ajax({
-                    // Send an AJAX request with the following settings:
                     url: baseUrl + `rent?username=${$(this).parent().parent().children(":eq(5)").text()}`,
-                    // Construct the URL for the request using baseUrl and a username query parameter extracted from the DOM.
-
                     method: "get",
-                    // Use the HTTP GET method to retrieve data.
-
                     async: false,
-                    // Make the request synchronous (blocking), which means the code will wait for the response before continuing execution.
-
                     dataType: "json",
-                    // Expect the response data to be in JSON format.
-
+                    // contentType: "application/json",
                     success: function (res) {
-                        // Define a success callback function to handle the response data.
-
-                        // Set the background of an element with id "cusNicImgContext" using data from the response.
-                        $("#cusNicImgContext").attr(`style`, `background : url(..${res.data.nicImage}); background-position:center; background-size:cover`);
-
-                        // Set the background of an element with id "cusLicenseImgContext" using data from the response.
-                        $("#cusLicenseImgContext").attr(`style`, `background : url(..${res.data.licenseImage}); background-position:center; background-size:cover`);
+                        $("#cusNicImgContext").attr(`style`, `background : url(..${res.data.nicImage}); background-position: center; background-size: cover`);
+                        $("#cusLicenseImgContext").attr(`style`, `background : url(..${res.data.licenseImage}); background-position: center; background-size: cover`);
                     }
                 });
 
-                /** this code extracts text content from specific child elements of the parent of the parent of the current element and sets the values of various input fields with corresponding IDs. */
-
-                // Set the value of an input field with id "cusNic" to the text content of the 1st child of the parent of the parent of the current element.
                 $("#cusNic").val($(this).parent().parent().children(":eq(0)").text());
-                // Set the value of an input field with id "cusName" to the text content of the 2nd child of the parent of the parent of the current element.
                 $("#cusName").val($(this).parent().parent().children(":eq(1)").text());
                 $("#cusLicense").val($(this).parent().parent().children(":eq(4)").text());
                 $("#cusAddress").val($(this).parent().parent().children(":eq(3)").text());
@@ -414,42 +340,39 @@ function performCustomerFunctions() {
                 $("#btnSaveCustomer").text("Update");
 
             });
-
         }
 
         function bindDeleteEvent() {
-
-            $(".btnDelete").on("click",function () {
+            $(".btnDelete").on("click", function () {
 
                 let nic = $(this).parent().parent().children(":eq(0)").text();
 
-                if (!confirm("Are you sure right?")) return;
+                if (!confirm("Are You Sure")) return;
+
 
                 $.ajax({
-
                     url: baseUrl + "customer?nic=" + nic,
                     method: "delete",
                     async: false,
                     data: nic,
                     contentType: false,
                     processData: false,
-                    success :function (res) {
-
+                    success: function (res) {
                         deleteAlert();
                         loadAllCustomers();
-
                     }
                 });
 
             });
-
         }
+
+        // customer regular expressions
         const cusNameRegEx = /^[A-z ]{5,20}$/;
         const cusEmailRegEx = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-]+)(\.[a-zA-Z]{2,5}){1,2}$/;
         const cusNicRegEx = /^[0-9]{9,10}[A-z]?$/;
         const cusAddressRegEx = /^[0-9/A-z. ,]{5,}$/;
         const cusContactRegEx = /^[0-9]{10}$/;
-
+        const cusSalaryRegEx = /^[0-9]{1,}[.]?[0-9]{1,2}$/;
 
         let customerValidations = [];
         customerValidations.push({
@@ -480,7 +403,7 @@ function performCustomerFunctions() {
         customerValidations.push({
             reg: cusEmailRegEx,
             field: $('#cusEmail'),
-            error: 'Email Pattern is Wrong : diman@gmail.com'
+            error: 'Email Pattern is Wrong : example@gmail.com'
         });
         customerValidations.push({
             reg: cusAddressRegEx,
@@ -569,173 +492,81 @@ function performCustomerFunctions() {
             }
         });
 
-
     });
-
 }
-/**             ****  Car Page  ****                                                                 */
+
+
+/* **********************************************************    Car    ***************************************************** */
+
+
 function performCarPageFunctions() {
+    $("#btnCar").on("click", function () {
 
-    $("#btnCar").on("click",function () {
+        $('#viewCar').fadeIn();
+        $("#home").attr("style", "display : none !important");
+        $("#manageCustomers").attr("style", "display : none !important");
+        $("#viewCustomer").attr("style", "display : none !important");
+        $("#viewCar").attr("style", "display : block !important");
+        $("#manageDriver").attr("style", "display : none !important");
+        $("#drivers").attr("style", "display : none !important");
+        $("#rents").attr("style", "display : none !important");
+        $("#payments").attr("style", "display : none !important");
+        $("#reports").attr("style", "display : none !important");
+
+        loadSelectedImage("#front");
+        loadSelectedImage("#back");
+        loadSelectedImage("#side");
+        loadSelectedImage("#interior");
+
+        $("#btnAddNewCar").on("click", function () {
+            $("#btnSaveCar").text("Save");
+        })
+
+        $("#btnSaveCar").on("click", function () {
+
+            let data = new FormData($("#carForm")[0]);
 
 
-    $('#viewCar').fadeIn();
-    $("#home").attr("style", "display : none !important");
-    $("#manageCustomers").attr("style", "display : none !important");
-    $("#viewCustomer").attr("style", "display : none !important");
-    $("#viewCar").attr("style", "display : block !important");
-    $("#manageDriver").attr("style", "display : none !important");
-    $("#drivers").attr("style", "display : none !important");
-    $("#rents").attr("style", "display : none !important");
-    $("#payments").attr("style", "display : none !important");
-    $("#reports").attr("style", "display : none !important");
 
-    loadSelectedImage("#front");
-    loadSelectedImage("#back");
-    loadSelectedImage("#side");
-    loadSelectedImage("#interior");
+            if ($("#btnSaveCar").text() == "Save") {
 
-    $("#btnAddNewCar").on("click", function () {
-
-        $("#btnSaveCustomer").text("Save");
-
-    });
-
-    $("#btnSaveCar").on("click", function () {
-
-        let data = new FormData($("#carForm")[0]);
-
-        if ($("#btnSaveCar").text() == "Save"){
-
-            $.ajax({
-                url: baseUrl + "car",
-                async: false,
-                data:data,
-                method: "post",
-                contentType:false,
-                processData:false,
-                success: function (res) {
-
-                    saveAlert();
-
-                    $.ajax({
-                        url: baseUrl + "car",
-                        method:"get",
-
-                        success: function (res) {
-                            loadAllCars(res.data);
-                        }
-                    })
-
-                },
-
-                error: function (res) {
-                    let parse = JSON.parse(res);
-                    errorAlert(parse.message);
-                }
-
-            });
-
-        }else {
-
-            $.ajax({
-                url: baseUrl + "car/update",
-                data: data,
-                method: "post",
-                contentType: false,
-                processData: false,
-                success: function (res) {
-                    updateAlert();
-
-                    $.ajax({
-                        url: baseUrl + "car",
-                        method: "get",
-
-                        success: function (res) {
-                            loadAllCars(res.data);
-                        }
-
-                    });
-                }
-            });
-
-        }
-
-    });
-
-    function bindUpdateEvent() {
-        $(".btnUpdate").on("click", function () {
-
-            regNum = $(this).parent().parent().children(":eq(6)").children(":eq(0)").text().trim();
-
-            $.ajax({
-                url: baseUrl + "car?regNum=" + regNum,
-                async: false,
-                method: "get",
-                dataType: "json",
-                success: function (res) {
-
-                    $("#regNum").val(res.data.regNum);
-                    $("#carType").val(res.data.type);
-                    $("#color").val(res.data.color);
-                    $("#brand").val(res.data.brand);
-                    $("#dailyRate").val(res.data.freeMileage.dailyRate);
-                    $("#monthlyRate").val(res.data.freeMileage.monthlyRate);
-
-                    if (res.data.fuelType == "petrol") {
-                        $("#petrol").prop("checked", true)
-                    } else {
-                        $("#diesel").prop("checked", true)
-                    }
-
-                    if (res.data.availability == "YES") {
-                        $("#yes").prop("checked", true);
-                    } else if (res.data.availability == "NO") {
-                        $("#no").prop("checked", true);
-                    } else {
-                        $("#maintain").prop("checked", true);
-                    }
-
-                    $("#dailyPriceRate").val(res.data.price.dailyPriceRate);
-                    $("#monthlyPriceRate").val(res.data.price.monthlyPriceRate);
-
-                    if (res.data.transmissionType == "manual") {
-                        $("#manual").prop("checked", true)
-                    } else {
-                        $("#auto").prop("checked", true)
-                    }
-
-                    $("#extraKMPrice").val(res.data.extraKMPrice);
-                    $("#passengers").val(res.data.passengers);
-                    $("#lostDamageCost").val(res.data.lostDamageCost);
-                    $("#meterValue").val(res.data.meterValue);
-                    $("#frontImgContext").attr(`style`, `background : url(../assets${res.data.photos.front}); background-position: center; background-size: cover`)
-                    $("#backImgContext").attr(`style`, `background : url(../assets${res.data.photos.back}); background-position: center; background-size: cover`)
-                    $("#sideImgContext").attr(`style`, `background : url(../assets${res.data.photos.side}); background-position: center; background-size: cover`)
-                    $("#interiorImgContext").attr(`style`, `background : url(../assets${res.data.photos.interior}); background-position: center; background-size: cover`)
-
-                    $("#btnSaveCar").text("Update");
-
-                }
-            });
-
-        });
-    }
-
-    function bindDeleteEvent() {
-
-        $(".btnDelete").on("click", function () {
-
-            regNum = $(this).parent().parent().children(":eq(6)").children(":eq(0)").text().trim();
-
-            if (confirm("Are You Sure..?")) {
                 $.ajax({
-                    url: baseUrl + "car?regNum=" + regNum,
-                    method: "delete",
-                    dataType: "json",
-                    contentType: "application/json",
+                    url: baseUrl + "car",
+                    async: false,
+                    data: data,
+                    method: "post",
+                    contentType: false,
+                    processData: false,
                     success: function (res) {
-                        deleteAlert();
+                        saveAlert();
+
+                        $.ajax({
+                            url: baseUrl + "car",
+                            method: "get",
+
+                            success: function (res) {
+                                loadAllCars(res.data);
+                            }
+
+                        });
+                    },
+                    error: function (res) {
+                        let parse = JSON.parse(res);
+                        errorAlert(parse.message);
+                    }
+                });
+
+            } else {
+
+                $.ajax({
+                    url: baseUrl + "car/update",
+                    data: data,
+                    method: "post",
+                    contentType: false,
+                    processData: false,
+                    success: function (res) {
+                        updateAlert();
+
                         $.ajax({
                             url: baseUrl + "car",
                             method: "get",
@@ -747,27 +578,118 @@ function performCarPageFunctions() {
                         });
                     }
                 });
+
             }
+
+
         });
 
-    }
+        function bindUpdateEvent() {
+            $(".btnUpdate").on("click", function () {
 
-    $.ajax({
-        url: baseUrl + "car",
-        method: "get",
+                regNum = $(this).parent().parent().children(":eq(6)").children(":eq(0)").text().trim();
 
-        success: function (res) {
-            loadAllCars(res.data);
+                $.ajax({
+                    url: baseUrl + "car?regNum=" + regNum,
+                    async: false,
+                    method: "get",
+                    dataType: "json",
+                    success: function (res) {
+
+                        $("#regNum").val(res.data.regNum);
+                        $("#carType").val(res.data.type);
+                        $("#color").val(res.data.color);
+                        $("#brand").val(res.data.brand);
+                        $("#dailyRate").val(res.data.freeMileage.dailyRate);
+                        $("#monthlyRate").val(res.data.freeMileage.monthlyRate);
+
+                        if (res.data.fuelType == "petrol") {
+                            $("#petrol").prop("checked", true)
+                        } else {
+                            $("#diesel").prop("checked", true)
+                        }
+
+                        if (res.data.availability == "YES") {
+                            $("#yes").prop("checked", true);
+                        } else if (res.data.availability == "NO") {
+                            $("#no").prop("checked", true);
+                        } else {
+                            $("#maintain").prop("checked", true);
+                        }
+
+                        $("#dailyPriceRate").val(res.data.price.dailyPriceRate);
+                        $("#monthlyPriceRate").val(res.data.price.monthlyPriceRate);
+
+                        if (res.data.transmissionType == "manual") {
+                            $("#manual").prop("checked", true)
+                        } else {
+                            $("#auto").prop("checked", true)
+                        }
+
+                        $("#extraKMPrice").val(res.data.extraKMPrice);
+                        $("#passengers").val(res.data.passengers);
+                        $("#lostDamageCost").val(res.data.lostDamageCost);
+                        $("#meterValue").val(res.data.meterValue);
+                        $("#frontImgContext").attr(`style`, `background : url(../assets${res.data.photos.front}); background-position: center; background-size: cover`)
+                        $("#backImgContext").attr(`style`, `background : url(../assets${res.data.photos.back}); background-position: center; background-size: cover`)
+                        $("#sideImgContext").attr(`style`, `background : url(../assets${res.data.photos.side}); background-position: center; background-size: cover`)
+                        $("#interiorImgContext").attr(`style`, `background : url(../assets${res.data.photos.interior}); background-position: center; background-size: cover`)
+
+                        $("#btnSaveCar").text("Update");
+
+                    }
+                });
+
+            });
         }
 
-    });
+        function bindDeleteEvent() {
 
-    function loadAllCars(cars) {
+            $(".btnDelete").on("click", function () {
 
-        $("#cars").empty();
+                regNum = $(this).parent().parent().children(":eq(6)").children(":eq(0)").text().trim();
 
-        for (let car of cars) {
-            $("#cars").append(`<div class="col col-lg-3">
+                if (confirm("Are You Sure..?")) {
+                    $.ajax({
+                        url: baseUrl + "car?regNum=" + regNum,
+                        method: "delete",
+                        dataType: "json",
+                        contentType: "application/json",
+                        success: function (res) {
+                            deleteAlert();
+                            $.ajax({
+                                url: baseUrl + "car",
+                                method: "get",
+
+                                success: function (res) {
+                                    loadAllCars(res.data);
+                                }
+
+                            });
+                        }
+                    });
+                }
+            });
+
+        }
+
+
+        $.ajax({
+            url: baseUrl + "car",
+            method: "get",
+
+            success: function (res) {
+                loadAllCars(res.data);
+            }
+
+        });
+
+        function loadAllCars(cars) {
+
+            $("#cars").empty();
+
+            for (let car of cars) {
+                $("#cars").append(`<div class="col col-lg-3">
             <div class="card">
                 <img src="../assets/${car.photos.front}" height="230px" class="card-img-top" alt="car">
 
@@ -818,233 +740,234 @@ function performCarPageFunctions() {
 
             </div>
         </div>`);
-            getDetail();
+                getDetail();
+            }
+            bindUpdateEvent();
+            bindDeleteEvent();
+
         }
-        bindUpdateEvent();
-        bindDeleteEvent();
 
-    }
-    // Function for searching and filtering the cars
+        // Filter
 
-    $("#search").on("keyup", function () {
+        $("#search").on("keyup", function () {
 
-        let text = $("#search").val();
-        let searchBy = $("#searchBy").val();
-        let fuel = $("#fuelTypes").val();
+            let text = $("#search").val();
+            let searchBy = $("#searchBy").val();
+            let fuel = $("#fuelTypes").val();
 
-        $.ajax({
-            url: baseUrl + `car/filterByRegNum?text=${text}&search=${searchBy}&fuel=${fuel}`,
-            method: "get",
-            dataType: "json",
-            contentType: "application/json",
-            success: function (res) {
-                loadAllCars(res.data);
+            $.ajax({
+                url: baseUrl + `car/filterByRegNum?text=${text}&search=${searchBy}&fuel=${fuel}`,
+                method: "get",
+                dataType: "json",
+                contentType: "application/json",
+                success: function (res) {
+                    loadAllCars(res.data);
+                }
+            });
+
+        });
+
+        $("#searchBy, #fuelTypes").change(function () {
+            let text = $("#search").val();
+            let searchBy = $("#searchBy").val();
+            let fuel = $("#fuelTypes").val();
+
+            $.ajax({
+                url: baseUrl + `car/filterByRegNum?text=${text}&search=${searchBy}&fuel=${fuel}`,
+                method: "get",
+                dataType: "json",
+                contentType: "application/json",
+                success: function (res) {
+                    loadAllCars(res.data);
+                }
+            });
+        });
+
+        function getDetail() {
+
+            $(".rent").on("click", function () {
+
+                regNum = $(this).parent().parent().children(":eq(6)").text();
+                dailyMileage = $(this).parent().parent().children(":eq(4)").children(":eq(1)").text();
+                monthlyMileage = $(this).parent().parent().children(":eq(4)").children(":eq(2)").text();
+                dailyPrice = $(this).parent().parent().children(":eq(4)").children(":eq(1)").text();
+                monthlyPrice = $(this).parent().parent().children(":eq(4)").children(":eq(2)").text();
+
+            });
+
+        }
+
+        const regNumRegEx = /^[A-Z]{3}-?\d{3}|^\d{3}-?[A-Z]{3}$/;
+        const colorRegEx = /^[A-z ]{2,20}$/;
+        const brandRegEx = /^[A-z ]{2,20}$/;
+        const priceRegEx = /^[0-9]{1,}[.]?[0-9]{1,2}$/;
+        const passengersRegEx = /^[0-9]$/;
+
+        let carValidations = [];
+        carValidations.push({
+            reg: regNumRegEx,
+            field: $('#regNum'),
+            error: 'Car Number Pattern is Wrong : AAA-5500'
+        });
+        carValidations.push({
+            reg: colorRegEx,
+            field: $('#color'),
+            error: 'Color Pattern is Wrong'
+        });
+        carValidations.push({
+            reg: brandRegEx,
+            field: $('#brand'),
+            error: 'Brand Pattern is Wrong'
+        });
+        carValidations.push({
+            reg: priceRegEx,
+            field: $('#dailyPriceRate'),
+            error: 'Price Pattern is Wrong'
+        });
+        carValidations.push({
+            reg: priceRegEx,
+            field: $('#monthlyPriceRate'),
+            error: 'Price Pattern is Wrong'
+        });
+        carValidations.push({
+            reg: priceRegEx,
+            field: $('#extraKMPrice'),
+            error: 'Price Pattern is Wrong'
+        });
+        carValidations.push({
+            reg: passengersRegEx,
+            field: $('#passengers'),
+            error: 'Invalid Number'
+        });
+        carValidations.push({
+            reg: priceRegEx,
+            field: $('#lostDamageCost'),
+            error: 'Price Pattern is Wrong'
+        });
+        carValidations.push({
+            reg: priceRegEx,
+            field: $('#meterValue'),
+            error: 'Meter Value Pattern is Wrong'
+        });
+
+
+        $("#regNum,#color,#brand,#dailyPriceRate,#monthlyPriceRate,#extraKMPrice,#passengers,#lostDamageCost,#meterValue").on('keyup', function (event) {
+            checkValidity(carValidations);
+        });
+
+        $("#regNum,#color,#brand,#dailyPriceRate,#monthlyPriceRate,#extraKMPrice,#passengers,#lostDamageCost,#meterValue").on('blur', function (event) {
+            checkValidity(carValidations);
+        });
+
+        $("#regNum").on('keydown', function (event) {
+            if (event.key == "Enter" && check(regNumRegEx, $("#regNum"))) {
+                $("#carType").focus();
+            } else {
+                focusText($("#regNum"));
+            }
+        });
+
+        $("#carType").on('keydown', function (event) {
+            if (event.key == "Enter") {
+                focusText($("#color"));
+                textSuccess($("#carType"), "");
+            }
+        });
+
+        $("#color").on('keydown', function (event) {
+            if (event.key == "Enter" && check(colorRegEx, $("#color"))) {
+                focusText($("#brand"));
+            }
+        });
+
+        $("#brand").on('keydown', function (event) {
+            if (event.key == "Enter" && check(brandRegEx, $("#brand"))) {
+                focusText($("#dailyRate"));
+            }
+        });
+
+        $("#dailyRate").on('keydown', function (event) {
+            if (event.key == "Enter") {
+                textSuccess($("#dailyRate"), "");
+                focusText($("#monthlyRate"));
+            }
+        });
+
+        $("#monthlyRate").on('keydown', function (event) {
+            if (event.key == "Enter") {
+                textSuccess($("#monthlyRate"), "");
+                focusText($("#petrol"));
+            }
+        });
+
+        $("#petrol").on('keydown', function (event) {
+            if (event.key == "Enter") {
+                textSuccess($("#petrol"), "");
+                focusText($("#yes"));
+            }
+        });
+
+        $("#yes").on('keydown', function (event) {
+            if (event.key == "Enter") {
+                textSuccess($("#yes"), "");
+                focusText($("#dailyPriceRate"));
+            }
+        });
+
+        $("#dailyPriceRate").on('keydown', function (event) {
+            if (event.key == "Enter" && check(priceRegEx, $("#dailyPriceRate"))) {
+                focusText($("#monthlyPriceRate"));
+            }
+        });
+
+        $("#monthlyPriceRate").on('keydown', function (event) {
+            if (event.key == "Enter" && check(priceRegEx, $("#monthlyPriceRate"))) {
+                focusText($("#auto"));
+            }
+        });
+
+        $("#auto").on('keydown', function (event) {
+            if (event.key == "Enter" && check(priceRegEx, $("#monthlyPriceRate"))) {
+                focusText($("#extraKMPrice"));
+            }
+        });
+
+        $("#extraKMPrice").on('keydown', function (event) {
+            if (event.key == "Enter" && check(priceRegEx, $("#extraKMPrice"))) {
+                focusText($("#passengers"));
+            }
+        });
+
+        $("#passengers").on('keydown', function (event) {
+            if (event.key == "Enter" && check(passengersRegEx , $("#passengers"))) {
+                focusText($("#lostDamageCost"));
+            }
+        });
+
+        $("#lostDamageCost").on('keydown', function (event) {
+            if (event.key == "Enter" && check(priceRegEx, $("#lostDamageCost"))) {
+                focusText($("#meterValue"));
+            }
+        });
+
+        $("#meterValue").on('keydown', function (event) {
+            if (event.key == "Enter" && check(priceRegEx, $("#meterValue"))) {
+
             }
         });
 
     });
-
-    $("#searchBy, #fuelTypes").change(function () {
-        let text = $("#search").val();
-        let searchBy = $("#searchBy").val();
-        let fuel = $("#fuelTypes").val();
-
-        $.ajax({
-            url: baseUrl + `car/filterByRegNum?text=${text}&search=${searchBy}&fuel=${fuel}`,
-            method: "get",
-            dataType: "json",
-            contentType: "application/json",
-            success: function (res) {
-                loadAllCars(res.data);
-            }
-        });
-    });
-
-    function getDetail() {
-
-        $(".rent").on("click", function () {
-
-            regNum = $(this).parent().parent().children(":eq(6)").text();
-            dailyMileage = $(this).parent().parent().children(":eq(4)").children(":eq(1)").text();
-            monthlyMileage = $(this).parent().parent().children(":eq(4)").children(":eq(2)").text();
-            dailyPrice = $(this).parent().parent().children(":eq(4)").children(":eq(1)").text();
-            monthlyPrice = $(this).parent().parent().children(":eq(4)").children(":eq(2)").text();
-
-        });
-
-    }
-
-    const regNumRegEx = /^[A-Z]{3}-?\d{3}|^\d{3}-?[A-Z]{3}$/;
-    const colorRegEx = /^[A-z ]{2,20}$/;
-    const brandRegEx = /^[A-z ]{2,20}$/;
-    const priceRegEx = /^[0-9]{1,}[.]?[0-9]{1,2}$/;
-    const passengersRegEx = /^[0-9]$/;
-
-    let carValidations = [];
-    carValidations.push({
-        reg: regNumRegEx,
-        field: $('#regNum'),
-        error: 'Car Number Pattern is Wrong : AAA-5500'
-    });
-    carValidations.push({
-        reg: colorRegEx,
-        field: $('#color'),
-        error: 'Color Pattern is Wrong'
-    });
-    carValidations.push({
-        reg: brandRegEx,
-        field: $('#brand'),
-        error: 'Brand Pattern is Wrong'
-    });
-    carValidations.push({
-        reg: priceRegEx,
-        field: $('#dailyPriceRate'),
-        error: 'Price Pattern is Wrong'
-    });
-    carValidations.push({
-        reg: priceRegEx,
-        field: $('#monthlyPriceRate'),
-        error: 'Price Pattern is Wrong'
-    });
-    carValidations.push({
-        reg: priceRegEx,
-        field: $('#extraKMPrice'),
-        error: 'Price Pattern is Wrong'
-    });
-    carValidations.push({
-        reg: passengersRegEx,
-        field: $('#passengers'),
-        error: 'Invalid Number'
-    });
-    carValidations.push({
-        reg: priceRegEx,
-        field: $('#lostDamageCost'),
-        error: 'Price Pattern is Wrong'
-    });
-    carValidations.push({
-        reg: priceRegEx,
-        field: $('#meterValue'),
-        error: 'Meter Value Pattern is Wrong'
-    });
-
-
-    $("#regNum,#color,#brand,#dailyPriceRate,#monthlyPriceRate,#extraKMPrice,#passengers,#lostDamageCost,#meterValue").on('keyup', function (event) {
-        checkValidity(carValidations);
-    });
-
-    $("#regNum,#color,#brand,#dailyPriceRate,#monthlyPriceRate,#extraKMPrice,#passengers,#lostDamageCost,#meterValue").on('blur', function (event) {
-        checkValidity(carValidations);
-    });
-
-    $("#regNum").on('keydown', function (event) {
-        if (event.key == "Enter" && check(regNumRegEx, $("#regNum"))) {
-            $("#carType").focus();
-        } else {
-            focusText($("#regNum"));
-        }
-    });
-
-    $("#carType").on('keydown', function (event) {
-        if (event.key == "Enter") {
-            focusText($("#color"));
-            textSuccess($("#carType"), "");
-        }
-    });
-
-    $("#color").on('keydown', function (event) {
-        if (event.key == "Enter" && check(colorRegEx, $("#color"))) {
-            focusText($("#brand"));
-        }
-    });
-
-    $("#brand").on('keydown', function (event) {
-        if (event.key == "Enter" && check(brandRegEx, $("#brand"))) {
-            focusText($("#dailyRate"));
-        }
-    });
-
-    $("#dailyRate").on('keydown', function (event) {
-        if (event.key == "Enter") {
-            textSuccess($("#dailyRate"), "");
-            focusText($("#monthlyRate"));
-        }
-    });
-
-    $("#monthlyRate").on('keydown', function (event) {
-        if (event.key == "Enter") {
-            textSuccess($("#monthlyRate"), "");
-            focusText($("#petrol"));
-        }
-    });
-
-    $("#petrol").on('keydown', function (event) {
-        if (event.key == "Enter") {
-            textSuccess($("#petrol"), "");
-            focusText($("#yes"));
-        }
-    });
-
-    $("#yes").on('keydown', function (event) {
-        if (event.key == "Enter") {
-            textSuccess($("#yes"), "");
-            focusText($("#dailyPriceRate"));
-        }
-    });
-
-    $("#dailyPriceRate").on('keydown', function (event) {
-        if (event.key == "Enter" && check(priceRegEx, $("#dailyPriceRate"))) {
-            focusText($("#monthlyPriceRate"));
-        }
-    });
-
-    $("#monthlyPriceRate").on('keydown', function (event) {
-        if (event.key == "Enter" && check(priceRegEx, $("#monthlyPriceRate"))) {
-            focusText($("#auto"));
-        }
-    });
-
-    $("#auto").on('keydown', function (event) {
-        if (event.key == "Enter" && check(priceRegEx, $("#monthlyPriceRate"))) {
-            focusText($("#extraKMPrice"));
-        }
-    });
-
-    $("#extraKMPrice").on('keydown', function (event) {
-        if (event.key == "Enter" && check(priceRegEx, $("#extraKMPrice"))) {
-            focusText($("#passengers"));
-        }
-    });
-
-    $("#passengers").on('keydown', function (event) {
-        if (event.key == "Enter" && check(passengersRegEx , $("#passengers"))) {
-            focusText($("#lostDamageCost"));
-        }
-    });
-
-    $("#lostDamageCost").on('keydown', function (event) {
-        if (event.key == "Enter" && check(priceRegEx, $("#lostDamageCost"))) {
-            focusText($("#meterValue"));
-        }
-    });
-
-    $("#meterValue").on('keydown', function (event) {
-        if (event.key == "Enter" && check(priceRegEx, $("#meterValue"))) {
-
-        }
-    });
-
-  });
 
 }
 
-/**          **** Driver Page ****             */
+
+/* **********************************************************    Driver    ****************************************************** */
+
 
 function performDriverPageFunctions() {
     $("#btnDriver").on("click", function () {
 
         loadAllDrivers();
-
-        // Show the "manageDriver" section and hide other sections
 
         $('#manageDriver').fadeIn();
         $("#home").attr("style", "display : none !important");
@@ -1058,20 +981,17 @@ function performDriverPageFunctions() {
         $("#payments").attr("style", "display : none !important");
         $("#reports").attr("style", "display : none !important");
 
-        // Upload License Image and set up an event handler for adding a new driver
+        // Upload License Image
         loadSelectedImage("#licenseImage");
 
         $("#btnAddNewDriver").on("click", function () {
             $("#btnSaveDriver").text("Save");
         })
 
-        // Event handler for saving or updating driver information
-
         $("#btnSaveDriver").on("click", function () {
 
             let data = new FormData($("#driverForm")[0]);
 
-            // Perform an AJAX request to save or update the driver information
             $.ajax({
                 url: baseUrl + ($("#btnSaveDriver").text() == "Save" ? "driver" : "driver/update"),
                 method: "post",
@@ -1103,29 +1023,26 @@ function performDriverPageFunctions() {
 
                     $("#tblDriver").empty();
 
-                    // Loop through the retrieved driver data and populate the driver table in the HTML
-
                     for (let driver of res.data) {
 
                         $("#tblDriver").append(`
-                                    <tr>
-                                      <td>${driver.nic}</td>
-                                      <td>${driver.name}</td>
-                                      <td>${driver.email}</td>
-                                      <td>${driver.address}</td>
-                                      <td>${driver.license}</td>
-                                      <td>${driver.contact}</td>
-                                      <td>${driver.user.username}</td>
-                                      <td>${driver.user.password}</td>
-                                      <td><img src="../assets${driver.licenseImage}" width="150" height="100" alt="license"></td>
-                                      <td>${driver.availabilityStatus}</td>
-                                      <td><i class="bi bi-pen-fill text-success text-center btn btnUpdate" data-bs-toggle="modal" data-bs-target="#registerDriver"></i><i class="bi bi-trash-fill text-danger text-center btn btnDelete"></i></td>
-                                    </tr>
-                                `)
+                            <tr>
+                              <td>${driver.nic}</td>
+                              <td>${driver.name}</td>
+                              <td>${driver.email}</td>
+                              <td>${driver.address}</td>
+                              <td>${driver.license}</td>
+                              <td>${driver.contact}</td>
+                              <td>${driver.user.username}</td>
+                              <td>${driver.user.password}</td>
+                              <td><img src="../assets${driver.licenseImage}" width="150" height="100" alt="license"></td>
+                              <td>${driver.availabilityStatus}</td>
+                              <td><i class="bi bi-pen-fill text-success text-center btn btnUpdate" data-bs-toggle="modal" data-bs-target="#registerDriver"></i><i class="bi bi-trash-fill text-danger text-center btn btnDelete"></i></td>
+                            </tr>
+                        `)
 
                     }
 
-                // Set up event handlers for updating and deleting drivers
                     bindUpdateEvent();
                     bindDeleteEvent();
 
@@ -1133,7 +1050,7 @@ function performDriverPageFunctions() {
             });
 
         }
-        // Function to bind event handlers for updating drivers
+
         function bindUpdateEvent() {
             $(".btnUpdate").on("click", function () {
 
@@ -1152,7 +1069,7 @@ function performDriverPageFunctions() {
 
             });
         }
-        // Function to bind event handlers for deleting drivers
+
         function bindDeleteEvent() {
             $(".btnDelete").on("click", function () {
 
@@ -1182,6 +1099,7 @@ function performDriverPageFunctions() {
         const cusNicRegEx = /^[0-9]{9,10}[A-z]?$/;
         const cusAddressRegEx = /^[0-9/A-z. ,]{5,}$/;
         const cusContactRegEx = /^[0-9]{10}$/;
+        const cusSalaryRegEx = /^[0-9]{1,}[.]?[0-9]{1,2}$/;
 
         let driverValidations = [];
         driverValidations.push({
@@ -1212,7 +1130,7 @@ function performDriverPageFunctions() {
         driverValidations.push({
             reg: cusEmailRegEx,
             field: $('#email'),
-            error: 'Email Pattern is Wrong : diman@gmail.com'
+            error: 'Email Pattern is Wrong : example@gmail.com'
         });
         driverValidations.push({
             reg: cusAddressRegEx,
@@ -1294,13 +1212,15 @@ function performDriverPageFunctions() {
 
             }
         });
+
     });
 }
 
-/**                 **** Rent Page ****                 */
+
+/* **********************************************************    Rent    ****************************************************** */
+
 
 function performRentPageFunctions() {
-
     $("#btnRent").on("click", function () {
 
         $('#rents').fadeIn();
@@ -1562,10 +1482,10 @@ function performRentPageFunctions() {
             });
         }
     });
-
 }
 
-/**             **** Payment Page ****                       */
+
+/* **********************************************************    Payment    ****************************************************** */
 
 
 function performPaymentPageFunctions() {
@@ -1623,7 +1543,9 @@ function performPaymentPageFunctions() {
 
 }
 
-/**             **** Report Page ****                       */
+
+/* **********************************************************    Reports    ****************************************************** */
+
 
 function performReportPageFunctions() {
 

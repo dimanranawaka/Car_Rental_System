@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class CarController {
 
     @Autowired
-    CarService service;
+    CarService carService;
 
     @PostMapping
     public ResponseUtil addCar(@ModelAttribute CarImageDTO carImageDTO, @ModelAttribute Price price, @ModelAttribute FreeMileage freeMileage, @ModelAttribute CarDTO carDTO){
@@ -25,25 +25,25 @@ public class CarController {
         carDTO.setPrice(price);
         carDTO.setFreeMileage(freeMileage);
 
-        service.addCar(carDTO);
+        carService.addCar(carDTO);
 
         return new ResponseUtil("Ok","Car added Successfully!","");
     }
 
     @PostMapping(path = "/image")
     public ResponseUtil editCarImages(@ModelAttribute CarImageDTO carImageDTO){
-        service.editCarImages(carImageDTO);
+        carService.editCarImages(carImageDTO);
         return new ResponseUtil("Ok","Successfully Modified!","");
     }
 
     @GetMapping
     public ResponseUtil getAllCars(){
-        return new ResponseUtil("Ok","Successfully Loaded!",service.getAllCars());
+        return new ResponseUtil("Ok","Successfully Loaded!", carService.getAllCars());
     }
 
     @GetMapping(params={"regNum"})
     public ResponseUtil getCar(@RequestParam String regNum){
-        return new ResponseUtil("Ok","Successfully Loaded!",service.getCar(regNum));
+        return new ResponseUtil("Ok","Successfully Loaded!", carService.getCar(regNum));
 
     }
 
@@ -54,45 +54,45 @@ public class CarController {
         carDTO.setPrice(price);
         carDTO.setFreeMileage(freeMileage);
 
-        service.updateCar(carDTO);
+        carService.updateCar(carDTO);
 
         return new ResponseUtil("Ok","Successfully Updated","");
     }
     @DeleteMapping
     public ResponseUtil deleteCar(@RequestParam String regNum){
-        service.deleteCar(regNum);
+        carService.deleteCar(regNum);
         return new ResponseUtil("Ok","Successfully Deleted!","");
     }
 
     // Counting and Filtering
     @GetMapping(path = "/count")
     public ResponseUtil countAvailableCar(){
-        Long l = service.countAvailableCar();
+        Long l = carService.countAvailableCar();
         return new ResponseUtil("Ok","Successfully Counted!",l);
     }
 
     @GetMapping(path = "/count/reserved")
     public ResponseUtil countReservedCarAmount(){
-        return new ResponseUtil("Ok","Successfully Counted!",service.countReserveCarAmount());
+        return new ResponseUtil("Ok","Successfully Counted!", carService.countReserveCarAmount());
     }
 
     @GetMapping("/count/maintain")
     public ResponseUtil countMaintainingCarAmount(){
 
-        return new ResponseUtil("Ok","Successfully Counted!",service.countMaintainingCarAmount());
+        return new ResponseUtil("Ok","Successfully Counted!", carService.countMaintainingCarAmount());
     }
     @GetMapping(path = "/brand")
     public ResponseUtil countCarAmountByBrand(){
-        return new ResponseUtil("","",service.countCarAmountByBrand());
+        return new ResponseUtil("","", carService.countCarAmountByBrand());
     }
     @GetMapping(path = "/filterByRegNum")
     public  ResponseUtil filterByNum(@RequestParam String text, @RequestParam String search ,@RequestParam String fuel){
-        return new ResponseUtil("","",service.filterCarsByRegNum(text,search,fuel));
+        return new ResponseUtil("","", carService.filterCarsByRegNum(text,search,fuel));
     }
 
     @PutMapping(params = {"regNum"})
     public ResponseUtil moveCarToMaintain(@RequestParam String regNum){
-        service.moveCarToMaintain(regNum);
+        carService.moveCarToMaintain(regNum);
         return new ResponseUtil("OK","STATUS UPDATED!","");
     }
 }
