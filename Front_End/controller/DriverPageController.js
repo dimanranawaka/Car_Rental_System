@@ -2,8 +2,8 @@ let currentUser;
 
 $.ajax({
     url: baseUrl + "driver",
-    method:"get",
-    async:false,
+    method: "get",
+    async: false,
     dataType: "json",
     contentType: "application/json",
     success: function (res) {
@@ -13,38 +13,36 @@ $.ajax({
 });
 
 $.ajax({
-    url: baseUrl + "driver?nic" + currentUser.nic,
-    method:"get",
-    async:false,
+    url: baseUrl + "driver?nic=" + currentUser.nic,
+    method: "get",
     dataType: "json",
     contentType: "application/json",
     success: function (res) {
-        for (let datum of res.data) {
+        for (let detail of res.data) {
 
             let rent;
 
             $.ajax({
-                url: baseUrl + 'rent?rentId=?' + datum.rentId,
-                async: false,
-                method:"get",
+                url: baseUrl + "rent?rentId=" + detail.rentId,
+                async:false,
+                method: "get",
                 dataType: "json",
-                contentType:"application/json",
-                success: function (res) {
-                    rent = rent.data;
+                contentType: "application/json",
+                success:function (res) {
+                    rent = res.data;
                 }
-            });
+            })
 
             $("#tblDriverSchedule").append(`
                 <tr>
-                    <td>${datum.rentId}</td>
-                    <td>${rent.pickUpDate.toString().replaceAll("","")}</td>
-                    <td>${rent.pickUpTime.toString().replaceAll("","")}</td>
-                    <td>${rent.x.toString().replaceAll("","")}</td>
-                    <td>${rent.y.toString().replaceAll("","")}</td>
-                    <td>${datum.regNum}</td>
+                    <td>${detail.rentId}</td>
+                    <td>${rent.pickUpDate.toString().replaceAll(",","-")}</td>
+                    <td>${rent.pickUpTime.toString().replaceAll(",",":")}</td>
+                    <td>${rent.returnDate.toString().replaceAll(",","-")}</td>
+                    <td>${rent.returnTime.toString().replaceAll(",",":")}</td>
+                    <td>${detail.regNum}</td>
                 </tr>
             `);
-
         }
     }
-})
+});

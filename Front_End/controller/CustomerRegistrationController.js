@@ -43,8 +43,8 @@ $("#btnSaveCustomer").on("click", function () {
         contentType: false,
         processData: false,
         success: function (res) {
-            // saveAlert();
-            window.open("login-form.html", '_self');
+
+            window.open("login_form.html", '_self');
         },
         error: function (res) {
             alert(res.message);
