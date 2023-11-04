@@ -16,6 +16,7 @@ public class WebAppConfig implements WebMvcConfigurer {
         System.out.println("WebAppConfig : Instantiated");
     }
 
+    // For Handling Multi-Part Requests
     @Bean
     public CommonsMultipartResolver multipartResolver() {
         CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
@@ -23,6 +24,7 @@ public class WebAppConfig implements WebMvcConfigurer {
         return multipartResolver;
     }
 
+    // allows to define custom resource locations or patterns.
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**/**").addResourceLocations("http://localhost:8080");
