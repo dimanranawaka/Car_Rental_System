@@ -112,6 +112,7 @@ public class RentServiceImpl implements RentService {
             for (RentDetails rentDetails : rent.getRentDetails()) {
                 if (rentDetails.getDriver()!=null){
                     rentDetails.getDriver().setAvailabilityStatus("YES");
+                    rentDetails.getCar().setAvailability("YES");
                 }
             }
             rent.setDescription("Rent Rejected on " + LocalDate.now() + " " + LocalTime.now());
