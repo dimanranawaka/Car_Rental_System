@@ -52,16 +52,21 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             if (imageDTO.getLicenseImage() != null && imageDTO.getNicImage() != null) {
 
+            // Get the byte arrays representing the NIC and license images from the DTO.
                 byte[] nicFileBytes = imageDTO.getNicImage().getBytes();
                 byte[] licenseFileBytes = imageDTO.getLicenseImage().getBytes();
 
                 String projectPath = "D:\\Dev\\Java\\My_Projects\\Car_Rental_System\\Front_End\\assets";
+
+            // Construct paths for saving the NIC and license images, including the filename based on the 'nic'.
                 Path nicLocation = Paths.get(projectPath + "/image/bucket/customer/nic/nic_" + nic + ".jpeg");
                 Path licenseLocation = Paths.get(projectPath + "/image/bucket/customer/license/license_" + nic + ".jpeg");
 
+            // Write the NIC and license image bytes to their respective locations on the filesystem.
                 Files.write(nicLocation, nicFileBytes);
                 Files.write(licenseLocation, licenseFileBytes);
 
+            // Transfer the uploaded images to the specified locations
                 imageDTO.getNicImage().transferTo(nicLocation);
                 imageDTO.getLicenseImage().transferTo(licenseLocation);
             }
@@ -70,6 +75,7 @@ public class CustomerServiceImpl implements CustomerService {
             throw new RuntimeException(e);
         }
 
+    // Update the customer object with the paths to the NIC and license images
         customer.setNicImage("/assets/image/bucket/customer/nic/nic_" + nic + ".jpeg");
         customer.setLicenseImage("/assets/image/bucket/customer/license/license_" + nic + ".jpeg");
 

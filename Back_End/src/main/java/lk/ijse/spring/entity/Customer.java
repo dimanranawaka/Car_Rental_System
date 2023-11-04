@@ -23,6 +23,7 @@ public class Customer {
     private String address;
     private String contact;
     private String email;
+    // CascadeType.ALL means associate-entity do same all operations
     @OneToOne(cascade = CascadeType.ALL)
     private User user;
     private String nicImage;

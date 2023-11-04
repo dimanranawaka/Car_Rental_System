@@ -31,7 +31,7 @@ public class CarServiceImpl implements CarService {
     CarRepo carRepo;
 
     @Autowired
-    RentDetailsRepo rentDetailsRepo;
+    RentDetailsRepo rentDetailsRepo; // Interface orientation through loose coupling promote
 
     @Override
     public void saveCar(CarDTO carDTO) throws RuntimeException {
@@ -40,7 +40,7 @@ public class CarServiceImpl implements CarService {
 
         Car car = mapper.map(carDTO, Car.class);
         try {
-
+            // Write and set the front image for the car
             car.getPhotos().setFront(new ImagePathWriterUtil().writeImage(carDTO.getPhotos().getFront(), Paths.get(ImagePathWriterUtil.projectPath + "/image/bucket/car/front_" + carDTO.getRegNum() + ".jpeg")));
             car.getPhotos().setBack(new ImagePathWriterUtil().writeImage(carDTO.getPhotos().getBack(), Paths.get(ImagePathWriterUtil.projectPath + "/image/bucket/car/back_" + carDTO.getRegNum() + ".jpeg")));
             car.getPhotos().setSide(new ImagePathWriterUtil().writeImage(carDTO.getPhotos().getSide(), Paths.get(ImagePathWriterUtil.projectPath + "/image/bucket/car/side_" + carDTO.getRegNum() + ".jpeg")));

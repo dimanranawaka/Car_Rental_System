@@ -21,6 +21,8 @@ public class Rent {
     @Id
     private String rentId;
 
+    // CascadeType.REFRESH : the associated entities in the relationship will also be refreshed
+
     @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "nic",referencedColumnName = "nic", nullable = false)
     private Customer nic;

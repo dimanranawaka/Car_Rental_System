@@ -62,15 +62,21 @@ public class RentServiceImpl implements RentService {
 
                 i = new Random().nextInt(drivers.size());
                 rentDetails.setNic(drivers.get(i).getNic());
-                Car car = carRepo.findById(rentDetails.getRegNum()).get();
-                car.setAvailability("NO");
-
-                carRepo.save(car);
+//                Car car = carRepo.findById(rentDetails.getRegNum()).get();
+//                car.setAvailability("NO");
+//
+//                carRepo.save(car);
 
                 drivers.get(i).setAvailabilityStatus("NO");
                 driverRepo.save(drivers.get(i));
             }
 
+        }
+
+        for (RentDetails rentDetail : rent.getRentDetails()) {
+            Car car1 = carRepo.findCarByRegNum(rentDetail.getRegNum());
+            car1.setAvailability("NO");
+            carRepo.save(car1);
         }
 
         rentRepo.save(rent);

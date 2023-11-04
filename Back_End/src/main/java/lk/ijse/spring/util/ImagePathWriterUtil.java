@@ -12,9 +12,13 @@ public class ImagePathWriterUtil {
 
     public String writeImage(MultipartFile file, Path location) throws IOException, URISyntaxException {
 
+        // Write the binary content of the uploaded image to the specified location on the filesystem.
         Files.write(location, file.getBytes());
+
         file.transferTo(location);
 
+        // Calculate the relative path of the image within the project by removing the 'projectPath' prefix
+        // from the absolute 'location' path. This path can be used to access the image from the front-end.
         return location.toString().replace(projectPath, "");
 
     }
